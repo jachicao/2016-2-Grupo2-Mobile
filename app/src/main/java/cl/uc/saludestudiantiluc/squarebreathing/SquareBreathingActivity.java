@@ -1,0 +1,17 @@
+package cl.uc.saludestudiantiluc.squarebreathing;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import cl.uc.saludestudiantiluc.R;
+
+public class SquareBreathingActivity extends AppCompatActivity {
+
+  private static final String TAG = SquareBreathingActivity.class.getSimpleName();
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_square_breathing);
+  }
+}
