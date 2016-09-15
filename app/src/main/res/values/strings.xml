@@ -2,6 +2,11 @@
     <string name="app_name">SaludEstudiantilUC</string>
     <string name="title_activity_login">Sign in</string>
 
+    <!-- Square breathing strings -->
+    <string name="square_breathing_inhale">Inhala</string>
+    <string name="square_breathing_exhale">Exhala</string>
+    <string name="square_breathing_hold">Manten</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
