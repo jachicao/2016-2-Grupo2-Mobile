@@ -1,22 +1,20 @@
 package cl.uc.saludestudiantiluc;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import cl.uc.saludestudiantiluc.common.TranslucentActivity;
+import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
 import cl.uc.saludestudiantiluc.utils.ViewUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends TranslucentActivity {
 
   private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -24,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
   private static final int NAV_DRAWER_ALPHA = 200;
 
-  private Toolbar mToolbar;
   private NavigationView mNavigationView;
   private DrawerLayout mDrawerLayout;
 
@@ -32,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    setTranslucent();
-    mToolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(mToolbar);
 
     mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
     final int navViewWidth = getNavViewWidth();
@@ -45,19 +39,6 @@ public class MainActivity extends AppCompatActivity {
         .beginTransaction()
         .add(R.id.fragment_container, HomeFragment.newInstance())
         .commit();
-  }
-
-  private void setTranslucent() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-    }
-  }
-
-  private void unsetTranslucent() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-    }
   }
 
   private void setupNavDrawerHeader(int navViewWidth) {
@@ -81,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
           case R.id.home:
             break;
-          case R.id.drawer_ambient_sounds:
+          case R.id.drawer_exercises:
+            startActivity(SquareBreathingActivity.getIntent(MainActivity.this));
             break;
           case R.id.drawer_imaginary:
             break;
@@ -95,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
     ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-        mToolbar, R.string.open_drawer, R.string.close_drawer) {
+        getToolbar(), R.string.open_drawer, R.string.close_drawer) {
 
       @Override
       public void onDrawerClosed(View drawerView) {

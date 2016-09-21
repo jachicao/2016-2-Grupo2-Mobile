@@ -73,8 +73,8 @@ public class SquareBreathingView extends FrameLayout {
   public SquareBreathingView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
 
-    mHighlightColour = context.getResources().getColor(R.color.green);
-    mCircleColour = context.getResources().getColor(R.color.colorPrimary);
+    mHighlightColour = context.getResources().getColor(R.color.colorPrimary);
+    mCircleColour = context.getResources().getColor(android.R.color.white);
 
     LayoutInflater.from(context).inflate(R.layout.view_square_breathing, this, true);
 
