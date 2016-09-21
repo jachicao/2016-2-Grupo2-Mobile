@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/drawer_home"
+              android:checkable="true"
+              android:checked="true"
+              android:icon="@drawable/ic_home_black_24dp"
+              android:title="@string/drawer_home" />
+        <item android:id="@+id/drawer_exercises"
+              android:checked="false"
+              android:checkable="true"
+              android:title="@string/drawer_exercises" />
+        <item android:id="@+id/drawer_sequences"
+              android:checked="false"
+              android:checkable="true"
+              android:title="@string/drawer_sequences" />
+        <item android:id="@+id/drawer_ambient_sounds"
+              android:checked="false"
+              android:checkable="true"
+              android:title="@string/drawer_ambient_sounds" />
+        <item android:id="@+id/drawer_imaginary"
+              android:checked="false"
+              android:checkable="true"
+              android:title="@string/drawer_imaginary" />
+    </group>
+
+</menu>

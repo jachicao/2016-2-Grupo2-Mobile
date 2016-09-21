@@ -19,4 +19,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="drawer_home">Inicio</string>
+    <string name="drawer_sequences">Secuencias</string>
+    <string name="drawer_exercises">Ejercicios de relajación</string>
+    <string name="drawer_ambient_sounds">Sonidos ambientales</string>
+    <string name="drawer_imaginary">Imaginerías</string>
+    <string name="open_drawer">Abrir</string>
+    <string name="close_drawer">Cerrar menu</string>
 </resources>
