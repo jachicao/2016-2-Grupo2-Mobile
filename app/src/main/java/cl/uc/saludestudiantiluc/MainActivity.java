@@ -1,5 +1,6 @@
 package cl.uc.saludestudiantiluc;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
   private static final double NAV_DRAWER_HEADER_HEIGHT_RATIO = 9.0 / 16.0;
 
+  private static final int NAV_DRAWER_ALPHA = 200;
+
   private Toolbar mToolbar;
   private NavigationView mNavigationView;
   private DrawerLayout mDrawerLayout;
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
+    setTranslucent();
     mToolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(mToolbar);
 
@@ -37,11 +41,23 @@ public class MainActivity extends AppCompatActivity {
     setupNavDrawerHeader(navViewWidth);
     setNavViewWidth(navViewWidth);
     setupNavDrawer();
-
-    /*getSupportFragmentManager()
+    getSupportFragmentManager()
         .beginTransaction()
-        .add(R.id.fragment_container, ChatsFragment.newInstance())
-        .commit();*/
+        .add(R.id.fragment_container, HomeFragment.newInstance())
+        .commit();
+  }
+
+  private void setTranslucent() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+    }
+  }
+
+  private void unsetTranslucent() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
   }
 
   private void setupNavDrawerHeader(int navViewWidth) {
@@ -54,16 +70,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) header.getLayoutParams();
     params.height = navDrawerHeaderHeight;
     header.setLayoutParams(params);
-
-    /*for (int i = 0; i < header.getChildCount(); i++) {
-      View child = header.getChildAt(i);
-      if (child.getId() == R.id.header_profile_image) {
-        RelativeLayout.LayoutParams childParams = (RelativeLayout.LayoutParams) child
-            .getLayoutParams();
-        childParams.topMargin = childParams.topMargin + statusBarHeightPx;
-        child.setLayoutParams(childParams);
-      }
-    }*/
   }
 
   private void setupNavDrawer() {

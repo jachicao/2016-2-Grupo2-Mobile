@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SaludEstudiantilUC</string>
+    <string name="app_name">RelaxUC</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Square breathing strings -->
@@ -26,4 +26,8 @@
     <string name="drawer_imaginary">Imaginerías</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar menu</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_start_now">Comenzar</string>
 </resources>
