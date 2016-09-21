@@ -6,9 +6,9 @@
     <TextView
         android:id="@+id/square_breathing_action_textview"
         android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:textAlignment="center"
-        android:text="Inhala"
+        android:text="@string/square_breathing_inhale"
         android:layout_gravity="center"
         android:textSize="@dimen/display_1"/>
 
