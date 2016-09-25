@@ -16,14 +16,14 @@ interface UserAuthApi {
   String BASE_URL = "http://private-83f2b-test10256.apiary-mock.com/api/v1/";
 
   @FormUrlEncoded
-  @Headers("Content-Type: application/json")
+  //@Headers("Content-Type: application/json")
   @POST("auth")
   Call<RegisterResponse> register(@Field("email") String email,
                                   @Field("password") String password,
                                   @Field("password_confirmation") String password_confirmation);
 
   @FormUrlEncoded
-  @Headers("Content-Type: application/json")
+  //@Headers("Content-Type: application/json")
   @POST("auth/sign_in")
   Call<LoginResponse> logIn(@Field("email") String email,
                             @Field("password") String password);
