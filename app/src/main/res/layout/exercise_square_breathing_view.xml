@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/square_breathing_view_size"
-    android:layout_height="@dimen/square_breathing_view_size">
+    android:layout_height="@dimen/square_breathing_view_size"
+    >
 
     <TextView
         android:id="@+id/square_breathing_action_textview"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:textAlignment="center"
+        android:elevation="4dp"
         android:text="@string/square_breathing_inhale"
         android:layout_gravity="center"
         android:textSize="@dimen/display_1"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:shadowColor="#000"
+        android:shadowRadius="10"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"

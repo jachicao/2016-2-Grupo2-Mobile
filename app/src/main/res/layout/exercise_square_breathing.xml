@@ -4,9 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity"
-        android:fitsSystemWindows="true"
-        android:background="@drawable/main_background">
+        tools:context="cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity">
 
     <include
         android:id="@+id/toolbar"

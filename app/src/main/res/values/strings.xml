@@ -19,6 +19,12 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string name="main_menu_sequences">Secuencias</string>
+    <string name="main_menu_exercises">Ejercicios de relejación</string>
+    <string name="main_menu_ambient_sounds">Sonidos ambientales</string>
+    <string name="main_menu_imaginary">Imaginerías</string>
+
     <string name="drawer_home">Inicio</string>
     <string name="drawer_sequences">Secuencias</string>
     <string name="drawer_exercises">Ejercicios de relajación</string>
@@ -26,8 +32,30 @@
     <string name="drawer_imaginary">Imaginerías</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar menu</string>
+    <!-- Strings related to auth -->
+    <string name="auth_shared_preferences">Auth</string>
+    <string name="auth_shared_preferences_header_access_token">access-token</string>
+    <string name="auth_shared_preferences_header_client">client</string>
+    <string name="auth_shared_preferences_header_uid">uid</string>
+    <string name="auth_shared_preferences_data_email">email</string>
+    <string name="auth_shared_preferences_data_uid">uid</string>
+    <string name="auth_shared_preferences_data_name">name</string>
+    <string name="auth_shared_preferences_data_nickname">nickname</string>
+    <string name="auth_shared_preferences_data_image">image</string>
+    <string name="auth_data_parcelable_name">DataResponse</string>
+    <string name="auth_email">Correo UC</string>
+    <string name="auth_password">Contraseña</string>
+    <string name="auth_password_confirmation">Confirma la contraseña</string>
+    <string name="auth_login">Ingresar</string>
+    <string name="auth_register">Registrar</string>
+    <string name="auth_error_invalid_email">El email es invalido</string>
+    <string name="auth_error_invalid_password">La contraseña es muy corta</string>
+    <string name="auth_error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="auth_error_incorrect_password_confirmation">Las contraseñas deben ser iguales</string>
+    <string name="auth_error_field_required">Este campo es requerido</string>
+    <string name="auth_confirmation_email">Se envió un email de confirmación a tu correo. Sigue las instrucciones para que seas activado/a.</string>
+    <string name="auth_confirmation_ok">Entiendo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_start_now">Comenzar</string>
     <string name="square_breathing">Respiración cuadrada</string>
