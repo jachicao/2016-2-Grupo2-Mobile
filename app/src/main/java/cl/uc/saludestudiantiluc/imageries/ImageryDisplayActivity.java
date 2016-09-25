@@ -42,7 +42,7 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    //setContentView(R.layout.activity_imagery_display);
+    //setContentView(R.layout.imagery_activity_display);
 
     //mPlayer = MediaPlayer.create(this, R.raw.imagineria);
     mSeekBar = new SeekBar(this);

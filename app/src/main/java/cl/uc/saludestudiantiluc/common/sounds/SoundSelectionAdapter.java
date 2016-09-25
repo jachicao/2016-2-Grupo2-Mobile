@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +88,7 @@ public class SoundSelectionAdapter extends RecyclerView.Adapter<SoundSelectionAd
   public ImageryHolder onCreateViewHolder(ViewGroup parent,
                                                                 int viewType) {
     View v = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.cardview_imagery, parent, false);
+        .inflate(R.layout.imagery_cardview, parent, false);
     ImageryHolder ih = new ImageryHolder(v);
     //ih.setCardViewListener(mCardViewListener);
     ih.setOriging(mParent);
