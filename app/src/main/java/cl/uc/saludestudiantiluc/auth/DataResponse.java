@@ -64,12 +64,12 @@ public class DataResponse implements Parcelable {
     }
   }
   public int id;
-  public String email;
-  public String uid;
-  public String name;
-  public String nickname;
-  public String image;
-  public Error errors = new Error();
+  public String email = "";
+  public String uid = "";
+  public String name = "";
+  public String nickname = "";
+  public String image = "";
+  public ErrorResponse errors = new ErrorResponse();
 
   @Override
   public int describeContents() {
@@ -85,7 +85,4 @@ public class DataResponse implements Parcelable {
     dest.writeString(nickname);
     dest.writeString(image);
   }
-}
-class Error {
-  public List<String> full_messages = new ArrayList<>();
 }
