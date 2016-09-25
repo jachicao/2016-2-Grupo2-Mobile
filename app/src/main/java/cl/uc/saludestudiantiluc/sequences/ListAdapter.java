@@ -34,9 +34,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     public ListHolder(View itemView) {
       super(itemView);
       mCardView = (CardView) itemView.findViewById(R.id.sequenceCardView);
-      mName = (TextView) itemView.findViewById(R.id.sequenceCardViewName);
-      mDescription = (TextView) itemView.findViewById(R.id.sequenceCardViewDescription);
-      mThumbnail = (ImageView) itemView.findViewById(R.id.sequenceCardViewPreview);
+      mName = (TextView) itemView.findViewById(R.id.sequence_card_view_name);
+      mDescription = (TextView) itemView.findViewById(R.id.sequence_card_view_description);
+      mThumbnail = (ImageView) itemView.findViewById(R.id.sequence_card_view_preview);
       mCardView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -46,7 +46,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         }
       });
     }
-    public void setListener(CardViewListener cardViewListener){
+    public void setListener(CardViewListener cardViewListener) {
       mCardViewListener = cardViewListener;
     }
 

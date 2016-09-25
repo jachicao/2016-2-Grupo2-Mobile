@@ -1,4 +1,4 @@
-package cl.uc.saludestudiantiluc.common;
+package cl.uc.saludestudiantiluc.common_design;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
