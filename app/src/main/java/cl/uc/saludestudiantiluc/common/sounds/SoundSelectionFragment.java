@@ -53,7 +53,7 @@ public class SoundSelectionFragment extends BaseFragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    mThisView = inflater.inflate(R.layout.activity_imagery, container, false);
+    mThisView = inflater.inflate(R.layout.imagery_activity, container, false);
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       Bundle extras = getArguments();

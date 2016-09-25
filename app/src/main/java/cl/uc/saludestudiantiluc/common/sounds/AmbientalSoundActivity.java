@@ -32,7 +32,7 @@ public class AmbientalSoundActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_sound);
+    setContentView(R.layout.sound_activity);
     final Intent soundServiceIntent = new Intent(this, SoundService.class);
     bindService(soundServiceIntent, mConnection, this.BIND_AUTO_CREATE);
     mMediaPlayerButton = (ImageButton) findViewById(R.id.stop);
