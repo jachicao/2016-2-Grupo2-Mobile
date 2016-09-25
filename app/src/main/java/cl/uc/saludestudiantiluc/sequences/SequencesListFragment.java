@@ -81,7 +81,7 @@ public class SequencesListFragment extends BaseFragment {
 
       @Override
       public void onFailure(Call<List<Sequence>> call, Throwable t) {
-        Snackbar.make(mThisView.findViewById(R.id.sequencesListCoordinator), getString(R.string.sequences_failed_download_json), Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mThisView.findViewById(R.id.sequencesListCoordinator), getString(R.string.failed_download_json), Snackbar.LENGTH_SHORT).show();
         loadSequences();
       }
     });
