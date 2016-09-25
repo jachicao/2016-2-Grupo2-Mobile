@@ -2,15 +2,19 @@ package cl.uc.saludestudiantiluc.sequences;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
-import java.util.HashSet;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 /**
  * Created by jchicao on 15-09-16.
@@ -58,11 +62,12 @@ public final class BitmapManager {
     }
   }
   public static void loadImage(ImageView imageView, String url) {
+    /*
     Bitmap bitmap = getBitmap(url);
     if (bitmap != null) {
       imageView.setImageBitmap(bitmap);
       return;
-    }
+    }*/
     if (sFilesDir != null) {
       String[] splitted = ("Sequences/" + url).split("/");
       String str = "";
@@ -72,15 +77,10 @@ public final class BitmapManager {
         //File
         if (i == splitted.length - 1) {
           if (file.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            if (myBitmap != null) {
-              imageView.setImageBitmap(myBitmap);
-              return;
-            }
+            Glide.with(sContext).load(file.getAbsolutePath()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView);
+            return;
           }
-        }
-        //Directories
-        else {
+        } else {
           if (!file.exists()) {
             file.mkdir();
           }
@@ -88,14 +88,69 @@ public final class BitmapManager {
         str += "/";
       }
     }
-    downloadImage(imageView, url);
+    downloadImage(url, imageView);
   }
 
-  private static void downloadImage(final ImageView imageView, final String url) {
-    Glide
-        .with(imageView.getContext())
-        .load(SequencesApi.BASE_URL + url)
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .into(imageView);
+  private static void downloadImage(final String url, final ImageView imageView) {
+    Glide.with(sContext).load(SequencesApi.BASE_URL + url).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).into(new SimpleTarget<Bitmap>() {
+      @Override
+      public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+        /*
+        setBitmap(url, resource);
+        */
+        File file = new File(sContext.getFilesDir(), "Sequences/" + url);
+        new BitmapWorkerTask(resource, new BitmapWorkerListener() {
+          @Override
+          public void onFileReady() {
+            if (imageView != null) {
+              loadImage(imageView, url);
+            }
+          }
+        }).execute(file);
+      }
+    });
+  }
+}
+interface BitmapWorkerListener {
+  void onFileReady();
+}
+class BitmapWorkerTask extends AsyncTask<File, Void, Void> {
+  private final WeakReference<Bitmap> mBitmapReference;
+  private final WeakReference<BitmapWorkerListener> mListener;
+  public BitmapWorkerTask(Bitmap resource, BitmapWorkerListener listener) {
+    mBitmapReference = new WeakReference<Bitmap>(resource);
+    mListener = new WeakReference<BitmapWorkerListener>(listener);
+  }
+
+
+  @Override
+  protected Void doInBackground(File... params) {
+    try {
+      File file = params[0];
+      file.createNewFile();
+      FileOutputStream fos = null;
+      try {
+        fos = new FileOutputStream(file);
+        final Bitmap resource = mBitmapReference.get();
+        if (resource != null) {
+          resource.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        }
+        fos.close();
+      } catch (Exception e) {
+
+      }
+    } catch (IOException e) {
+    }
+    return null;
+  }
+  // Once complete, see if ImageView is still around and set bitmap.
+  @Override
+  protected void onPostExecute(Void n) {
+    if (mListener != null) {
+      BitmapWorkerListener listener = mListener.get();
+      if (listener != null) {
+        listener.onFileReady();
+      }
+    }
   }
 }
