@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import cl.uc.saludestudiantiluc.auth.AuthFragment;
 import cl.uc.saludestudiantiluc.auth.AuthListener;
 import cl.uc.saludestudiantiluc.auth.DataResponse;
+import cl.uc.saludestudiantiluc.common.sounds.SoundSelectionFragment;
 import cl.uc.saludestudiantiluc.common_design.BaseActivity;
 import cl.uc.saludestudiantiluc.common_design.BaseFragment;
 import cl.uc.saludestudiantiluc.common_design.FragmentListener;
@@ -117,13 +118,21 @@ public class MainActivity extends BaseActivity implements AuthListener {
     mBottomSheetItems.add(new BottomSheetItem(R.drawable.ic_audiotrack_black_24dp, getString(R.string.main_menu_ambient_sounds), new BottomSheetItemListener() {
       @Override
       public void onClick(BottomSheetItem item) {
-        setNewFragment(null);
+        BaseFragment fragment = new SoundSelectionFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(SoundSelectionFragment.MEDIA_ORIGIN, SoundSelectionFragment.AMBIENTAL_CONSTANT);
+        fragment.setArguments(bundle);
+        setNewFragment(fragment);
       }
     }));
     mBottomSheetItems.add(new BottomSheetItem(R.drawable.ic_movie_creation_black_24dp, getString(R.string.main_menu_imaginary), new BottomSheetItemListener() {
       @Override
       public void onClick(BottomSheetItem item) {
-        setNewFragment(null);
+        BaseFragment fragment = new SoundSelectionFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(SoundSelectionFragment.MEDIA_ORIGIN, SoundSelectionFragment.IMAGERY_CONSTANT);
+        fragment.setArguments(bundle);
+        setNewFragment(fragment);
       }
     }));
     mBottomSheetGridMenu = new BottomSheetGridMenu(this, mBottomSheetItems, getResources().getInteger(R.integer.bottom_sheet_grid_width));
@@ -183,15 +192,6 @@ public class MainActivity extends BaseActivity implements AuthListener {
       public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         item.setChecked(true);
         switch (item.getItemId()) {
-          case R.id.home:
-            break;
-          case R.id.drawer_exercises:
-            //startActivity(SquareBreathingActivity.getIntent(MainActivity.this));
-            break;
-          case R.id.drawer_imaginary:
-            break;
-          case R.id.drawer_sequences:
-            break;
           default:
             break;
         }
