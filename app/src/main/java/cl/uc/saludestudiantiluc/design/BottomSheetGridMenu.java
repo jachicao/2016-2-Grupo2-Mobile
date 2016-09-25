@@ -32,6 +32,9 @@ public class BottomSheetGridMenu extends BottomSheetDialog {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    if (savedInstanceState != null) {
+      Log.v("MENU", "NOT NULL");
+    }
     View view = getLayoutInflater().inflate(R.layout.main_bottom_sheet_dialog, null);
     setContentView(view);
     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.main_bottom_sheet_dialog_recycler_view);

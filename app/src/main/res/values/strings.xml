@@ -32,8 +32,10 @@
     <string name="drawer_imaginary">Imaginerías</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar menu</string>
+
     <!-- Strings related to auth -->
     <string name="auth_shared_preferences">Auth</string>
+    <string name="auth_shared_preferences_remember_me">RememberMe</string>
     <string name="auth_shared_preferences_header_access_token">access-token</string>
     <string name="auth_shared_preferences_header_client">client</string>
     <string name="auth_shared_preferences_header_uid">uid</string>
@@ -46,6 +48,7 @@
     <string name="auth_email">Correo UC</string>
     <string name="auth_password">Contraseña</string>
     <string name="auth_password_confirmation">Confirma la contraseña</string>
+    <string name="auth_remember_me">Recuerdame</string>
     <string name="auth_login">Ingresar</string>
     <string name="auth_register">Registrar</string>
     <string name="auth_error_invalid_email">El email es invalido</string>
@@ -55,8 +58,19 @@
     <string name="auth_error_field_required">Este campo es requerido</string>
     <string name="auth_confirmation_email">Se envió un email de confirmación a tu correo. Sigue las instrucciones para que seas activado/a.</string>
     <string name="auth_confirmation_ok">Entiendo</string>
+    <string name="auth_welcome_message">"Bienvenido a RelaxUC, %1$s.</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Strings related to sequences -->
+    <string name="sequences">Secuencias</string>
+    <string name="sequences_folder">"Sequences/"</string>
+    <string name="sequences_shared_preferences">"Sequences"</string>
+    <string name="sequences_shared_preferences_json">"Json"</string>
+    <string name="sequences_parcelable_name">"Sequence"</string>
+    <string name="sequences_cancel_confirmation">"¿Estás seguro/a que quieres cancelar el ejercicio?"</string>
+    <string name="sequences_cancel_confirmation_cancel">"Si"</string>
+    <string name="sequences_cancel_confirmation_revert">"No"</string>
+    <string name="sequences_failed_download_json">"Ocurrió un error al conectarse al servidor."</string>
+
     <string name="home_start_now">Comenzar</string>
     <string name="square_breathing">Respiración cuadrada</string>
 </resources>

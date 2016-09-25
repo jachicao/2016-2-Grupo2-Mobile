@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sequenceCardView"
+    app:cardElevation="4dp"
+    android:layout_gravity="center"
+    app:cardCornerRadius="4dp"
+    app:cardUseCompatPadding="true"
+    >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:id="@+id/sequenceCardViewPreview"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sequenceCardViewName"
+                android:layout_below="@+id/sequenceCardViewPreview"
+                android:textSize="30sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sequenceCardViewDescription"
+                android:layout_below="@+id/sequenceCardViewName"
+                />
+        </RelativeLayout>
+
+</android.support.v7.widget.CardView>
