@@ -1,5 +1,6 @@
 package cl.uc.saludestudiantiluc.common;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
@@ -25,10 +26,13 @@ public class BaseActivity extends AppCompatActivity {
   public void setContentView(@LayoutRes int layoutResID) {
     super.setContentView(layoutResID);
     mToolbar = (Toolbar) findViewById(R.id.toolbar);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+    }
     setSupportActionBar(mToolbar);
   }
 
-  protected Toolbar getToolbar() {
+  public Toolbar getToolbar() {
     return mToolbar;
   }
 }
