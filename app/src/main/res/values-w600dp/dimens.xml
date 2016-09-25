@@ -2,5 +2,5 @@
 <resources>
     <dimen name="nav_drawer_max_width">320dp</dimen>
     <dimen name="activity_horizontal_margin">64dp</dimen>
-    <dimen name="actionbar_height">64dp</dimen>
+    <dimen name="margin_from_toolbar">64dp</dimen>
 </resources>

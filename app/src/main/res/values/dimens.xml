@@ -1,9 +1,9 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="actionbar_height">56dp</dimen>
+    <dimen name="margin_from_toolbar">56dp</dimen>
     <dimen name="status_bar_height">24dp</dimen>
     <dimen name="nav_drawer_max_width">280dp</dimen>
     <dimen name="nav_drawer_header_default_height">144dp</dimen>
@@ -19,4 +19,14 @@
 
     <!-- Text size -->
     <dimen name="display_1">34sp</dimen>
+
+
+    <style name="floating_action_button">
+        <item name="android:layout_margin">24dp</item>
+        <item tools:targetApi="21" name="android:elevation">4dp</item>
+        <!-->
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">56dp</item>
+        </-->
+    </style>
 </resources>
