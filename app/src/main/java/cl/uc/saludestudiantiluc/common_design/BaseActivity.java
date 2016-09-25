@@ -1,4 +1,4 @@
-package cl.uc.saludestudiantiluc.common;
+package cl.uc.saludestudiantiluc.common_design;
 
 import android.os.Build;
 import android.os.Bundle;

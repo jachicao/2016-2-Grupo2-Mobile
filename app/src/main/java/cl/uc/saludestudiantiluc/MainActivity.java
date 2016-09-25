@@ -23,12 +23,13 @@ import java.util.ArrayList;
 import cl.uc.saludestudiantiluc.auth.AuthFragment;
 import cl.uc.saludestudiantiluc.auth.AuthListener;
 import cl.uc.saludestudiantiluc.auth.DataResponse;
-import cl.uc.saludestudiantiluc.common.BaseActivity;
-import cl.uc.saludestudiantiluc.common.BaseFragment;
-import cl.uc.saludestudiantiluc.common.FragmentListener;
+import cl.uc.saludestudiantiluc.common_design.BaseActivity;
+import cl.uc.saludestudiantiluc.common_design.BaseFragment;
+import cl.uc.saludestudiantiluc.common_design.FragmentListener;
 import cl.uc.saludestudiantiluc.design.BottomSheetGridMenu;
 import cl.uc.saludestudiantiluc.design.BottomSheetItem;
 import cl.uc.saludestudiantiluc.design.BottomSheetItemListener;
+import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
 import cl.uc.saludestudiantiluc.utils.ViewUtils;
 
@@ -59,15 +60,6 @@ public class MainActivity extends BaseActivity implements AuthListener {
     setupBackground();
     if (savedInstanceState != null) {
       mUserData = savedInstanceState.getParcelable("mUserData");
-      mCurrentFragment = (BaseFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mCurrentFragment");
-      if (mCurrentFragment != null) {
-        mCurrentFragment.mListener = new FragmentListener() {
-          @Override
-          public void onDismissed() {
-            mCurrentFragment = null;
-          }
-        };
-      }
     }
     startAuth();
   }
@@ -119,7 +111,7 @@ public class MainActivity extends BaseActivity implements AuthListener {
     mBottomSheetItems.add(new BottomSheetItem(R.drawable.ic_collections_black_24dp, getString(R.string.main_menu_sequences), new BottomSheetItemListener() {
       @Override
       public void onClick(BottomSheetItem item) {
-        setNewFragment(null);
+        setNewFragment(new SequencesListFragment());
       }
     }));
     mBottomSheetItems.add(new BottomSheetItem(R.drawable.ic_audiotrack_black_24dp, getString(R.string.main_menu_ambient_sounds), new BottomSheetItemListener() {
@@ -235,15 +227,8 @@ public class MainActivity extends BaseActivity implements AuthListener {
   private int getNavViewWidth() {
     int screenWidth = ViewUtils.getScreenWidth(this);
     int actionBarHeight = getResources().getDimensionPixelSize(R.dimen.margin_from_toolbar);
-
-    // Per Material Design guidelines. For more information, see
-    // https://material.google.com/layout/metrics-keylines.html#metrics-keylines-keylines-spacing
     int navViewWidth = screenWidth - actionBarHeight;
-
-    // Per Material Design guidelines. For more information, see
-    // https://material.google.com/patterns/navigation-drawer.html#navigation-drawer-specs
     int navDrawerMaxWidth = getResources().getDimensionPixelSize(R.dimen.nav_drawer_max_width);
-
     return Math.min(navViewWidth, navDrawerMaxWidth);
   }
   @Override
@@ -257,9 +242,11 @@ public class MainActivity extends BaseActivity implements AuthListener {
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
+    /*
     if (mCurrentFragment != null) {
       getSupportFragmentManager().putFragment(outState, "mCurrentFragment", mCurrentFragment);
     }
+    */
     if (mUserData != null) {
       outState.putParcelable("mUserData", mUserData);
     }
@@ -271,6 +258,9 @@ public class MainActivity extends BaseActivity implements AuthListener {
     super.onDestroy();
     if (mBottomSheetGridMenu != null) {
       mBottomSheetGridMenu.dismiss();
+    }
+    if (mCurrentFragment != null) {
+      mCurrentFragment.dismiss();
     }
   }
 

@@ -2,13 +2,7 @@ package cl.uc.saludestudiantiluc.sequences;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by jchicao on 15-09-16.
@@ -23,8 +17,8 @@ public class ImagesFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
   @Override
   public Fragment getItem(int position) {
-    for(SequencesImage image : mSequence.images){
-      if (image.index == position){
+    for(SequencesImage image : mSequence.images) {
+      if (image.index == position) {
         return ImageFragment.newInstance(image);
       }
     }

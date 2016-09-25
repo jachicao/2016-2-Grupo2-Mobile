@@ -20,7 +20,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.BaseFragment;
+import cl.uc.saludestudiantiluc.common_design.BaseFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -312,6 +312,7 @@ public class AuthFragment extends BaseFragment {
         @Override
         public void onFailure(Call<LoginResponse> call, Throwable t) {
           mAttemptingToLogin = false;
+          Snackbar.make(mThisView.findViewById(R.id.auth_coordinator_layout), t.getMessage(), Snackbar.LENGTH_LONG).show();
           show(AUTH_TYPE_OPTIONS);
         }
       });
