@@ -21,22 +21,24 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 
 import cl.uc.saludestudiantiluc.auth.AuthFragment;
+import cl.uc.saludestudiantiluc.auth.AuthListener;
+import cl.uc.saludestudiantiluc.auth.DataResponse;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.common.BaseFragment;
+import cl.uc.saludestudiantiluc.common.FragmentListener;
 import cl.uc.saludestudiantiluc.design.BottomSheetGridMenu;
 import cl.uc.saludestudiantiluc.design.BottomSheetItem;
 import cl.uc.saludestudiantiluc.design.BottomSheetItemListener;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
 import cl.uc.saludestudiantiluc.utils.ViewUtils;
 
-public class MainActivity extends BaseActivity implements AuthFragment.AuthListener{
+public class MainActivity extends BaseActivity implements AuthListener {
 
   private static final String TAG = MainActivity.class.getSimpleName();
 
   private static final double NAV_DRAWER_HEADER_HEIGHT_RATIO = 9.0 / 16.0;
 
   private static final int NAV_DRAWER_ALPHA = 200;
-
   private NavigationView mNavigationView;
   private DrawerLayout mDrawerLayout;
   private ImageView mBackgroundView;
@@ -44,6 +46,7 @@ public class MainActivity extends BaseActivity implements AuthFragment.AuthListe
   private BottomSheetGridMenu mBottomSheetGridMenu;
   private ArrayList<BottomSheetItem> mBottomSheetItems = new ArrayList<>();
   private BaseFragment mCurrentFragment;
+  private DataResponse mUserData;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,18 @@ public class MainActivity extends BaseActivity implements AuthFragment.AuthListe
     mFloatingActionButton = (FloatingActionButton) findViewById(R.id.main_floating_action_button);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
     setupBackground();
+    if (savedInstanceState != null) {
+      mUserData = savedInstanceState.getParcelable("mUserData");
+      mCurrentFragment = (BaseFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mCurrentFragment");
+      if (mCurrentFragment != null) {
+        mCurrentFragment.mListener = new FragmentListener() {
+          @Override
+          public void onDismissed() {
+            mCurrentFragment = null;
+          }
+        };
+      }
+    }
     startAuth();
   }
 
@@ -61,7 +76,11 @@ public class MainActivity extends BaseActivity implements AuthFragment.AuthListe
     mNavigationView.setVisibility(View.GONE);
     mFloatingActionButton.setVisibility(View.GONE);
     mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    setNewFragment(new AuthFragment());
+    if (mUserData != null) {
+      authCompleted();
+    } else {
+      setNewFragment(new AuthFragment());
+    }
   }
 
   private void authCompleted() {
@@ -73,7 +92,6 @@ public class MainActivity extends BaseActivity implements AuthFragment.AuthListe
   private void setNewFragment(BaseFragment fragment) {
     if (mCurrentFragment != null) {
       mCurrentFragment.dismiss();
-      mCurrentFragment = null;
     }
     if (fragment != null) {
       FragmentManager fragmentManager = getSupportFragmentManager();
@@ -81,6 +99,12 @@ public class MainActivity extends BaseActivity implements AuthFragment.AuthListe
       fragmentTransaction.add(R.id.fragment_container, fragment);
       fragmentTransaction.commit();
       mCurrentFragment = fragment;
+      mCurrentFragment.mListener = new FragmentListener() {
+        @Override
+        public void onDismissed() {
+          mCurrentFragment = null;
+        }
+      };
     }
   }
 
@@ -222,7 +246,6 @@ public class MainActivity extends BaseActivity implements AuthFragment.AuthListe
 
     return Math.min(navViewWidth, navDrawerMaxWidth);
   }
-
   @Override
   public void onBackPressed() {
     if (mCurrentFragment != null) {
@@ -233,18 +256,27 @@ public class MainActivity extends BaseActivity implements AuthFragment.AuthListe
   }
 
   @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    if (mCurrentFragment != null) {
+      getSupportFragmentManager().putFragment(outState, "mCurrentFragment", mCurrentFragment);
+    }
+    if (mUserData != null) {
+      outState.putParcelable("mUserData", mUserData);
+    }
+    super.onSaveInstanceState(outState);
+  }
+
+  @Override
   protected void onDestroy() {
     super.onDestroy();
     if (mBottomSheetGridMenu != null) {
       mBottomSheetGridMenu.dismiss();
     }
-    if (mCurrentFragment != null) {
-      mCurrentFragment.dismiss();
-    }
   }
 
   @Override
-  public void onSignedIn() {
+  public void onSignedIn(DataResponse dataResponse) {
+    mUserData = dataResponse;
     authCompleted();
   }
 }

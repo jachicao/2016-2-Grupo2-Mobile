@@ -3,7 +3,6 @@ package cl.uc.saludestudiantiluc.auth;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,9 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
-import cl.uc.saludestudiantiluc.MainActivity;
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseFragment;
 import retrofit2.Call;
@@ -31,9 +30,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AuthFragment extends BaseFragment {
   private AuthListener mListener;
-  public interface AuthListener {
-    void onSignedIn();
-  }
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
@@ -58,6 +54,7 @@ public class AuthFragment extends BaseFragment {
   private TextInputEditText mPasswordConfirmEditText;
   private View mProgressBar;
   private Button mLoginButton;
+  private CheckBox mRememberMeCheckBox;
   private Button mRegisterButton;
   private boolean mAttemptingToRegister = false;
   private boolean mAttemptingToLogin = false;
@@ -76,17 +73,18 @@ public class AuthFragment extends BaseFragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    mThisView = inflater.inflate(R.layout.auth_activity, container, false);
+    mThisView = inflater.inflate(R.layout.auth_fragment, container, false);
     mCardView = mThisView.findViewById(R.id.auth_card_view);
     mEmailLayout = mThisView.findViewById(R.id.auth_email_layout);
-    mEmailEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_email);
+    mEmailEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_email_editText);
     mPasswordLayout = mThisView.findViewById(R.id.auth_password_layout);
     mPasswordEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_password);
     mProgressBar = mThisView.findViewById(R.id.auth_progress_bar);
     mPasswordConfirmEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_password_confirmation);
     mPasswordConfirmLayout = mThisView.findViewById(R.id.auth_register_password_confirmation_layout);
-    mLoginButton = (Button) mThisView.findViewById(R.id.auth_login_button);
+    mLoginButton = (Button) mThisView.findViewById(R.id.auth_sign_in_button);
     mRegisterButton = (Button) mThisView.findViewById(R.id.auth_register_button);
+    mRememberMeCheckBox = (CheckBox) mThisView.findViewById(R.id.auth_remember_me);
 
     //Set everything as gone
     mCardView.setVisibility(View.GONE);
@@ -96,6 +94,7 @@ public class AuthFragment extends BaseFragment {
     mLoginButton.setVisibility(View.GONE);
     mRegisterButton.setVisibility(View.GONE);
     mProgressBar.setVisibility(View.GONE);
+    mRememberMeCheckBox.setVisibility(View.GONE);
 
     if (DEVELOPER_MODE) {
       mEmailEditText.setText("email@uc.cl");
@@ -154,20 +153,22 @@ public class AuthFragment extends BaseFragment {
         return false;
       }
     });
-    HeaderResponse previousHeaderResponse = HeaderResponse.getPreviousInstance(getActivity(), getThisSharedPreferences());
-    if (previousHeaderResponse != null) {
-      startMainActivity();
-    } else {
-      show(AUTH_TYPE_OPTIONS);
+    String rememberMe = getThisSharedPreferences().getString(getString(R.string.auth_shared_preferences_remember_me), null);
+    if (rememberMe != null && rememberMe.equals("true")) {
+      HeaderResponse previousHeaderResponse = HeaderResponse.getPreviousInstance(getActivity(), getThisSharedPreferences());
+      if (previousHeaderResponse != null) {
+        startMainActivity();
+        return mThisView;
+      }
     }
+    show(AUTH_TYPE_OPTIONS);
     return mThisView;
   }
 
 
   private void startMainActivity() {
     if (mListener != null) {
-      mListener.onSignedIn();
-      dismiss();
+      mListener.onSignedIn(DataResponse.getPreviousInstance(getActivity(), getThisSharedPreferences()));
     }
   }
 
@@ -301,6 +302,8 @@ public class AuthFragment extends BaseFragment {
             SharedPreferences.Editor editor = getThisSharedPreferences().edit();
             res.header.store(getActivity(), editor);
             res.data.store(getActivity(), editor);
+            editor.putString(getString(R.string.auth_shared_preferences_remember_me), mRememberMeCheckBox.isChecked() ? "true" : "false");
+            editor.commit();
             show(AUTH_TYPE_DONE);
             startMainActivity();
           }
@@ -310,7 +313,6 @@ public class AuthFragment extends BaseFragment {
         public void onFailure(Call<LoginResponse> call, Throwable t) {
           mAttemptingToLogin = false;
           show(AUTH_TYPE_OPTIONS);
-          Snackbar.make(mThisView.findViewById(R.id.auth_coordinator_layout), t.getMessage(), Snackbar.LENGTH_LONG).show();
         }
       });
     }
@@ -335,6 +337,7 @@ public class AuthFragment extends BaseFragment {
         mLoginButton.setVisibility(View.VISIBLE);
         mRegisterButton.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
+        mRememberMeCheckBox.setVisibility(View.GONE);
         break;
       case AUTH_TYPE_CONNECTING:
         mCardView.setVisibility(View.GONE);
@@ -344,6 +347,7 @@ public class AuthFragment extends BaseFragment {
         mLoginButton.setVisibility(View.GONE);
         mRegisterButton.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
+        mRememberMeCheckBox.setVisibility(View.GONE);
         break;
       case AUTH_TYPE_LOGIN:
         mPasswordEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -355,6 +359,7 @@ public class AuthFragment extends BaseFragment {
         mLoginButton.setVisibility(View.VISIBLE);
         mRegisterButton.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
+        mRememberMeCheckBox.setVisibility(View.VISIBLE);
         break;
       case AUTH_TYPE_REGISTER:
         mPasswordEditText.setImeOptions(EditorInfo.IME_NULL);
@@ -366,6 +371,7 @@ public class AuthFragment extends BaseFragment {
         mLoginButton.setVisibility(View.GONE);
         mRegisterButton.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
+        mRememberMeCheckBox.setVisibility(View.GONE);
         break;
       case AUTH_TYPE_DONE:
         mCardView.setVisibility(View.GONE);
@@ -375,9 +381,9 @@ public class AuthFragment extends BaseFragment {
         mLoginButton.setVisibility(View.GONE);
         mRegisterButton.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
+        mRememberMeCheckBox.setVisibility(View.GONE);
         break;
       default:
-
         break;
     }
   }

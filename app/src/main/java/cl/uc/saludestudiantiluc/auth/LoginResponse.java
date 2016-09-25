@@ -11,9 +11,9 @@ import okhttp3.Headers;
 
 public class LoginResponse {
   //Header
-  public HeaderResponse header;
+  public HeaderResponse header = new HeaderResponse();
   //body
-  public DataResponse data;
+  public DataResponse data = new DataResponse();
   public boolean success = true;
   public List<String> errors = new ArrayList<>();
   public void setHeaderResponse(Headers h){
