@@ -247,6 +247,9 @@ public class MainActivity extends BaseActivity implements AuthListener {
       getSupportFragmentManager().putFragment(outState, "mCurrentFragment", mCurrentFragment);
     }
     */
+    if (mCurrentFragment != null) {
+      mCurrentFragment.dismiss();
+    }
     if (mUserData != null) {
       outState.putParcelable("mUserData", mUserData);
     }
