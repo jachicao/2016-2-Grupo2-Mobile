@@ -35,7 +35,7 @@ public class AmbientalSoundActivity extends AppCompatActivity {
     setContentView(R.layout.sound_activity);
     final Intent soundServiceIntent = new Intent(this, SoundService.class);
     bindService(soundServiceIntent, mConnection, this.BIND_AUTO_CREATE);
-    mMediaPlayerButton = (ImageButton) findViewById(R.id.stop);
+    mMediaPlayerButton = (ImageButton) findViewById(R.id.sound_activity_stop);
     mMediaPlayerButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -86,7 +86,7 @@ public class AmbientalSoundActivity extends AppCompatActivity {
   }
 
   public void setVideo() {
-    mVideoView = (VideoView) findViewById(R.id.surface_view);
+    mVideoView = (VideoView) findViewById(R.id.sound_activity_surface_view);
     //de forma alternativa si queremos un streaming usar
     //mVideoView.setVideoURI(Uri.parse(URLstring));
     Uri video = Uri.parse("android.resource://cl.uc.saludestudiantiluc/raw/v1");
