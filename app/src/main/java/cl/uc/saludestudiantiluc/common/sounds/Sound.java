@@ -7,10 +7,10 @@ import android.os.Parcelable;
  * Created by camilo on 15-09-16.
  */
 public class Sound implements Parcelable {
-  private int id;
-  private String name;
-  private String description;
-  private String type;
+  private int id = 0;
+  private String name = "";
+  private String description = "";
+  private String type = "";
 
 
   public Sound(int i, String n, String desc, String type) {
@@ -52,15 +52,15 @@ public class Sound implements Parcelable {
     }
   };
 
-  public String getName(){
+  public String getName() {
     return name;
   }
 
-  public String getDescription(){
+  public String getDescription() {
     return description;
   }
 
-  public String getType(){
+  public String getType() {
     return type;
   }
 }

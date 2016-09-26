@@ -48,8 +48,8 @@ public class SequencesListFragment extends BaseFragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    mThisView = inflater.inflate(R.layout.sequences_fragment_list, container, false);
-    mRecyclerView = (RecyclerView) mThisView.findViewById(R.id.sequencesRecyclerView);
+    mThisView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+    mRecyclerView = (RecyclerView) mThisView.findViewById(R.id.fragment_recycler_view);
     mRecyclerView.setHasFixedSize(true);
     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
     mRecyclerView.setLayoutManager(mLayoutManager);
@@ -81,7 +81,7 @@ public class SequencesListFragment extends BaseFragment {
 
       @Override
       public void onFailure(Call<List<Sequence>> call, Throwable t) {
-        Snackbar.make(mThisView.findViewById(R.id.sequencesListCoordinator), getString(R.string.failed_download_json), Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mThisView.findViewById(R.id.fragment_recycler_view_coordinator_layout), getString(R.string.failed_download_json), Snackbar.LENGTH_SHORT).show();
         loadSequences();
       }
     });

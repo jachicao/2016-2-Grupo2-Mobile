@@ -53,7 +53,7 @@ public class SoundSelectionFragment extends BaseFragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    mThisView = inflater.inflate(R.layout.imagery_activity, container, false);
+    mThisView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       Bundle extras = getArguments();
@@ -66,7 +66,7 @@ public class SoundSelectionFragment extends BaseFragment {
       mParent = (String) savedInstanceState.getSerializable(MEDIA_ORIGIN);
     }
 
-    mRecyclerView = (RecyclerView) mThisView.findViewById(R.id.imageryRecyclerView);
+    mRecyclerView = (RecyclerView) mThisView.findViewById(R.id.fragment_recycler_view);
     mRecyclerView.setHasFixedSize(true);
     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
     mRecyclerView.setLayoutManager(mLayoutManager);
@@ -104,7 +104,7 @@ public class SoundSelectionFragment extends BaseFragment {
 
       @Override
       public void onFailure(Call<List<Sound>> call, Throwable t) {
-        Snackbar.make(mThisView.findViewById(R.id.imageriesListCoordinator), getString(R.string.failed_download_json), Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mThisView.findViewById(R.id.fragment_recycler_view_coordinator_layout), getString(R.string.failed_download_json), Snackbar.LENGTH_SHORT).show();
         loadImageries();
       }
     });

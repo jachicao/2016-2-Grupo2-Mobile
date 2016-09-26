@@ -12,7 +12,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.imageries.CardViewListener;
 import cl.uc.saludestudiantiluc.imageries.ImageryDisplayActivity;
 
 /**
@@ -21,33 +20,30 @@ import cl.uc.saludestudiantiluc.imageries.ImageryDisplayActivity;
 public class SoundSelectionAdapter extends RecyclerView.Adapter<SoundSelectionAdapter.ImageryHolder> {
 
   private List<Sound> mImageries;
-  private CardViewListener mCardViewListener;
   private String mParent;
 
-  public static class ImageryHolder extends RecyclerView.ViewHolder{
+  public static class ImageryHolder extends RecyclerView.ViewHolder {
     private CardView mCardView;
     private TextView mName;
     private Sound mImagery;
     private Context mContext;
-    private CardViewListener mCardViewListener;
     private String mOrigin;
 
     public ImageryHolder(View itemView) {
       super(itemView);
       mContext = itemView.getContext();
-      mCardView = (CardView) itemView.findViewById(R.id.imageryCardView);
-      mName = (TextView) itemView.findViewById(R.id.sequenceCardViewName);
+      mCardView = (CardView) itemView.findViewById(R.id.recycler_card_view);
+      mName = (TextView) itemView.findViewById(R.id.recycler_card_view_name);
       mCardView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
           if (mImagery != null) {
             Intent intent;
             Sound sound;
-            if (mOrigin.equals("Imagery")){
+            if (mOrigin.equals("Imagery")) {
               intent = new Intent(mContext, ImageryDisplayActivity.class);
               sound = new Sound(1, "Imagery", "An imagery description", "Imagery");
-            }
-            else {
+            } else {
               intent = new Intent(mContext, AmbientalSoundActivity.class);
               sound = new Sound(1, "Rain sound", "A sound of raining", "Ambiental");
             }
@@ -56,10 +52,6 @@ public class SoundSelectionAdapter extends RecyclerView.Adapter<SoundSelectionAd
           }
         }
       });
-    }
-
-    public void setCardViewListener(CardViewListener cardViewListener){
-      mCardViewListener = cardViewListener;
     }
 
     public void setOriging(String origin){
@@ -79,7 +71,7 @@ public class SoundSelectionAdapter extends RecyclerView.Adapter<SoundSelectionAd
   }
 
 
-  public SoundSelectionAdapter(List<Sound> imageries, String parent){
+  public SoundSelectionAdapter(List<Sound> imageries, String parent) {
     mImageries = imageries;
     mParent = parent;
   }
@@ -88,9 +80,8 @@ public class SoundSelectionAdapter extends RecyclerView.Adapter<SoundSelectionAd
   public ImageryHolder onCreateViewHolder(ViewGroup parent,
                                                                 int viewType) {
     View v = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.imagery_cardview, parent, false);
+        .inflate(R.layout.fragment_recycler_card_view, parent, false);
     ImageryHolder ih = new ImageryHolder(v);
-    //ih.setCardViewListener(mCardViewListener);
     ih.setOriging(mParent);
     return ih;
   }
@@ -98,7 +89,7 @@ public class SoundSelectionAdapter extends RecyclerView.Adapter<SoundSelectionAd
 
   @Override
   public void onBindViewHolder(ImageryHolder holder, int position) {
-    if (mImageries != null){
+    if (mImageries != null) {
       holder.setImagery(mImageries.get(position));
     }
     holder.setView();
