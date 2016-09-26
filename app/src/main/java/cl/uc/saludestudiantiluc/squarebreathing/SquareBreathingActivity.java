@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common_design.BaseFragment;
+import cl.uc.saludestudiantiluc.common.BaseFragment;
 
 public class SquareBreathingActivity extends BaseFragment {
 
