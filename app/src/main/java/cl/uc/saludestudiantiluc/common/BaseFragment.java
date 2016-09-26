@@ -1,4 +1,4 @@
-package cl.uc.saludestudiantiluc.common_design;
+package cl.uc.saludestudiantiluc.common;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,16 +8,28 @@ import android.support.v4.app.FragmentActivity;
  */
 
 public class  BaseFragment extends Fragment {
-  public FragmentListener mListener;
+
+  public interface FragmentListener {
+    void onDismissed();
+  }
+
+  private FragmentListener mListener;
+
+  public void setListener(FragmentListener listener) {
+    mListener = listener;
+  }
+
   public void dismiss() {
     FragmentActivity activity = getActivity();
     if (activity != null) {
-      activity.getSupportFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
+      activity.getSupportFragmentManager().beginTransaction().remove(this)
+          .commitAllowingStateLoss();
       if (mListener != null) {
         mListener.onDismissed();
       }
     }
   }
+
   public void onBackPressed() {
     dismiss();
   }
