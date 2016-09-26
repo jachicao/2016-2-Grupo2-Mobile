@@ -3,6 +3,7 @@ package cl.uc.saludestudiantiluc.common.sounds;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 import cl.uc.saludestudiantiluc.R;
@@ -82,6 +84,13 @@ public class SoundActivity extends AppCompatActivity {
     mVideoView = (VideoView) findViewById(R.id.sound_activity_surface_view);
     //de forma alternativa si queremos un streaming usar
     //mVideoView.setVideoURI(Uri.parse(URLstring));
+    if (!(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)) {
+      RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mVideoView.getLayoutParams();
+      layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+      layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+      layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
+      mVideoView.setLayoutParams(layoutParams);
+    }
     Uri video = Uri.parse("android.resource://cl.uc.saludestudiantiluc/raw/v1");
     mVideoView.setVideoURI(video);
     //mVideoView.setVideoPath("/mnt/sdcard/video.mp4");
