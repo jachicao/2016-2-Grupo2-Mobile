@@ -14,7 +14,7 @@ import cl.uc.saludestudiantiluc.R;
  * Created by jchicao on 21-09-16.
  */
 
-public class DataResponse implements Parcelable {
+class DataResponse implements Parcelable {
   public DataResponse(){
 
   }
