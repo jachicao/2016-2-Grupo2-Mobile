@@ -157,8 +157,8 @@ public class MainActivity extends BaseActivity implements AuthListener {
   private void setupBackground() {
     Glide
         .with(this)
-        .load(R.drawable.beach_gif)
-        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .load(R.drawable.norway)
+        .diskCacheStrategy(DiskCacheStrategy.RESULT)
         .centerCrop()
         .into(mBackgroundView);
   }
