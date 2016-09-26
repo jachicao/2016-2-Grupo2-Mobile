@@ -11,13 +11,15 @@ public class Sound implements Parcelable {
   private String name = "";
   private String description = "";
   private String type = "";
+  private int duration = 0;
 
 
-  public Sound(int i, String n, String desc, String type) {
+  public Sound(int i, String n, String desc, String type, int duration) {
     id = i;
     name = n;
     description = desc;
     this.type = type;
+    this.duration = duration;
   }
 
   @Override
@@ -31,6 +33,7 @@ public class Sound implements Parcelable {
     dest.writeString(this.name);
     dest.writeString(this.description);
     dest.writeString(this.type);
+    dest.writeInt(this.duration);
   }
 
   protected Sound(Parcel in) {
@@ -38,6 +41,7 @@ public class Sound implements Parcelable {
     this.name = in.readString();
     this.description = in.readString();
     this.type = in.readString();
+    this.duration = in.readInt();
   }
 
   public static final Creator<Sound> CREATOR = new Creator<Sound>() {
@@ -62,5 +66,9 @@ public class Sound implements Parcelable {
 
   public String getType() {
     return type;
+  }
+
+  public int getDuration() {
+    return duration;
   }
 }

@@ -15,7 +15,7 @@ import android.widget.VideoView;
 
 import cl.uc.saludestudiantiluc.R;
 
-public class AmbientalSoundActivity extends AppCompatActivity {
+public class SoundActivity extends AppCompatActivity {
 
   private static final String MEDIA_STATE = "is_playing";
 
@@ -47,15 +47,8 @@ public class AmbientalSoundActivity extends AppCompatActivity {
       mServiceState = savedInstanceState.getString(MEDIA_STATE);
       setMediaButtonIcon(mServiceState);
       mSound = savedInstanceState.getParcelable("Sound");
-      //mSoundOrigin = mSound.getType();
     } else {
       mSound = getIntent().getParcelableExtra("Sound");
-      if (mSound == null) {
-        //mSoundOrigin = null;
-      } else {
-        //mSoundOrigin = mSound.getType();
-      }
-
     }
   }
 
@@ -102,12 +95,9 @@ public class AmbientalSoundActivity extends AppCompatActivity {
     super.onStop();
     // Unbind from the service
     if (mBound) {
-
       mService.notifySound();
-
       unbindService(mConnection);
       mBound = false;
-
     }
   }
 
@@ -116,12 +106,9 @@ public class AmbientalSoundActivity extends AppCompatActivity {
     super.onPause();
     // Unbind from the service
     if (mBound) {
-
       mService.notifySound();
-
       unbindService(mConnection);
       mBound = false;
-
     } else if (mService != null) {
       mService.notifySound();
     }
@@ -136,10 +123,6 @@ public class AmbientalSoundActivity extends AppCompatActivity {
     restoreInfo(playing);
   }
 
-  /*private void setState(String text){
-      mSavedState = text;
-  }*/
-
   private ServiceConnection mConnection = new ServiceConnection() {
 
     @Override
@@ -148,10 +131,9 @@ public class AmbientalSoundActivity extends AppCompatActivity {
       // We've bound to LocalService, cast the IBinder and get LocalService instance
       SoundService.LocalBinder binder = (SoundService.LocalBinder) service;
       mService = binder.getService();
-      //ImageButton btn = (ImageButton) findViewById(R.id.mediaPlayerButton);
-      //btn.setText(mService.getState());
       mServiceState = mService.getState();
       mService.undoNotify();
+      mService.setSound(mSound);
       if (mServiceState.equals(START_STATE) || mServiceState.equals(PAUSE_STATE)) {
         if (!mSound.getType().equals(mService.getCurrentSound())) {
           mService.onStop();
@@ -165,11 +147,8 @@ public class AmbientalSoundActivity extends AppCompatActivity {
 
       if (message == 1) {
         mService.onStop();
-        //Button stopButton = (Button) findViewById(R.id.stop);
         mServiceState = STOP_STATE;
         setMediaButtonIcon(mServiceState);
-        //stopButton.setText(getString(R.string.start_sound_button));
-        //setState(getString(R.string.start_sound_button));
       }
     }
 
@@ -178,14 +157,6 @@ public class AmbientalSoundActivity extends AppCompatActivity {
       mBound = false;
     }
   };
-
-  public ImageButton getImageButton() {
-    return mMediaPlayerButton;
-  }
-
-  public String getSoundOrigin() {
-    return mSound.getType();
-  }
 
   public void handleService(Intent intent) {
     if (mServiceState.equals(START_STATE)) {
