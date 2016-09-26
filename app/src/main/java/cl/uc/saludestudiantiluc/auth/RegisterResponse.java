@@ -11,8 +11,5 @@ public class RegisterResponse {
   //body
   public String status;
   public DataResponse data;
-  public void setHeaderResponse(Headers h){
-    header = HeaderResponse.newInstanceFromHeader(h);
-  }
 }
 
