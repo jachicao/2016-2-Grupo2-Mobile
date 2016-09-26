@@ -86,15 +86,15 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   @Override
   public void onTaskRemoved(Intent rootIntent) {
 
-    mState = STOP_STATE;
-    if (mMediaPlayer != null) {
+
+    if (mMediaPlayer != null && !mState.equals(STOP_STATE)) {
       mMediaPlayer.stop();
       mMediaPlayer.release();
     }
     if (mNotificationManager != null) {
       mNotificationManager.cancel(0);
     }
-
+    mState = STOP_STATE;
     stopSelf();
   }
 
