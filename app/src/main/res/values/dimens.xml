@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Default screen margins, per the Android Design guidelines. -->
 
+    <dimen name="recycler_view_margin_left_right">8dp</dimen>
+
     <!-- CardView. -->
     <dimen name="card_view_elevation">4dp</dimen>
     <dimen name="card_view_corner_radius">4dp</dimen>
@@ -24,9 +26,10 @@
     <dimen name="square_breathing_circle_margin">16dp</dimen>
     <dimen name="square_breathing_view_size">224dp</dimen>
 
-    <!-- Sequences. -->
-    <dimen name="sequences_card_view_height">350dp</dimen>
-    <dimen name="sequences_card_view_text_margin_left_right">16dp</dimen>
+    <!-- Fragment lists. -->
+    <dimen name="fragment_recycler_card_view_height">300dp</dimen>
+    <dimen name="fragment_recycler_card_view_text_margin_left_right">16dp</dimen>
+
 
 
     <!-- Auth. -->
