@@ -23,10 +23,9 @@ import java.util.ArrayList;
 import cl.uc.saludestudiantiluc.auth.AuthFragment;
 import cl.uc.saludestudiantiluc.auth.AuthListener;
 import cl.uc.saludestudiantiluc.auth.DataResponse;
+import cl.uc.saludestudiantiluc.common.BaseActivity;
+import cl.uc.saludestudiantiluc.common.BaseFragment;
 import cl.uc.saludestudiantiluc.common.sounds.SoundSelectionFragment;
-import cl.uc.saludestudiantiluc.common_design.BaseActivity;
-import cl.uc.saludestudiantiluc.common_design.BaseFragment;
-import cl.uc.saludestudiantiluc.common_design.FragmentListener;
 import cl.uc.saludestudiantiluc.design.BottomSheetGridMenu;
 import cl.uc.saludestudiantiluc.design.BottomSheetItem;
 import cl.uc.saludestudiantiluc.design.BottomSheetItemListener;
@@ -92,12 +91,12 @@ public class MainActivity extends BaseActivity implements AuthListener {
       fragmentTransaction.add(R.id.fragment_container, fragment);
       fragmentTransaction.commit();
       mCurrentFragment = fragment;
-      mCurrentFragment.mListener = new FragmentListener() {
+      mCurrentFragment.setListener(new BaseFragment.FragmentListener() {
         @Override
         public void onDismissed() {
           mCurrentFragment = null;
         }
-      };
+      });
     }
   }
 
@@ -242,10 +241,6 @@ public class MainActivity extends BaseActivity implements AuthListener {
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
-    /*
-    if (mCurrentFragment != null) {
-      getSupportFragmentManager().putFragment(outState, "mCurrentFragment", mCurrentFragment);
-    }
     */
     if (mCurrentFragment != null) {
       mCurrentFragment.dismiss();
