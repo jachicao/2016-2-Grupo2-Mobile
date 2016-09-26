@@ -42,10 +42,10 @@ public class SoundSelectionAdapter extends RecyclerView.Adapter<SoundSelectionAd
             Sound sound;
             if (mOrigin.equals("Imagery")) {
               intent = new Intent(mContext, ImageryDisplayActivity.class);
-              sound = new Sound(1, "Imagery", "An imagery description", "Imagery");
+              sound = new Sound(1, "Imagery", "An imagery description", "Imagery", 30);
             } else {
-              intent = new Intent(mContext, AmbientalSoundActivity.class);
-              sound = new Sound(1, "Rain sound", "A sound of raining", "Ambiental");
+              intent = new Intent(mContext, SoundActivity.class);
+              sound = new Sound(1, "Rain sound", "A sound of raining", "Ambiental", 90);
             }
             intent.putExtra("Sound", sound);
             mContext.startActivity(intent);

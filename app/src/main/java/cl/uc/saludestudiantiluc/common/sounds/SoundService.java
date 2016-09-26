@@ -29,7 +29,7 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   public static final String STOP_STATE = "stopped";
   public static final String PAUSE_STATE = "paused";
   private String mCurrentSound;
-
+  private Sound mPlayingSound;
 
   /////////////////Comunication Section
   private final IBinder mBinder = new LocalBinder();
@@ -114,7 +114,7 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
     mIsReleased = false;
     mState = START_STATE;
     String url = "http://www.soundjay.com/nature/sounds/rain-01.mp3"; // your URL here
-    nName = "Rain";
+    nName = mPlayingSound.getName();
     nDuration = "1:30";
   }
 
@@ -237,6 +237,14 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
       mNotificationManager.cancel(0);
     }
     stopSelf();
+  }
+
+  public Sound getSound() {
+    return mPlayingSound;
+  }
+
+  public void setSound(Sound sound) {
+    mPlayingSound = sound;
   }
 
   public String getState(){

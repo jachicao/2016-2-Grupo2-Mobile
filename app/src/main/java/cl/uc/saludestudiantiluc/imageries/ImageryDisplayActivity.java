@@ -10,33 +10,27 @@ import android.view.ViewManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.VideoView;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.sounds.AmbientalSoundActivity;
+import cl.uc.saludestudiantiluc.common.sounds.SoundActivity;
 import cl.uc.saludestudiantiluc.common.sounds.Sound;
 import cl.uc.saludestudiantiluc.common.sounds.SoundService;
 
-public class ImageryDisplayActivity extends AmbientalSoundActivity {
-
-  public static final String SOUND = "Sound";
+public class ImageryDisplayActivity extends SoundActivity {
 
   private MediaPlayer mPlayer;
   private SeekBar mSeekBar;
   private final Handler mHandler = new Handler();
-  private ImageButton mediaPlayerButton;
   private ImageView mImageView;
-  private ImageView mMediaPlayerButton;
   private Animation mFadeIn;
   private Animation mFadeOut;
   private FrameLayout frameLayout;
   private RelativeLayout relativeLayout;
   private Runnable notification;
-  boolean isPlay = true;
   private int count = 0;
   private int delayMilis = 500;
   private int firstImageConstant = 0;
@@ -46,58 +40,30 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    //setContentView(R.layout.activity_imagery_display);
-
-    //mPlayer = MediaPlayer.create(this, R.raw.imagineria);
     mSeekBar = new SeekBar(this);
-    //mImageView = (ImageView)findViewById(R.id.imageView);
-
     mImageView = new ImageView(this);
     mImageView.setBackgroundResource(R.drawable.forest);
     mFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
     mFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
     mFadeIn.setRepeatCount(Animation.INFINITE);
     mImageView.startAnimation(mFadeIn);
-
     frameLayout = (FrameLayout) findViewById(R.id.sound_activity_frame_layout);
     frameLayout.addView(mImageView);
     mImageView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
         FrameLayout.LayoutParams.MATCH_PARENT));
 
     relativeLayout = (RelativeLayout) findViewById(R.id.sound_activity_relative_layout);
-
-
     RelativeLayout.LayoutParams rLSeekBarParams =
         new RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     rLSeekBarParams.addRule(RelativeLayout.ABOVE, R.id.sound_activity_stop);
     relativeLayout.addView(mSeekBar, rLSeekBarParams);
-
-    mMediaPlayerButton = getImageButton();
     Sound sound = getSound();
     if (sound.getName().equals("Imagery")) {
       MediaPlayer mAuxPlayer = MediaPlayer.create(this, R.raw.imagineria);
       mSeekBar.setMax(mAuxPlayer.getDuration());
       mAuxPlayer.release();
     }
-    //Sound mSelectedSound = this.getIntent().getParcelableExtra(SOUND);
-    /*mediaPlayerButton = (ImageButton)findViewById(R.id.mediaPlayerButton);
-    mediaPlayerButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (isPlay){
-          mediaPlayerButton.setImageResource(android.R.drawable.ic_media_play);
-          mPlayer.pause();
-        }
-        else{
-          mediaPlayerButton.setImageResource(android.R.drawable.ic_media_pause);
-          mPlayer.start();
-        }
-        isPlay = !isPlay;
-      }
-    });*/
-
-
 
     mFadeIn.setAnimationListener(new Animation.AnimationListener() {
       @Override
@@ -140,7 +106,6 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
       }
     });
 
-
     mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
       @Override
@@ -153,7 +118,6 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
 
       }
 
-
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         mPlayer = getMediaPlayer();
@@ -163,9 +127,6 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
       }
     });
   }
-
-
-
 
   @Override
   protected void onDestroy() {
@@ -179,7 +140,6 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
     super.onResume();
     VideoView mVideoView = (VideoView) findViewById(R.id.sound_activity_surface_view);
     ((ViewManager) mVideoView.getParent()).removeView(mVideoView);
-
   }
 
   @Override
