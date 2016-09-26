@@ -139,7 +139,9 @@ public class ImageryDisplayActivity extends SoundActivity {
   protected void onResume() {
     super.onResume();
     VideoView mVideoView = (VideoView) findViewById(R.id.sound_activity_surface_view);
-    ((ViewManager) mVideoView.getParent()).removeView(mVideoView);
+    if (mVideoView != null) {
+      ((ViewManager) mVideoView.getParent()).removeView(mVideoView);
+    }
   }
 
   @Override
