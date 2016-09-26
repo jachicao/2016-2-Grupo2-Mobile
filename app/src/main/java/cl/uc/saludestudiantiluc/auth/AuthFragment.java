@@ -20,7 +20,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common_design.BaseFragment;
+import cl.uc.saludestudiantiluc.common.BaseFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
