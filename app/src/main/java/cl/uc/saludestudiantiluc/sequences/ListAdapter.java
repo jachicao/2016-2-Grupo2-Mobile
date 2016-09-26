@@ -33,10 +33,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     public ListHolder(View itemView) {
       super(itemView);
-      mCardView = (CardView) itemView.findViewById(R.id.sequenceCardView);
-      mName = (TextView) itemView.findViewById(R.id.sequence_card_view_name);
-      mDescription = (TextView) itemView.findViewById(R.id.sequence_card_view_description);
-      mThumbnail = (ImageView) itemView.findViewById(R.id.sequence_card_view_preview);
+      mCardView = (CardView) itemView.findViewById(R.id.recycler_card_view);
+      mName = (TextView) itemView.findViewById(R.id.recycler_card_view_name);
+      mDescription = (TextView) itemView.findViewById(R.id.recycler_card_view_description);
+      mThumbnail = (ImageView) itemView.findViewById(R.id.recycler_card_view_preview);
       mCardView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -66,7 +66,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
   public ListHolder onCreateViewHolder(ViewGroup parent,
                                        int viewType) {
     View v = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.sequences_cardview, parent, false);
+        .inflate(R.layout.fragment_recycler_card_view, parent, false);
     ListHolder vh = new ListHolder(v);
     vh.setListener(mCardViewListener);
     return vh;

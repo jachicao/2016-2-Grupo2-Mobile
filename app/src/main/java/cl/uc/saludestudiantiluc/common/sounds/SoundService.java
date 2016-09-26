@@ -1,10 +1,5 @@
 package cl.uc.saludestudiantiluc.common.sounds;
 
-import android.widget.RemoteViews;
-
-
-import android.annotation.TargetApi;
-import android.support.v4.app.NotificationCompat;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -13,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import cl.uc.saludestudiantiluc.MainActivity;
@@ -61,9 +57,9 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   @Override
   public int onStartCommand (Intent intent, int flags, int startId) {
 
-    if (intent != null){
+    if (intent != null) {
       int message = intent.getIntExtra(SoundService.MENSAJE_EXTRA,0);
-      if(message == 1){
+      if(message == 1) {
         if(mState.equals(START_STATE)) {
           onPause();
           //contentView.setTextViewText(R.id.notifyButton, " a");
@@ -79,7 +75,7 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
           mNotificationManager.notify(0, mNotifyBuilder.build());
         }
 
-      } else if(message ==2){
+      } else if(message ==2) {
         onDelete();
       }
     }
@@ -91,18 +87,18 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   public void onTaskRemoved(Intent rootIntent) {
 
     mState = STOP_STATE;
-    if (mMediaPlayer != null){
+    if (mMediaPlayer != null) {
       mMediaPlayer.stop();
       mMediaPlayer.release();
     }
-    if (mNotificationManager != null){
+    if (mNotificationManager != null) {
       mNotificationManager.cancel(0);
     }
 
     stopSelf();
   }
 
-  public void onSound(String origin){
+  public void onSound(String origin) {
     if (mState.equals(STOP_STATE)){
       if (origin.equals("Imagery")){
         mMediaPlayer = MediaPlayer.create(this, R.raw.imagineria);
@@ -155,7 +151,7 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
     //mMediaPlayer.setLooping(true); // Set looping
    // mMediaPlayer.setVolume(100,100);
 
-  public void notifySound(){
+  public void notifySound() {
     if(mState.equals(START_STATE)){
       int icon = R.drawable.notification_template_icon_bg;
       long when = System.currentTimeMillis();
@@ -225,7 +221,7 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
     mMediaPlayer.start();
   }
 
-  public void undoNotify(){
+  public void undoNotify() {
     if(mState.equals(START_STATE)) {
       mNotificationManager.cancel(0);
     }
@@ -233,11 +229,11 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
 
   public void onDelete() {
     mState = STOP_STATE;
-    if (mMediaPlayer != null){
+    if (mMediaPlayer != null) {
       mMediaPlayer.stop();
       mMediaPlayer.release();
     }
-    if (mNotificationManager != null){
+    if (mNotificationManager != null) {
       mNotificationManager.cancel(0);
     }
     stopSelf();
