@@ -77,8 +77,7 @@ public class SoundSelectionAdapter extends RecyclerView.Adapter<SoundSelectionAd
   }
 
   @Override
-  public ImageryHolder onCreateViewHolder(ViewGroup parent,
-                                                                int viewType) {
+  public ImageryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View v = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.fragment_recycler_card_view, parent, false);
     ImageryHolder ih = new ImageryHolder(v);

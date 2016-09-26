@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.ViewManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.VideoView;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.sounds.AmbientalSoundActivity;
@@ -31,6 +34,7 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
   private Animation mFadeIn;
   private Animation mFadeOut;
   private FrameLayout frameLayout;
+  private RelativeLayout relativeLayout;
   private Runnable notification;
   boolean isPlay = true;
   private int count = 0;
@@ -42,7 +46,7 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    //setContentView(R.layout.imagery_activity_display);
+    //setContentView(R.layout.activity_imagery_display);
 
     //mPlayer = MediaPlayer.create(this, R.raw.imagineria);
     mSeekBar = new SeekBar(this);
@@ -55,21 +59,23 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
     mFadeIn.setRepeatCount(Animation.INFINITE);
     mImageView.startAnimation(mFadeIn);
 
-    frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
-
-    //getVideoView()
-
-    frameLayout.addView(mSeekBar);
+    frameLayout = (FrameLayout) findViewById(R.id.sound_activity_frame_layout);
+    frameLayout.addView(mImageView);
     mImageView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-        FrameLayout.LayoutParams.WRAP_CONTENT));
+        FrameLayout.LayoutParams.MATCH_PARENT));
 
-    mSeekBar.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-        FrameLayout.LayoutParams.WRAP_CONTENT));
+    relativeLayout = (RelativeLayout) findViewById(R.id.sound_activity_relative_layout);
+
+
+    RelativeLayout.LayoutParams rLSeekBarParams =
+        new RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+    rLSeekBarParams.addRule(RelativeLayout.ABOVE, R.id.sound_activity_stop);
+    relativeLayout.addView(mSeekBar, rLSeekBarParams);
 
     mMediaPlayerButton = getImageButton();
-
     Sound sound = getSound();
-    if (sound.getName().equals("Imagery")){
+    if (sound.getName().equals("Imagery")) {
       MediaPlayer mAuxPlayer = MediaPlayer.create(this, R.raw.imagineria);
       mSeekBar.setMax(mAuxPlayer.getDuration());
       mAuxPlayer.release();
@@ -114,17 +120,15 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
       }
       @Override
       public void onAnimationEnd(Animation animation) {
-        if (count == secondImageConstant){
+        if (count == secondImageConstant) {
           mImageView.setBackgroundResource(R.drawable.sky);
-        }
-        else if(count == thirdImageConstant){
+        } else if (count == thirdImageConstant) {
           mImageView.setBackgroundResource(R.drawable.forest);
-        }
-        else{
+        } else {
           mImageView.setBackgroundResource(R.drawable.ocean);
         }
         count ++;
-        if (count > thirdImageConstant){
+        if (count > thirdImageConstant) {
           count = firstImageConstant;
         }
 
@@ -153,7 +157,7 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         mPlayer = getMediaPlayer();
-        if(mPlayer != null && fromUser && !getIsReleased()){
+        if (mPlayer != null && fromUser && !getIsReleased()) {
           mPlayer.seekTo(progress);
         }
       }
@@ -168,14 +172,13 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
     super.onDestroy();
     mHandler.removeCallbacks(notification);
     Log.d("Handler", "Handler Destroyed");
-    //mPlayer.stop();
-    //mPlayer.release();
-    //mPlayer = null;
   }
 
   @Override
   protected void onResume() {
     super.onResume();
+    VideoView mVideoView = (VideoView) findViewById(R.id.sound_activity_surface_view);
+    ((ViewManager) mVideoView.getParent()).removeView(mVideoView);
 
   }
 
@@ -204,41 +207,39 @@ public class ImageryDisplayActivity extends AmbientalSoundActivity {
   }
 
   @Override
-  public void startSoundService(){
+  public void startSoundService() {
     SoundService mService = getService();
     mService.onModifiedSound(getSound().getType(), mSeekBar.getProgress());
   }
 
   @Override
-  public void restoreInfo(String released){
+  public void restoreInfo(String released) {
     mPlayer = getMediaPlayer();
-    if(mPlayer != null && !released.equals(STOP_STATE)){
+    if (mPlayer != null && !released.equals(STOP_STATE)) {
       int mCurrentPosition = mPlayer.getCurrentPosition();
       mSeekBar.setProgress(mCurrentPosition);
       if (mPlayer.isPlaying()) {
         notification = new Runnable() {
           public void run() {
             startPlayProgressUpdate();
-            mHandler.postDelayed(notification,delayMilis);
+            mHandler.postDelayed(notification, delayMilis);
           }
         };
         mHandler.post(notification);
       }
-    }
-    else{
-      if (mHandler != null){
+    } else {
+      if (mHandler != null) {
         Log.d("Handler", "Handler Destroyed");
         mHandler.removeCallbacks(notification);
       }
     }
   }
 
-  public void startPlayProgressUpdate(){
+  public void startPlayProgressUpdate() {
     int currentPosition;
-    if (mPlayer != null){
+    if (mPlayer != null) {
       currentPosition = mPlayer.getCurrentPosition();
-    }
-    else{
+    } else {
       currentPosition = 0;
     }
     mSeekBar.setProgress(currentPosition);
