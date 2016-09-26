@@ -1,4 +1,4 @@
-package cl.uc.saludestudiantiluc.common_design;
+package cl.uc.saludestudiantiluc.common;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import cl.uc.saludestudiantiluc.R;
  */
 
 public class BaseActivity extends AppCompatActivity {
+
 
   private Toolbar mToolbar;
 
