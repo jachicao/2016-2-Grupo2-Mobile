@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".common.sounds.AmbientalSoundActivity"/>
+        <activity android:name=".common.sounds.SoundActivity"/>
         <activity android:name=".imageries.ImageryDisplayActivity"></activity>
         <activity android:name=".sequences.ImagesActivity">
         </activity>
