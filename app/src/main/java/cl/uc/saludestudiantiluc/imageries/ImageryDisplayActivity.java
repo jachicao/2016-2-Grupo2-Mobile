@@ -129,6 +129,12 @@ public class ImageryDisplayActivity extends SoundActivity {
   }
 
   @Override
+  protected void onPause(){
+    super.onPause();
+    mHandler.removeCallbacks(notification);
+  }
+
+  @Override
   protected void onDestroy() {
     super.onDestroy();
     mHandler.removeCallbacks(notification);
