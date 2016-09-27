@@ -63,6 +63,12 @@ public class SoundActivity extends AppCompatActivity {
   @Override
   protected void onResume() {
     super.onResume();
+    if (mService != null) {
+      mServiceState = mService.getState();
+    } else {
+      mServiceState = STOP_STATE;
+    }
+    setMediaButtonIcon(mServiceState);
     setVideo();
     int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
