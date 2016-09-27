@@ -58,20 +58,17 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   public int onStartCommand (Intent intent, int flags, int startId) {
 
     if (intent != null) {
-      int message = intent.getIntExtra(SoundService.MENSAJE_EXTRA,0);
+      int message = intent.getIntExtra(SoundService.MENSAJE_EXTRA, 0);
       if(message == 1) {
         if(mState.equals(START_STATE)) {
           onPause();
-          //contentView.setTextViewText(R.id.notifyButton, " a");
-          contentView.setImageViewResource(R.id.notifyButton, android.R.drawable.ic_media_play);
+          contentView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_pause_black_24dp);
           mNotifyBuilder.setContent(contentView);
-
           mNotificationManager.notify(0, mNotifyBuilder.build());
         } else {
           onResume();
-          contentView.setImageViewResource(R.id.notifyButton, android.R.drawable.ic_media_pause);
+          contentView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_play_arrow_black_24dp);
           mNotifyBuilder.setContent(contentView);
-
           mNotificationManager.notify(0, mNotifyBuilder.build());
         }
 
@@ -99,12 +96,11 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   }
 
   public void onSound(String origin) {
-    if (mState.equals(STOP_STATE)){
-      if (origin.equals("Imagery")){
+    if (mState.equals(STOP_STATE)) {
+      if (origin.equals("Imagery")) {
         mMediaPlayer = MediaPlayer.create(this, R.raw.imagineria);
         mCurrentSound = "Imagery";
-      }
-      else{
+      } else {
         mMediaPlayer = MediaPlayer.create(this, R.raw.nature);
         mCurrentSound = "Ambiental";
       }
@@ -118,13 +114,12 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
     nDuration = "1:30";
   }
 
-  public void onModifiedSound(String origin, int start){
-    if (mState.equals(STOP_STATE)){
-      if (origin.equals("Imagery")){
+  public void onModifiedSound(String origin, int start) {
+    if (mState.equals(STOP_STATE)) {
+      if (origin.equals("Imagery")) {
         mMediaPlayer = MediaPlayer.create(this, R.raw.imagineria);
         mCurrentSound = "Imagery";
-      }
-      else{
+      } else {
         mMediaPlayer = MediaPlayer.create(this, R.raw.nature);
         mCurrentSound = "Ambiental";
       }
@@ -152,41 +147,41 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
    // mMediaPlayer.setVolume(100,100);
 
   public void notifySound() {
-    if(mState.equals(START_STATE)){
-      int icon = R.drawable.notification_template_icon_bg;
-      long when = System.currentTimeMillis();
-      //notification = new Notification.builder(icon, "Custom Notification", when);
-      //////////// setup contentVie
-      contentView = new RemoteViews(getPackageName(), R.layout.sound_notification);
-      contentView.setImageViewResource(R.id.image, R.drawable.notification_template_icon_bg);
-      contentView.setTextViewText(R.id.title, nName);
-      contentView.setTextViewText(R.id.text, "Duración: " + nDuration);
-      contentView.setImageViewResource(R.id.notifyButton, android.R.drawable.ic_media_pause);
-      contentView.setImageViewResource(R.id.close_notify, android.R.drawable.ic_delete);
-      ///////////// end contentView
+    if(mState.equals(START_STATE)) {
+      //notification = new Notification.builder(icon, "Custom Notification", when)
+      contentView = new RemoteViews(getPackageName(), R.layout.sound_notification_collapsed);
+      //contentView.setTextViewText(R.id.sound_notification_title, "Sonido Ambiental");
+      contentView.setImageViewResource(R.id.sound_notification_icon, R.drawable.ic_headset_black_24dp);
+      contentView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_pause_black_24dp);
+      contentView.setImageViewResource(R.id.sound_notification_close, R.drawable.ic_close_black_24dp);
+      contentView.setImageViewResource(R.id.sound_notification_previous, R.drawable.ic_skip_previous_black_24dp);
+      contentView.setImageViewResource(R.id.sound_notification_next, R.drawable.ic_skip_next_black_24dp);
+      contentView.setImageViewResource(R.id.sound_notification_thumbnail, R.drawable.ic_library_music_black_24dp);
+
       //////setup intentn
       Intent notificationIntent = new Intent(this, MainActivity.class);
       PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
       ////// end intent
       mNotifyBuilder = new NotificationCompat.Builder(this)
          // .setContentTitle(nName)
          // .setContentText("You've received new messages.")
           .setContent(contentView)
+          //.setCustomBigContentView(contentView)
           .setOngoing(true)
-          .setSmallIcon(R.drawable.notification_template_icon_bg);
-
+          .setSmallIcon(R.drawable.ic_headset_black_24dp);
 
       mNotificationManager = (NotificationManager) getSystemService
           (NOTIFICATION_SERVICE);
       Intent pauseIntent = new Intent(this, SoundService.class);
       pauseIntent.putExtra(MENSAJE_EXTRA, 1); // 1 : Pause
       PendingIntent pendingPause = PendingIntent.getService(this, 1, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-      contentView.setOnClickPendingIntent(R.id.notifyButton, pendingPause);
+      contentView.setOnClickPendingIntent(R.id.sound_notification_play_and_pause, pendingPause);
       Intent closeIntent = new Intent(this, SoundService.class);
       closeIntent.putExtra(MENSAJE_EXTRA, 2); // 2 : Close
       PendingIntent pendingClose = PendingIntent.getService(this, 2, closeIntent, PendingIntent
           .FLAG_UPDATE_CURRENT);
-      contentView.setOnClickPendingIntent(R.id.close_notify, pendingClose);
+      contentView.setOnClickPendingIntent(R.id.sound_notification_close, pendingClose);
       /*
       mNotifyBuilder.flags |= mNotifyBuilder.FLAG_NO_CLEAR; //Do not clear the notification
       mNotifyBuilder.defaults |= mNotifyBuilder.DEFAULT_SOUND; // Sound
