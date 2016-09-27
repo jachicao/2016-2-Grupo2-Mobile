@@ -7,6 +7,6 @@ import java.util.List;
  * Created by jchicao on 9/25/16.
  */
 
-public class ErrorResponse {
+class ErrorResponse {
   public List<String> full_messages = new ArrayList<>();
 }

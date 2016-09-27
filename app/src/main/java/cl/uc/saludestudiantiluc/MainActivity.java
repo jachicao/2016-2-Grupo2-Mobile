@@ -1,7 +1,10 @@
 package cl.uc.saludestudiantiluc;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,19 +17,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
-import cl.uc.saludestudiantiluc.auth.AuthFragment;
-import cl.uc.saludestudiantiluc.auth.AuthListener;
-import cl.uc.saludestudiantiluc.auth.DataResponse;
+import cl.uc.saludestudiantiluc.common.BaseActivity;
+import cl.uc.saludestudiantiluc.common.BaseFragment;
 import cl.uc.saludestudiantiluc.common.sounds.SoundSelectionFragment;
-import cl.uc.saludestudiantiluc.common_design.BaseActivity;
-import cl.uc.saludestudiantiluc.common_design.BaseFragment;
-import cl.uc.saludestudiantiluc.common_design.FragmentListener;
 import cl.uc.saludestudiantiluc.design.BottomSheetGridMenu;
 import cl.uc.saludestudiantiluc.design.BottomSheetItem;
 import cl.uc.saludestudiantiluc.design.BottomSheetItemListener;
@@ -34,21 +34,17 @@ import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
 import cl.uc.saludestudiantiluc.utils.ViewUtils;
 
-public class MainActivity extends BaseActivity implements AuthListener {
+public class MainActivity extends BaseActivity {
 
   private static final String TAG = MainActivity.class.getSimpleName();
 
   private static final double NAV_DRAWER_HEADER_HEIGHT_RATIO = 9.0 / 16.0;
 
-  private static final int NAV_DRAWER_ALPHA = 200;
   private NavigationView mNavigationView;
   private DrawerLayout mDrawerLayout;
   private ImageView mBackgroundView;
   private FloatingActionButton mFloatingActionButton;
   private BottomSheetGridMenu mBottomSheetGridMenu;
-  private ArrayList<BottomSheetItem> mBottomSheetItems = new ArrayList<>();
-  private BaseFragment mCurrentFragment;
-  private DataResponse mUserData;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,50 +55,30 @@ public class MainActivity extends BaseActivity implements AuthListener {
     mFloatingActionButton = (FloatingActionButton) findViewById(R.id.main_floating_action_button);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
     setupBackground();
-    if (savedInstanceState != null) {
-      mUserData = savedInstanceState.getParcelable("mUserData");
-    }
-    startAuth();
-  }
-
-  private void startAuth() {
-    mNavigationView.setVisibility(View.GONE);
-    mFloatingActionButton.setVisibility(View.GONE);
-    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    if (mUserData != null) {
-      authCompleted();
-    } else {
-      setNewFragment(new AuthFragment());
-    }
-  }
-
-  private void authCompleted() {
-    setupNavigationDrawer();
-    setupFloatingActionButton();
     setupBottomSheet();
+    setupFloatingActionButton();
+    setupNavigationDrawer();
+  }
+
+  @Override
+  protected void onStop() {
+    super.onStop();
+    if (mBottomSheetGridMenu != null) {
+      mBottomSheetGridMenu.dismiss();
+    }
   }
 
   private void setNewFragment(BaseFragment fragment) {
-    if (mCurrentFragment != null) {
-      mCurrentFragment.dismiss();
-    }
     if (fragment != null) {
       FragmentManager fragmentManager = getSupportFragmentManager();
       FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
       fragmentTransaction.add(R.id.fragment_container, fragment);
       fragmentTransaction.commit();
-      mCurrentFragment = fragment;
-      mCurrentFragment.mListener = new FragmentListener() {
-        @Override
-        public void onDismissed() {
-          mCurrentFragment = null;
-        }
-      };
     }
   }
 
   private void setupBottomSheet() {
-    mBottomSheetItems = new ArrayList<>();
+    ArrayList<BottomSheetItem> mBottomSheetItems = new ArrayList<>();
     mBottomSheetItems.add(new BottomSheetItem(R.drawable.ic_favorite_black_24dp, getString(R.string.main_menu_exercises), new BottomSheetItemListener() {
       @Override
       public void onClick(BottomSheetItem item) {
@@ -143,6 +119,7 @@ public class MainActivity extends BaseActivity implements AuthListener {
       }
     });
   }
+
   private void setupFloatingActionButton() {
     mFloatingActionButton.setVisibility(View.VISIBLE);
     mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -164,8 +141,6 @@ public class MainActivity extends BaseActivity implements AuthListener {
   }
 
   private void setupNavigationDrawer() {
-    mNavigationView.setVisibility(View.VISIBLE);
-    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     final int navViewWidth = getNavViewWidth();
     setupNavDrawerHeader(navViewWidth);
     setNavViewWidth(navViewWidth);
@@ -180,6 +155,13 @@ public class MainActivity extends BaseActivity implements AuthListener {
 
     RelativeLayout header = (RelativeLayout) mNavigationView.inflateHeaderView(
         R.layout.navigation_drawer_header);
+
+    // Set user information
+    TextView userNameTextView = (TextView) header.findViewById(R.id.header_name);
+    TextView userEmailTextView = (TextView) header.findViewById(R.id.header_email);
+    userEmailTextView.setText(getUserRepository().getUserName());
+    userNameTextView.setText(getUserRepository().getUserEmail());
+
     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) header.getLayoutParams();
     params.height = navDrawerHeaderHeight;
     header.setLayoutParams(params);
@@ -231,45 +213,8 @@ public class MainActivity extends BaseActivity implements AuthListener {
     int navDrawerMaxWidth = getResources().getDimensionPixelSize(R.dimen.nav_drawer_max_width);
     return Math.min(navViewWidth, navDrawerMaxWidth);
   }
-  @Override
-  public void onBackPressed() {
-    if (mCurrentFragment != null) {
-      mCurrentFragment.onBackPressed();
-    } else {
-      super.onBackPressed();
-    }
-  }
 
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    /*
-    if (mCurrentFragment != null) {
-      getSupportFragmentManager().putFragment(outState, "mCurrentFragment", mCurrentFragment);
-    }
-    */
-    if (mCurrentFragment != null) {
-      mCurrentFragment.dismiss();
-    }
-    if (mUserData != null) {
-      outState.putParcelable("mUserData", mUserData);
-    }
-    super.onSaveInstanceState(outState);
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    if (mBottomSheetGridMenu != null) {
-      mBottomSheetGridMenu.dismiss();
-    }
-    if (mCurrentFragment != null) {
-      mCurrentFragment.dismiss();
-    }
-  }
-
-  @Override
-  public void onSignedIn(DataResponse dataResponse) {
-    mUserData = dataResponse;
-    authCompleted();
+  public static Intent getIntent(Activity callerActivity) {
+    return new Intent(callerActivity, MainActivity.class);
   }
 }
