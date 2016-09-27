@@ -45,6 +45,10 @@ public class SequencesListFragment extends BaseFragment {
   }
   private View mThisView;
 
+  public static SequencesListFragment newInstance() {
+    return new SequencesListFragment();
+  }
+
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

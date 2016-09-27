@@ -11,12 +11,12 @@
     <!-- Strings related to login -->
 
     <string name="main_menu_sequences">Secuencias</string>
-    <string name="main_menu_exercises">Ejercicios de relejación</string>
+    <string name="main_menu_exercises">Ejercicios de relajación</string>
     <string name="main_menu_ambient_sounds">Naturaleza</string>
     <string name="main_menu_imaginary">Imaginerías</string>
 
     <string name="drawer_home">Inicio</string>
-    <string name="drawer_profile">Perfil</string>
+    <string name="drawer_profile">Configuración</string>
     <string name="drawer_request_appointment">Solicitar cita</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar menu</string>
@@ -72,6 +72,6 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
-    <string name="home_start_now">Comenzar</string>
+    <string name="home_start_now">Comenzar a relajarme</string>
     <string name="square_breathing">Respiración cuadrada</string>
 </resources>

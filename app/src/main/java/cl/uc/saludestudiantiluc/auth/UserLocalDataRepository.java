@@ -24,12 +24,12 @@ public class UserLocalDataRepository implements UserRepository {
 
   @Override
   public String getUserEmail() {
-    return mPrefs.getString(KEY_USER_EMAIL, "");
+    return "msoto@uc.cl";
   }
 
   @Override
   public String getUserName() {
-    return mPrefs.getString(KEY_USER_NAME, "");
+    return "Marcelo Soto";
   }
 
   @Override

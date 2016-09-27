@@ -1,15 +1,12 @@
 package cl.uc.saludestudiantiluc;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -22,14 +19,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.util.ArrayList;
-
 import cl.uc.saludestudiantiluc.common.BaseActivity;
-import cl.uc.saludestudiantiluc.common.BaseFragment;
 import cl.uc.saludestudiantiluc.common.sounds.SoundSelectionFragment;
 import cl.uc.saludestudiantiluc.design.BottomSheetGridMenu;
-import cl.uc.saludestudiantiluc.design.BottomSheetItem;
-import cl.uc.saludestudiantiluc.design.BottomSheetItemListener;
 import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
 import cl.uc.saludestudiantiluc.utils.ViewUtils;
@@ -40,11 +32,10 @@ public class MainActivity extends BaseActivity {
 
   private static final double NAV_DRAWER_HEADER_HEIGHT_RATIO = 9.0 / 16.0;
 
+
   private NavigationView mNavigationView;
   private DrawerLayout mDrawerLayout;
   private ImageView mBackgroundView;
-  private FloatingActionButton mFloatingActionButton;
-  private BottomSheetGridMenu mBottomSheetGridMenu;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,83 +43,17 @@ public class MainActivity extends BaseActivity {
     setContentView(R.layout.activity_main);
     mBackgroundView = (ImageView) findViewById(R.id.main_background_image);
     mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-    mFloatingActionButton = (FloatingActionButton) findViewById(R.id.main_floating_action_button);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
     setupBackground();
-    setupBottomSheet();
-    setupFloatingActionButton();
     setupNavigationDrawer();
+    changeFragment(HomeFragment.newInstance());
   }
 
-  @Override
-  protected void onStop() {
-    super.onStop();
-    if (mBottomSheetGridMenu != null) {
-      mBottomSheetGridMenu.dismiss();
-    }
-  }
-
-  private void setNewFragment(BaseFragment fragment) {
-    if (fragment != null) {
-      FragmentManager fragmentManager = getSupportFragmentManager();
-      FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-      fragmentTransaction.add(R.id.fragment_container, fragment);
-      fragmentTransaction.commit();
-    }
-  }
-
-  private void setupBottomSheet() {
-    ArrayList<BottomSheetItem> mBottomSheetItems = new ArrayList<>();
-    mBottomSheetItems.add(new BottomSheetItem(R.drawable.ic_favorite_black_24dp, getString(R.string.main_menu_exercises), new BottomSheetItemListener() {
-      @Override
-      public void onClick(BottomSheetItem item) {
-        setNewFragment(new SquareBreathingActivity());
-      }
-    }));
-    mBottomSheetItems.add(new BottomSheetItem(R.drawable.ic_collections_black_24dp, getString(R.string.main_menu_sequences), new BottomSheetItemListener() {
-      @Override
-      public void onClick(BottomSheetItem item) {
-        setNewFragment(new SequencesListFragment());
-      }
-    }));
-    mBottomSheetItems.add(new BottomSheetItem(R.drawable.ic_audiotrack_black_24dp, getString(R.string.main_menu_ambient_sounds), new BottomSheetItemListener() {
-      @Override
-      public void onClick(BottomSheetItem item) {
-        BaseFragment fragment = new SoundSelectionFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(SoundSelectionFragment.MEDIA_ORIGIN, SoundSelectionFragment.AMBIENTAL_CONSTANT);
-        fragment.setArguments(bundle);
-        setNewFragment(fragment);
-      }
-    }));
-    mBottomSheetItems.add(new BottomSheetItem(R.drawable.ic_movie_creation_black_24dp, getString(R.string.main_menu_imaginary), new BottomSheetItemListener() {
-      @Override
-      public void onClick(BottomSheetItem item) {
-        BaseFragment fragment = new SoundSelectionFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(SoundSelectionFragment.MEDIA_ORIGIN, SoundSelectionFragment.IMAGERY_CONSTANT);
-        fragment.setArguments(bundle);
-        setNewFragment(fragment);
-      }
-    }));
-    mBottomSheetGridMenu = new BottomSheetGridMenu(this, mBottomSheetItems, getResources().getInteger(R.integer.bottom_sheet_grid_width));
-    mBottomSheetGridMenu.setOnDismissListener(new DialogInterface.OnDismissListener() {
-      @Override
-      public void onDismiss(DialogInterface dialog) {
-        mFloatingActionButton.show();
-      }
-    });
-  }
-
-  private void setupFloatingActionButton() {
-    mFloatingActionButton.setVisibility(View.VISIBLE);
-    mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mBottomSheetGridMenu.expandAndShow();
-        mFloatingActionButton.hide();
-      }
-    });
+  private void changeFragment(@NonNull Fragment fragment) {
+    getSupportFragmentManager()
+        .beginTransaction()
+        .replace(R.id.fragment_container, fragment)
+        .commit();
   }
 
   private void setupBackground() {
@@ -168,12 +93,31 @@ public class MainActivity extends BaseActivity {
   }
 
   private void setupNavDrawer() {
+    mNavigationView.setBackgroundColor(
+        getResources().getColor(R.color.transparent_black_background));
     mNavigationView.setNavigationItemSelectedListener(new NavigationView
         .OnNavigationItemSelectedListener() {
       @Override
       public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         item.setChecked(true);
         switch (item.getItemId()) {
+          case R.id.drawer_home:
+            changeFragment(HomeFragment.newInstance());
+            break;
+          case R.id.drawer_excercises:
+            startActivity(SquareBreathingActivity.getIntent(MainActivity.this));
+            break;
+          case R.id.drawer_sequences:
+            changeFragment(SequencesListFragment.newInstance());
+            break;
+          case R.id.drawer_imaginery:
+            changeFragment(SoundSelectionFragment.newInstance(
+                SoundSelectionFragment.IMAGERY_CONSTANT));
+            break;
+          case R.id.drawer_sounds:
+            changeFragment(SoundSelectionFragment.newInstance(
+                SoundSelectionFragment.AMBIENTAL_CONSTANT));
+            break;
           default:
             break;
         }
@@ -208,7 +152,7 @@ public class MainActivity extends BaseActivity {
 
   private int getNavViewWidth() {
     int screenWidth = ViewUtils.getScreenWidth(this);
-    int actionBarHeight = getResources().getDimensionPixelSize(R.dimen.margin_from_toolbar);
+    int actionBarHeight = getResources().getDimensionPixelSize(R.dimen.actionbar_height);
     int navViewWidth = screenWidth - actionBarHeight;
     int navDrawerMaxWidth = getResources().getDimensionPixelSize(R.dimen.nav_drawer_max_width);
     return Math.min(navViewWidth, navDrawerMaxWidth);
