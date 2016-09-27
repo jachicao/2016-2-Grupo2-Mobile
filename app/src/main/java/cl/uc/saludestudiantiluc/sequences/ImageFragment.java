@@ -23,8 +23,8 @@ public class ImageFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     ViewGroup rootView = (ViewGroup) inflater.inflate(
-        R.layout.sequences_fragment_image, container, false);
-    mImageView = (ImageView) rootView.findViewById(R.id.sequenceFragmentImageView);
+        R.layout.sequences_image_fragment, container, false);
+    mImageView = (ImageView) rootView.findViewById(R.id.sequences_image_fragment_view);
     if (mImageView != null) {
       mSequencesImage = getArguments().getParcelable("SequencesImage");
       if (mSequencesImage != null) {
