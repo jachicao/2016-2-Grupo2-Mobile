@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common_design.BaseFragment;
+import cl.uc.saludestudiantiluc.common.BaseActivity;
+import cl.uc.saludestudiantiluc.common.BaseFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,17 +32,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class AuthFragment extends BaseFragment {
-  private AuthListener mListener;
-  @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
-    try {
-      Activity activity = (Activity) context;
-      mListener = (AuthListener) activity;
-    } catch (ClassCastException e) {
 
-    }
+  private static final String TAG = AuthFragment.class.getSimpleName();
+
+  private static final int AUTH_TYPE_OPTIONS = 0;
+  private static final int AUTH_TYPE_CONNECTING = 1;
+  private static final int AUTH_TYPE_LOGIN = 2;
+  private static final int AUTH_TYPE_REGISTER = 3;
+  private static final int AUTH_TYPE_DONE = 4;
+
+  interface AuthListener {
+    void onUserLoggedIn();
   }
+
+  private AuthListener mListener;
 
   public static final boolean DEVELOPER_MODE = true;
   // UI references.
@@ -60,19 +66,22 @@ public class AuthFragment extends BaseFragment {
   private boolean mAttemptingToLogin = false;
   private int mLastTypeSet = AUTH_TYPE_OPTIONS;
 
-  static final int AUTH_TYPE_OPTIONS = 0;
-  static final int AUTH_TYPE_CONNECTING = 1;
-  static final int AUTH_TYPE_LOGIN = 2;
-  static final int AUTH_TYPE_REGISTER = 3;
-  static final int AUTH_TYPE_DONE = 4;
+  private UserRepository mUserRepository;
 
-  private SharedPreferences getThisSharedPreferences() {
-    return getActivity().getSharedPreferences(getString(R.string.auth_shared_preferences), Context.MODE_PRIVATE);
+  public static Fragment newInstance() {
+    return new AuthFragment();
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mUserRepository = ((BaseActivity) getActivity()).getUserRepository();
   }
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                           @Nullable Bundle savedInstanceState) {
     mThisView = inflater.inflate(R.layout.auth_fragment, container, false);
     mCardView = mThisView.findViewById(R.id.auth_card_view);
     mEmailLayout = mThisView.findViewById(R.id.auth_email_layout);
@@ -80,8 +89,10 @@ public class AuthFragment extends BaseFragment {
     mPasswordLayout = mThisView.findViewById(R.id.auth_password_layout);
     mPasswordEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_password);
     mProgressBar = mThisView.findViewById(R.id.auth_progress_bar);
-    mPasswordConfirmEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_password_confirmation);
-    mPasswordConfirmLayout = mThisView.findViewById(R.id.auth_register_password_confirmation_layout);
+    mPasswordConfirmEditText = (TextInputEditText) mThisView.findViewById(
+        R.id.auth_register_password_confirmation);
+    mPasswordConfirmLayout = mThisView.findViewById(
+        R.id.auth_register_password_confirmation_layout);
     mLoginButton = (Button) mThisView.findViewById(R.id.auth_sign_in_button);
     mRegisterButton = (Button) mThisView.findViewById(R.id.auth_register_button);
     mRememberMeCheckBox = (CheckBox) mThisView.findViewById(R.id.auth_remember_me);
@@ -153,24 +164,21 @@ public class AuthFragment extends BaseFragment {
         return false;
       }
     });
-    String rememberMe = getThisSharedPreferences().getString(getString(R.string.auth_shared_preferences_remember_me), null);
-    if (rememberMe != null && rememberMe.equals("true")) {
-      HeaderResponse previousHeaderResponse = HeaderResponse.getPreviousInstance(getActivity(), getThisSharedPreferences());
-      if (previousHeaderResponse != null) {
-        startMainActivity();
-        return mThisView;
-      }
-    }
     show(AUTH_TYPE_OPTIONS);
     return mThisView;
   }
 
-
-  private void startMainActivity() {
-    if (mListener != null) {
-      mListener.onSignedIn(DataResponse.getPreviousInstance(getActivity(), getThisSharedPreferences()));
+  @Override
+  public void onAttach(Context context) {
+    super.onAttach(context);
+    try {
+      Activity activity = (Activity) context;
+      mListener = (AuthListener) activity;
+    } catch (ClassCastException e) {
+      throw new ClassCastException("Activity should implement AuthListener");
     }
   }
+
 
   private boolean isEmailAndPasswordCorrect() {
     mEmailEditText.setError(null);
@@ -240,7 +248,6 @@ public class AuthFragment extends BaseFragment {
         public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
           mAttemptingToRegister = false;
           RegisterResponse res = response.body();
-          res.setHeaderResponse(response.headers());
           if (res.data.errors.full_messages.size() > 0) {
             String error = "";
             for (String e : res.data.errors.full_messages) {
@@ -296,23 +303,24 @@ public class AuthFragment extends BaseFragment {
             for (String e : res.errors) {
               error += e;
             }
-            Snackbar.make(mThisView.findViewById(R.id.auth_coordinator_layout), error, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mThisView.findViewById(R.id.auth_coordinator_layout), error,
+                Snackbar.LENGTH_LONG).show();
             show(AUTH_TYPE_OPTIONS);
           } else {
-            SharedPreferences.Editor editor = getThisSharedPreferences().edit();
-            res.header.store(getActivity(), editor);
-            res.data.store(getActivity(), editor);
-            editor.putString(getString(R.string.auth_shared_preferences_remember_me), mRememberMeCheckBox.isChecked() ? "true" : "false");
-            editor.commit();
-            show(AUTH_TYPE_DONE);
-            startMainActivity();
+            mUserRepository.storeAccessToken(res.header.access_token);
+            mUserRepository.storeAccessTokenClient(res.header.client);
+            mUserRepository.storeUid(res.header.uid);
+            mUserRepository.storeUserEmail(res.data.email);
+            mUserRepository.storeUserName(res.data.name);
+            mListener.onUserLoggedIn();
           }
         }
 
         @Override
         public void onFailure(Call<LoginResponse> call, Throwable t) {
           mAttemptingToLogin = false;
-          Snackbar.make(mThisView.findViewById(R.id.auth_coordinator_layout), t.getMessage(), Snackbar.LENGTH_LONG).show();
+          Snackbar.make(mThisView.findViewById(R.id.auth_coordinator_layout), t.getMessage(),
+              Snackbar.LENGTH_LONG).show();
           show(AUTH_TYPE_OPTIONS);
         }
       });
