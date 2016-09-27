@@ -27,7 +27,8 @@
     <dimen name="square_breathing_view_size">224dp</dimen>
 
     <!-- Fragment lists. -->
-    <dimen name="fragment_recycler_card_view_height">300dp</dimen>
+    <dimen name="fragment_recycler_card_view_height">350dp</dimen>
+    <dimen name="fragment_recycler_card_view_image_height">200dp</dimen>
     <dimen name="fragment_recycler_card_view_text_margin_left_right">16dp</dimen>
 
 
