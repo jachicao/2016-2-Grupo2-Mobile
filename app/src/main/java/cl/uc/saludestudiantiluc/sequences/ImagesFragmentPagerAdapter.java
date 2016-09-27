@@ -30,10 +30,4 @@ public class ImagesFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     return mSequence != null ? mSequence.images.size() : 1;
   }
-
-  // Returns the page title for the top indicator
-  @Override
-  public CharSequence getPageTitle(int position) {
-    return (position + 1) + "";
-  }
 }

@@ -18,12 +18,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/fragment_recycler_card_view_image_height"
-                android:orientation="vertical"
                 >
                 <ImageView
                     android:layout_width="match_parent"
@@ -33,34 +31,32 @@
                     android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
                     />
-                
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_gravity="bottom"
-                    android:layout_height="50dp"
-                    android:background="@color/black_overlay"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/recycler_card_view_name"
-                    android:textSize="@dimen/card_view_title_size"
-                    android:text="titulo"
-                    android:textColor="@android:color/white"
-                    android:layout_gravity="bottom"
-                    android:layout_marginRight="@dimen/card_view_text_margin_left_right"
-                    android:layout_marginLeft="@dimen/card_view_text_margin_left_right"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    />
-
+                    android:background="@color/black_overlay">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recycler_card_view_name"
+                        android:textSize="@dimen/card_view_title_size"
+                        android:text="Titulo"
+                        android:textColor="@android:color/white"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/card_view_text_margin_reduced"
+                        android:layout_marginBottom="@dimen/card_view_text_margin_reduced"
+                        android:layout_marginLeft="@dimen/card_view_text_margin"
+                        android:layout_marginRight="@dimen/card_view_text_margin"
+                        />
+                </LinearLayout>
             </FrameLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/recycler_card_view_description"
-                android:text="descripcion"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="Descripción"
+                android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
                 android:layout_marginRight="@dimen/card_view_text_margin_left_right"
                 android:layout_marginLeft="@dimen/fragment_recycler_card_view_text_margin_left_right"
                 android:layout_marginBottom="@dimen/card_view_text_margin_top_bottom"

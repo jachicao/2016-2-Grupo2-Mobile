@@ -7,9 +7,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/sequenceFragmentImageView"
+        android:id="@+id/sequences_image_fragment_view"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         />
 
 </FrameLayout>
