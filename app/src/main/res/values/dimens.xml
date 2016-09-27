@@ -7,6 +7,8 @@
     <dimen name="card_view_elevation">4dp</dimen>
     <dimen name="card_view_corner_radius">4dp</dimen>
     <dimen name="card_view_button_margin">8dp</dimen>
+    <dimen name="card_view_text_margin_reduced">8dp</dimen>
+    <dimen name="card_view_text_margin">16dp</dimen>
     <dimen name="card_view_text_margin_top_bottom">16dp</dimen>
     <dimen name="card_view_text_margin_top_bottom_increased">24dp</dimen>
     <dimen name="card_view_text_margin_left_right">16dp</dimen>
