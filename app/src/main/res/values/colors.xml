@@ -6,6 +6,11 @@
     <color name="green">#15DDD5</color>
     <color name="dividerColor">#0C000000</color>
 
+    <color name="transparent_black_background">#66000000</color>
+
+    <color name="secondary_text_black_bg">#b3ffffff</color>
+    <color name="primarty_text_black_bg">#ffffff</color>
+
     <color name="red_50">#FFEBEE</color>
     <color name="red_100">#FFCDD2</color>
     <color name="red_200">#EF9A9A</color>

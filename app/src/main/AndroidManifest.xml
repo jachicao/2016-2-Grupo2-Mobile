@@ -21,6 +21,7 @@
         <activity android:name=".common.sounds.SoundActivity"/>
         <activity android:name=".imageries.ImageryDisplayActivity"/>
         <activity android:name=".sequences.ImagesActivity" />
+        <activity android:name=".squarebreathing.SquareBreathingActivity" />
 
         <service
             android:name=".common.sounds.SoundService"
