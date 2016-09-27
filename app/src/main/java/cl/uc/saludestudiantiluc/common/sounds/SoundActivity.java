@@ -158,7 +158,7 @@ public class SoundActivity extends AppCompatActivity {
       setMediaButtonIcon(mServiceState);
       mBound = true;
       Intent intent = getIntent();
-      int message = intent.getIntExtra(SoundService.MENSAJE_EXTRA, 0);
+      int message = intent.getIntExtra(SoundService.EXTRA_MESSAGE, 0);
 
       if (message == 1) {
         mService.onStop();
