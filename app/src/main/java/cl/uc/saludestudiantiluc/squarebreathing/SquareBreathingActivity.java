@@ -1,5 +1,7 @@
 package cl.uc.saludestudiantiluc.squarebreathing;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -7,44 +9,32 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.BaseFragment;
+import cl.uc.saludestudiantiluc.common.BaseActivity;
 
-public class SquareBreathingActivity extends BaseFragment {
+public class SquareBreathingActivity extends BaseActivity {
 
   private static final String TAG = SquareBreathingActivity.class.getSimpleName();
 
-  @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-    View rootView = inflater.inflate(R.layout.exercise_square_breathing, container, false);
-    /*
-    final BaseActivity activity = (BaseActivity)getActivity();
-    if (activity != null) {
-      ActionBar actionBar = activity.getSupportActionBar();
-      if (actionBar != null) {
-        actionBar.setTitle(R.string.square_breathing);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-      }
-      activity.getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-          activity.getSupportFragmentManager().beginTransaction().remove(SquareBreathingActivity.this).commit();
-        }
-      });
-    }
-    */
-    return rootView;
-  }
-
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_square_breathing_excercise);
+
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle(R.string.square_breathing);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+    }
+
+    getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        onBackPressed();
+      }
+    });
   }
-  /*
+
   public static Intent getIntent(Activity activity) {
     return new Intent(activity, SquareBreathingActivity.class);
   }
-  */
 }

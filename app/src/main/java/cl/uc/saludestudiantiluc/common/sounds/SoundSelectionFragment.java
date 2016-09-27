@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,6 +49,14 @@ public class SoundSelectionFragment extends BaseFragment {
       }
     }
     return null;
+  }
+
+  public static SoundSelectionFragment newInstance(String mediaOrigin) {
+    SoundSelectionFragment fragment = new SoundSelectionFragment();
+    Bundle bundle = new Bundle();
+    bundle.putString(MEDIA_ORIGIN, mediaOrigin);
+    fragment.setArguments(bundle);
+    return fragment;
   }
 
   @Nullable
