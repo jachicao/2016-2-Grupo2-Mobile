@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 public class HomeFragment extends Fragment {
 
+  public static final String TAG = HomeFragment.class.getSimpleName();
   public HomeFragment() {
     // Required empty public constructor
   }

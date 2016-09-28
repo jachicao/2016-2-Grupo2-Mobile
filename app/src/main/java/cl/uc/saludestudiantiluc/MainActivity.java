@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -19,16 +20,17 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.common.sounds.SoundSelectionFragment;
-import cl.uc.saludestudiantiluc.design.BottomSheetGridMenu;
 import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
 import cl.uc.saludestudiantiluc.utils.ViewUtils;
 
 public class MainActivity extends BaseActivity {
 
-  private static final String TAG = MainActivity.class.getSimpleName();
+  public static final String TAG = MainActivity.class.getSimpleName();
 
   private static final double NAV_DRAWER_HEADER_HEIGHT_RATIO = 9.0 / 16.0;
 
@@ -36,23 +38,40 @@ public class MainActivity extends BaseActivity {
   private NavigationView mNavigationView;
   private DrawerLayout mDrawerLayout;
   private ImageView mBackgroundView;
+  private ArrayList<String> mFragmentTags = new ArrayList<>();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    mFragmentTags.add(HomeFragment.TAG);
+    mFragmentTags.add(SequencesListFragment.TAG);
+    mFragmentTags.add(SoundSelectionFragment.TAG);
     setContentView(R.layout.activity_main);
     mBackgroundView = (ImageView) findViewById(R.id.main_background_image);
     mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
     setupBackground();
     setupNavigationDrawer();
-    changeFragment(HomeFragment.newInstance());
+    Fragment previousFragment = null;
+    String previousTag = "";
+    if (savedInstanceState != null) {
+      for(String tag : mFragmentTags) {
+        previousFragment = getSupportFragmentManager().getFragment(savedInstanceState, tag);
+        if (previousFragment != null) {
+          previousTag = tag;
+          break;
+        }
+      }
+    }
+    Fragment fragmentToOpen = previousFragment != null ? previousFragment : HomeFragment.newInstance();
+    String tagToOpen = previousFragment != null ? previousTag : HomeFragment.TAG;
+    changeFragment(fragmentToOpen, tagToOpen);
   }
 
-  private void changeFragment(@NonNull Fragment fragment) {
+  private void changeFragment(@NonNull Fragment fragment, String tag) {
     getSupportFragmentManager()
         .beginTransaction()
-        .replace(R.id.fragment_container, fragment)
+        .replace(R.id.fragment_container, fragment, tag)
         .commit();
   }
 
@@ -102,21 +121,21 @@ public class MainActivity extends BaseActivity {
         item.setChecked(true);
         switch (item.getItemId()) {
           case R.id.drawer_home:
-            changeFragment(HomeFragment.newInstance());
+            changeFragment(HomeFragment.newInstance(), HomeFragment.TAG);
             break;
           case R.id.drawer_excercises:
             startActivity(SquareBreathingActivity.getIntent(MainActivity.this));
             break;
           case R.id.drawer_sequences:
-            changeFragment(SequencesListFragment.newInstance());
+            changeFragment(SequencesListFragment.newInstance(), SequencesListFragment.TAG);
             break;
           case R.id.drawer_imaginery:
             changeFragment(SoundSelectionFragment.newInstance(
-                SoundSelectionFragment.IMAGERY_CONSTANT));
+                SoundSelectionFragment.IMAGERY_CONSTANT), SoundSelectionFragment.TAG);
             break;
           case R.id.drawer_sounds:
             changeFragment(SoundSelectionFragment.newInstance(
-                SoundSelectionFragment.AMBIENTAL_CONSTANT));
+                SoundSelectionFragment.AMBIENTAL_CONSTANT), SoundSelectionFragment.TAG);
             break;
           default:
             break;
@@ -160,5 +179,35 @@ public class MainActivity extends BaseActivity {
 
   public static Intent getIntent(Activity callerActivity) {
     return new Intent(callerActivity, MainActivity.class);
+  }
+
+  @Override
+  public void onBackPressed() {
+    FragmentManager fManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fManager.beginTransaction();
+    boolean bool = false;
+    for(String tag : mFragmentTags) {
+      Fragment fragment = fManager.findFragmentByTag(tag);
+      if (fragment != null && fragment.isVisible()) {
+        fragmentTransaction.remove(fragment);
+        fragmentTransaction.commitAllowingStateLoss();
+        bool = true;
+      }
+    }
+    if (!bool) {
+      super.onBackPressed();
+    }
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    for(String tag : mFragmentTags) {
+      Fragment fragment = fragmentManager.findFragmentByTag(tag);
+      if (fragment != null && fragment.isVisible()) {
+        fragmentManager.putFragment(outState, tag, fragment);
+      }
+    }
   }
 }
