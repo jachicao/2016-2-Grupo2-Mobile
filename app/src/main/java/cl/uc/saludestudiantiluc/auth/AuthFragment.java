@@ -396,11 +396,4 @@ public class AuthFragment extends BaseFragment {
         break;
     }
   }
-
-  @Override
-  public void onBackPressed() {
-    if (mLastTypeSet == AUTH_TYPE_REGISTER || mLastTypeSet == AUTH_TYPE_LOGIN) {
-      show(AUTH_TYPE_OPTIONS);
-    }
-  }
 }

@@ -52,8 +52,6 @@ public class SoundSelectionFragment extends BaseFragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mSoundsRepository = ((BaseActivity) getActivity()).getRelaxUcApplication()
-        .getSoundsRepository();
   }
 
   @Nullable
@@ -79,8 +77,15 @@ public class SoundSelectionFragment extends BaseFragment {
     mRecyclerView.setLayoutManager(mLayoutManager);
     mAdapter = new SoundSelectionAdapter(mImageries, mParent);
     mRecyclerView.setAdapter(mAdapter);
-    downloadJson();
     return mThisView;
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    mSoundsRepository = ((BaseActivity) getActivity()).getRelaxUcApplication()
+        .getSoundsRepository();
+    downloadJson();
   }
 
   @Override

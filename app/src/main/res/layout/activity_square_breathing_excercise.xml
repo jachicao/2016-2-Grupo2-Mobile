@@ -6,6 +6,11 @@
         android:layout_height="match_parent"
         tools:context="cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity">
 
+    <ImageView
+        android:id="@+id/main_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>

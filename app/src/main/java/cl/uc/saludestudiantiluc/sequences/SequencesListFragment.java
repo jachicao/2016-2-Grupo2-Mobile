@@ -38,13 +38,6 @@ public class SequencesListFragment extends BaseFragment {
     return new SequencesListFragment();
   }
 
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mSequencesRepository = ((BaseActivity) getActivity()).getRelaxUcApplication()
-        .getSequencesRepository();
-  }
-
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater,
@@ -64,11 +57,17 @@ public class SequencesListFragment extends BaseFragment {
     mRecyclerView.setAdapter(mAdapter);
     BitmapManager.setFilesDir(getActivity().getFilesDir());
     BitmapManager.setContext(getActivity().getApplicationContext());
-    getSequences();
 
     return mThisView;
   }
 
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    mSequencesRepository = ((BaseActivity) getActivity()).getRelaxUcApplication()
+        .getSequencesRepository();
+    getSequences();
+  }
 
   private void getSequences() {
     mSequencesRepository.getSequences()
@@ -99,7 +98,6 @@ public class SequencesListFragment extends BaseFragment {
   public void loadSequence(Sequence sequence) {
     if (!mTryingToLoadSequence && sequence != null) {
       mTryingToLoadSequence = true;
-      dismiss();
       Intent intent = new Intent(getActivity(), ImagesActivity.class);
       intent.putExtra(getString(R.string.sequences_parcelable_name), sequence);
       startActivity(intent);
