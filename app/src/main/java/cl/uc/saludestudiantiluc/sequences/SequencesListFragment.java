@@ -27,6 +27,7 @@ import retrofit2.Response;
 
 public class SequencesListFragment extends BaseFragment {
 
+  public static final String TAG = SequencesListFragment.class.getSimpleName();
   private boolean mListLoaded = false;
 
   private boolean mTryingToLoadSequence = false;
