@@ -4,15 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer"
+    android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/main_background">
+    android:fitsSystemWindows="true">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/main_background_image"
+            android:scaleType="centerCrop"/>
 
         <include
             android:id="@+id/toolbar"
@@ -22,14 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/fragment_container"
-            android:layout_marginTop="@dimen/actionbar_height">
+            android:layout_marginTop="@dimen/actionbar_height" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="hola"/>
 
-        </FrameLayout>
     </FrameLayout>
 
     <android.support.design.widget.NavigationView
@@ -37,6 +38,9 @@
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
         android:layout_gravity="start"
-        app:menu="@menu/drawer"/>
+        app:menu="@menu/drawer"
+        app:itemTextColor="@color/nav_drawer_item_text_selector"
+        app:itemIconTint="@color/nav_drawer_item_text_selector"
+        />
 
 </android.support.v4.widget.DrawerLayout>
