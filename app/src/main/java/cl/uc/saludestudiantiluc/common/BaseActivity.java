@@ -43,7 +43,12 @@ public class BaseActivity extends AppCompatActivity {
     return mToolbar;
   }
 
+  public RelaxUcApplication getRelaxUcApplication() {
+    return mRelaxUcApplication;
+  }
+
   public UserRepository getUserRepository() {
     return mRelaxUcApplication.getUserRepository();
   }
+
 }

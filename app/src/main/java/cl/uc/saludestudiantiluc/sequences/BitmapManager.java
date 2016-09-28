@@ -16,6 +16,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
+import cl.uc.saludestudiantiluc.sequences.data.SequencesApi;
+
 /**
  * Created by jchicao on 15-09-16.
  */
