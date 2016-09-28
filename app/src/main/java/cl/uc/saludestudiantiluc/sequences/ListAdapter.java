@@ -15,15 +15,20 @@ import cl.uc.saludestudiantiluc.R;
 /**
  * Created by jchicao on 15-09-16.
  */
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
+class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
+
+  public interface CardViewListener {
+    void onClick(Sequence sequence);
+  }
+
   private List<Sequence> mSequences;
   private CardViewListener mCardViewListener;
 
-  public ListAdapter(List<Sequence> sequences, CardViewListener cardViewListener) {
+  ListAdapter(List<Sequence> sequences, CardViewListener cardViewListener) {
     mSequences = sequences;
     mCardViewListener = cardViewListener;
   }
-  public static class ListHolder extends RecyclerView.ViewHolder {
+  static class ListHolder extends RecyclerView.ViewHolder {
     private CardView mCardView;
     private TextView mName;
     private TextView mDescription;
@@ -31,7 +36,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     private Sequence mSequence;
     private CardViewListener mCardViewListener;
 
-    public ListHolder(View itemView) {
+    ListHolder(View itemView) {
       super(itemView);
       mCardView = (CardView) itemView.findViewById(R.id.recycler_card_view);
       mName = (TextView) itemView.findViewById(R.id.recycler_card_view_name);
@@ -46,7 +51,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         }
       });
     }
-    public void setListener(CardViewListener cardViewListener) {
+
+    void setListener(CardViewListener cardViewListener) {
       mCardViewListener = cardViewListener;
     }
 
@@ -54,7 +60,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
       mSequence = sequence;
     }
 
-    public void setView() {
+    void setView() {
       if (mSequence != null) {
         mName.setText(mSequence.name);
         mDescription.setText(mSequence.description);
@@ -89,7 +95,4 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
   public void onAttachedToRecyclerView(RecyclerView recyclerView) {
     super.onAttachedToRecyclerView(recyclerView);
   }
-}
-interface CardViewListener {
-  void onClick(Sequence sequence);
 }
