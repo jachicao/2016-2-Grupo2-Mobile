@@ -25,8 +25,6 @@ public class SequencesListFragment extends BaseFragment {
   
   public static final String TAG = SequencesListFragment.class.getSimpleName();
 
-  private boolean mListLoaded = false;
-
   private boolean mTryingToLoadSequence = false;
 
   private List<Sequence> mSequences = new ArrayList<>();
@@ -49,13 +47,15 @@ public class SequencesListFragment extends BaseFragment {
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater,
+                           @Nullable ViewGroup container,
+                           @Nullable Bundle savedInstanceState) {
     mThisView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
     mRecyclerView = (RecyclerView) mThisView.findViewById(R.id.fragment_recycler_view);
     mRecyclerView.setHasFixedSize(true);
     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
     mRecyclerView.setLayoutManager(mLayoutManager);
-    mAdapter = new ListAdapter(mSequences, new CardViewListener() {
+    mAdapter = new ListAdapter(mSequences, new ListAdapter.CardViewListener() {
       @Override
       public void onClick(Sequence sequence) {
         loadSequence(sequence);

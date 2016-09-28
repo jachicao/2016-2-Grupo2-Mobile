@@ -6,15 +6,11 @@ import android.support.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.sequences.Sequence;
+import cl.uc.saludestudiantiluc.utils.JsonStoreUtils;
 import rx.Observable;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
@@ -40,19 +36,11 @@ public class SequencesLocalDataStore implements SequencesDataStore {
     return Observable.defer(new Func0<Observable<List<Sequence>>>() {
       @Override
       public Observable<List<Sequence>> call() {
-        File cacheFile = new File(mContext.getCacheDir(), JSON_FILENAME);
         List<Sequence> sequences = null;
         try {
-          FileInputStream fileInputStream = new FileInputStream(cacheFile);
-          BufferedReader bufferedReader = new BufferedReader(
-              new InputStreamReader(fileInputStream));
-          String line = "";
-          StringBuilder jsonBuilder = new StringBuilder();
-          while ((line = bufferedReader.readLine()) != null) {
-            jsonBuilder.append(line);
-          }
-          fileInputStream.close();
-          sequences = mGson.fromJson(jsonBuilder.toString(),
+          String jsonSequences = JsonStoreUtils.readJsonStringFromFile(mContext.getCacheDir(),
+              JSON_FILENAME);
+          sequences = mGson.fromJson(jsonSequences,
               new TypeToken<List<Sequence>>() {}.getType());
         } catch (IOException e) {
           e.printStackTrace();
@@ -65,13 +53,8 @@ public class SequencesLocalDataStore implements SequencesDataStore {
 
   void storeSequences(List<Sequence> sequences) {
     final String json = mGson.toJson(sequences);
-
-    File cacheFile = new File(mContext.getCacheDir(), JSON_FILENAME);
-
     try {
-      FileOutputStream outputStream = new FileOutputStream(cacheFile);
-      outputStream.write(json.getBytes());
-      outputStream.close();
+      JsonStoreUtils.storeJsonToFile(mContext.getCacheDir(), JSON_FILENAME, json);
     } catch (IOException e) {
       e.printStackTrace();
     }
