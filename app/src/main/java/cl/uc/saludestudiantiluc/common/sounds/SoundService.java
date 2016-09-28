@@ -1,5 +1,6 @@
 package cl.uc.saludestudiantiluc.common.sounds;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -13,6 +14,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import cl.uc.saludestudiantiluc.MainActivity;
@@ -33,10 +35,8 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   public static final String STOP_STATE = "stopped";
   public static final String PAUSE_STATE = "paused";
   public static final String SWIPE_STATE = "swipped";
-  public static final String CLOSE_STATE = "closed";
   public static final String NOTIFICATION_MESSAGE = "SoundNotificationMessage";
   public static final int MESSAGE_START_STOP = 1;
-  public static final int MESSAGE_CLOSE = 2;
   public static final int MESSAGE_SWIPE = 3;
   private String mCurrentSound;
   private Sound mPlayingSound;
@@ -68,10 +68,6 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
           String action = intent.getAction();
           if (action.equals(SWIPE_STATE)) {
             Log.v("SoundService", "swipe");
-            unregisterReceiver(this);
-            onDelete();
-          } else if (action.equals(CLOSE_STATE)) {
-            Log.v("SoundService", "close");
             unregisterReceiver(this);
             onDelete();
           } else if (action.equals(PAUSE_STATE)) {
@@ -192,30 +188,39 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
       contentView = new RemoteViews(getPackageName(), R.layout.sound_notification_collapsed);
       contentView.setImageViewResource(R.id.sound_notification_icon, R.drawable.ic_headset_black_24dp);
       contentView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_pause_black_24dp);
-      contentView.setImageViewResource(R.id.sound_notification_close, R.drawable.ic_close_black_24dp);
       contentView.setImageViewResource(R.id.sound_notification_previous, R.drawable.ic_skip_previous_black_24dp);
       contentView.setImageViewResource(R.id.sound_notification_next, R.drawable.ic_skip_next_black_24dp);
       contentView.setImageViewResource(R.id.sound_notification_thumbnail, R.drawable.ic_library_music_black_24dp);
 
+      // TEMPORARY REMOVAL OF PREVIOUS / NEXT BUTTONS
+      contentView.setViewVisibility(R.id.sound_notification_previous, View.INVISIBLE);
+      contentView.setViewVisibility(R.id.sound_notification_next, View.INVISIBLE);
+
+      RemoteViews expandedView = new RemoteViews(getPackageName(), R.layout.sound_notification_expanded);
+      expandedView.setImageViewResource(R.id.sound_notification_icon, R.drawable.ic_headset_black_24dp);
+      expandedView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_pause_black_24dp);
+      expandedView.setImageViewResource(R.id.sound_notification_previous, R.drawable.ic_skip_previous_black_24dp);
+      expandedView.setImageViewResource(R.id.sound_notification_next, R.drawable.ic_skip_next_black_24dp);
+      expandedView.setImageViewResource(R.id.sound_notification_thumbnail, R.drawable.ic_library_music_black_24dp);
+
+      // TEMPORARY REMOVAL OF PREVIOUS / NEXT BUTTONS
+      expandedView.setViewVisibility(R.id.sound_notification_previous, View.INVISIBLE);
+      expandedView.setViewVisibility(R.id.sound_notification_next, View.INVISIBLE);
+
+
       Intent notificationIntent = new Intent(this, MainActivity.class);
       PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
+
       mNotifyBuilder = new NotificationCompat.Builder(this)
           .setContent(contentView)
-          //.setCustomBigContentView(contentView)
-          //.setOngoing(true)
-          .setSmallIcon(R.drawable.ic_headset_black_24dp)
-      ;
+          .setSmallIcon(R.drawable.ic_headset_black_24dp);
 
       mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
       //Pause event
       registerReceiver(mReceiver, new IntentFilter(PAUSE_STATE));
       contentView.setOnClickPendingIntent(R.id.sound_notification_play_and_pause, PendingIntent.getBroadcast(this, MESSAGE_START_STOP, new Intent(PAUSE_STATE), 0));
-
-      //Close event
-      registerReceiver(mReceiver, new IntentFilter(CLOSE_STATE));
-      contentView.setOnClickPendingIntent(R.id.sound_notification_close, PendingIntent.getBroadcast(this, MESSAGE_CLOSE, new Intent(CLOSE_STATE), 0));
 
       //Swipe event
       registerReceiver(mReceiver, new IntentFilter(SWIPE_STATE));
