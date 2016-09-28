@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import cl.uc.saludestudiantiluc.R;
+import me.relex.circleindicator.CircleIndicator;
 
 public class ImagesActivity extends FragmentActivity {
   private ViewPager mPager;
@@ -24,8 +25,10 @@ public class ImagesActivity extends FragmentActivity {
       Sequence sequence = extras.getParcelable(getString(R.string.sequences_parcelable_name));
       if (sequence != null) {
         mPager = (ViewPager) findViewById(R.id.sequences_view_pager);
+        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.sequences_view_pager_circle_indicator);
         mPagerAdapter = new ImagesFragmentPagerAdapter(getSupportFragmentManager(), sequence);
         mPager.setAdapter(mPagerAdapter);
+        indicator.setViewPager(mPager);
         int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_FULLSCREEN;
