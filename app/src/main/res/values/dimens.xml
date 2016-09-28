@@ -1,5 +1,20 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <dimen name="recycler_view_margin_left_right">8dp</dimen>
+
+    <!-- CardView. -->
+    <dimen name="card_view_elevation">4dp</dimen>
+    <dimen name="card_view_corner_radius">4dp</dimen>
+    <dimen name="card_view_button_margin">8dp</dimen>
+    <dimen name="card_view_text_margin_reduced">8dp</dimen>
+    <dimen name="card_view_text_margin">16dp</dimen>
+    <dimen name="card_view_text_margin_top_bottom">16dp</dimen>
+    <dimen name="card_view_text_margin_top_bottom_increased">24dp</dimen>
+    <dimen name="card_view_text_margin_left_right">16dp</dimen>
+    <dimen name="card_view_title_size">30sp</dimen>
+    <dimen name="card_view_subtitle_size">14sp</dimen>
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
@@ -13,10 +28,31 @@
     <dimen name="square_breathing_circle_margin">16dp</dimen>
     <dimen name="square_breathing_view_size">224dp</dimen>
 
+    <!-- Fragment lists. -->
+    <dimen name="fragment_recycler_card_view_height">350dp</dimen>
+    <dimen name="fragment_recycler_card_view_image_height">200dp</dimen>
+    <dimen name="fragment_recycler_card_view_text_margin_left_right">16dp</dimen>
+
+
+    <!-- Auth. -->
+    <dimen name="auth_card_view_width">320dp</dimen>
+    <dimen name="auth_card_view_bottom_margin_left_right">20dp</dimen>
+
+
     <dimen name="divider_height">1dp</dimen>
 
     <dimen name="spacing_normal">8dp</dimen>
 
     <!-- Text size -->
     <dimen name="display_1">34sp</dimen>
+
+
+    <style name="floating_action_button">
+        <item name="android:layout_margin">24dp</item>
+        <item name="android:elevation" tools:targetApi="21">4dp</item>
+        <!-->
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">56dp</item>
+        </-->
+    </style>
 </resources>

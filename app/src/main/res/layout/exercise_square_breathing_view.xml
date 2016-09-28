@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/square_breathing_view_size"
+    android:layout_height="@dimen/square_breathing_view_size"
+    >
+
+    <TextView
+        android:id="@+id/square_breathing_action_textview"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:textAlignment="center"
+        android:elevation="4dp"
+        android:text="@string/square_breathing_inhale"
+        android:layout_gravity="center"
+        android:textSize="@dimen/display_1"
+        android:textColor="#ffffff"
+        android:shadowColor="#000"
+        android:shadowRadius="10"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top">
+
+        <View
+            android:id="@+id/square_breathing_hold_air_first"
+            android:layout_width="@dimen/square_breathing_circle_radius_big"
+            android:layout_height="@dimen/square_breathing_circle_radius_big"
+            android:background="@drawable/circle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"/>
+
+        <View
+            android:id="@+id/square_breathing_hold_air_second"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_hold_air_third"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_hold_air_fourth"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/square_breathing_circle_margin"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/square_breathing_exhale_first"
+            android:layout_width="@dimen/square_breathing_circle_radius_big"
+            android:layout_height="@dimen/square_breathing_circle_radius_big"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_horizontal" />
+
+        <View
+            android:id="@+id/square_breathing_exhale_second"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_exhale_third"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_exhale_fourth"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/square_breathing_circle_margin"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/square_breathing_hold_without_fourth"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_hold_without_third"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_hold_without_second"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_hold_without_first"
+            android:layout_width="@dimen/square_breathing_circle_radius_big"
+            android:layout_height="@dimen/square_breathing_circle_radius_big"
+            android:background="@drawable/circle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/square_breathing_inhale_fourth"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_inhale_third"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_inhale_second"
+            android:layout_width="@dimen/square_breathing_circle_radius_small"
+            android:layout_height="@dimen/square_breathing_circle_radius_small"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/square_breathing_circle_margin"/>
+
+        <View
+            android:id="@+id/square_breathing_inhale_first"
+            android:layout_width="@dimen/square_breathing_circle_radius_big"
+            android:layout_height="@dimen/square_breathing_circle_radius_big"
+            android:background="@drawable/circle"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+</FrameLayout>

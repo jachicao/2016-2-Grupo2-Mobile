@@ -1,22 +1,18 @@
 package cl.uc.saludestudiantiluc;
 
-
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Created by lukas on 9/27/16.
  */
+
 public class HomeFragment extends Fragment {
 
-
+  public static final String TAG = HomeFragment.class.getSimpleName();
   public HomeFragment() {
     // Required empty public constructor
   }
@@ -40,5 +36,4 @@ public class HomeFragment extends Fragment {
     //fab.getBackground().setColorFilter(getResources().getColor(android.R.color.white), PorterDuff.Mode.SRC_ATOP);
     return view;
   }
-
 }

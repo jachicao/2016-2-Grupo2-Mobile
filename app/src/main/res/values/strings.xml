@@ -1,34 +1,77 @@
 <resources>
     <string name="app_name">RelaxUC</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="download">Descargar</string>
+    <string name="failed_download_json">"Ocurrió un error al conectarse con el servidor."</string>
 
-    <!-- Square breathing strings -->
+    <!-- Square breathing -->
     <string name="square_breathing_inhale">Inhala</string>
     <string name="square_breathing_exhale">Exhala</string>
     <string name="square_breathing_hold">Manten</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+
+    <string name="main_menu_sequences">Secuencias</string>
+    <string name="main_menu_exercises">Ejercicios de relajación</string>
+    <string name="main_menu_ambient_sounds">Naturaleza</string>
+    <string name="main_menu_imaginary">Imaginerías</string>
+
     <string name="drawer_home">Inicio</string>
-    <string name="drawer_sequences">Secuencias</string>
-    <string name="drawer_exercises">Ejercicios de relajación</string>
-    <string name="drawer_ambient_sounds">Sonidos ambientales</string>
-    <string name="drawer_imaginary">Imaginerías</string>
+    <string name="drawer_profile">Configuración</string>
+    <string name="drawer_request_appointment">Solicitar cita</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar menu</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="home_start_now">Comenzar</string>
+    <!-- Auth -->
+    <string name="auth_shared_preferences">Auth</string>
+    <string name="auth_shared_preferences_remember_me">RememberMe</string>
+    <string name="auth_shared_preferences_header_access_token">access-token</string>
+    <string name="auth_shared_preferences_header_client">client</string>
+    <string name="auth_shared_preferences_header_uid">uid</string>
+    <string name="auth_shared_preferences_data_email">email</string>
+    <string name="auth_shared_preferences_data_uid">uid</string>
+    <string name="auth_shared_preferences_data_name">name</string>
+    <string name="auth_shared_preferences_data_nickname">nickname</string>
+    <string name="auth_shared_preferences_data_image">image</string>
+    <string name="auth_data_parcelable_name">DataResponse</string>
+    <string name="auth_email">Correo UC</string>
+    <string name="auth_password">Contraseña</string>
+    <string name="auth_password_confirmation">Confirma la contraseña</string>
+    <string name="auth_remember_me">Recuerdame</string>
+    <string name="auth_login">Ingresar</string>
+    <string name="auth_register">Registrar</string>
+    <string name="auth_error_invalid_email">El email es invalido</string>
+    <string name="auth_error_invalid_password">La contraseña es muy corta</string>
+    <string name="auth_error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="auth_error_incorrect_password_confirmation">Las contraseñas deben ser iguales</string>
+    <string name="auth_error_field_required">Este campo es requerido</string>
+    <string name="auth_confirmation_email">Se envió un email de confirmación a tu correo. Sigue las instrucciones para que seas activado/a.</string>
+    <string name="auth_confirmation_ok">Entiendo</string>
+    <string name="auth_welcome_message">"Bienvenido a RelaxUC, %1$s.</string>
+
+    <!-- Sequences -->
+    <string name="sequences">Secuencias</string>
+    <string name="sequences_folder">"Sequences/"</string>
+    <string name="sequences_shared_preferences">"Sequences"</string>
+    <string name="sequences_shared_preferences_json">"Json"</string>
+    <string name="sequences_parcelable_name">"Sequence"</string>
+    <string name="sequences_cancel_confirmation">"¿Estás seguro/a que quieres cancelar el ejercicio?"</string>
+    <string name="sequences_cancel_confirmation_cancel">"Si"</string>
+    <string name="sequences_cancel_confirmation_revert">"No"</string>
+
+    <!--Sounds -->
+    <string name="saved_sound_state">Sound state</string>
+    <string name="start_sound_button">Playing</string>
+    <string name="stop_sound_button">Stopped</string>
+    <string name="pause_sound_button">Paused</string>
+
+    <!-- Imagery -->
+    <string name="more_imagery">Más imaginerías</string>
+    <string name="imagery_button_constant">Imagery</string>
+    <string name="ambiental_sound_button_constant">Ambiental</string>
+    <string name="title_activity_imagery_display">ImageryDisplayActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="home_start_now">Comenzar a relajarme</string>
     <string name="square_breathing">Respiración cuadrada</string>
 </resources>

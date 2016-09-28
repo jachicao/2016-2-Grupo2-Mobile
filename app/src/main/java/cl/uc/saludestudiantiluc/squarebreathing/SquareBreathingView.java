@@ -9,7 +9,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -76,7 +75,7 @@ public class SquareBreathingView extends FrameLayout {
     mHighlightColour = context.getResources().getColor(R.color.colorPrimary);
     mCircleColour = context.getResources().getColor(android.R.color.white);
 
-    LayoutInflater.from(context).inflate(R.layout.view_square_breathing, this, true);
+    View view = LayoutInflater.from(context).inflate(R.layout.exercise_square_breathing_view, this, true);
 
     mInhaleViews = new View[VIEWS_PER_ACTION];
     mHoldAirViews = new View[VIEWS_PER_ACTION];
