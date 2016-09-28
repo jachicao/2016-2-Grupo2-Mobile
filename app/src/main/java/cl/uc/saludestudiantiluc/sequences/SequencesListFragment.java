@@ -64,13 +64,13 @@ public class SequencesListFragment extends BaseFragment {
     mRecyclerView.setAdapter(mAdapter);
     BitmapManager.setFilesDir(getActivity().getFilesDir());
     BitmapManager.setContext(getActivity().getApplicationContext());
-    downloadJson();
+    getSequences();
 
     return mThisView;
   }
 
 
-  private void downloadJson() {
+  private void getSequences() {
     mSequencesRepository.getSequences()
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<List<Sequence>>() {

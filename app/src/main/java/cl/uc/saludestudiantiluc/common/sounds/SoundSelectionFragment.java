@@ -1,55 +1,45 @@
 package cl.uc.saludestudiantiluc.common.sounds;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+
 import android.support.v4.app.FragmentActivity;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.R;
+import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.common.BaseFragment;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import cl.uc.saludestudiantiluc.common.sounds.data.SoundsRepository;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class SoundSelectionFragment extends BaseFragment {
 
+
   public static final String TAG = SoundSelectionFragment.class.getSimpleName();
-  private View mThisView;
-  private RecyclerView mRecyclerView;
-  private List<Sound> mImageries = new ArrayList<>();
-  private boolean mListLoaded = false;
-  private String mParent;
-  private Call<List<Sound>> mCallInstance;
+
   public static final String MEDIA_ORIGIN = "Origin";
   public static final String IMAGERY_CONSTANT = "Imagery";
   public static final String AMBIENTAL_CONSTANT = "Ambiental";
 
-  public SharedPreferences getThisSharedPreferences() {
-    FragmentActivity activity = getActivity();
-    if (activity != null) {
-      SharedPreferences shared = activity.getSharedPreferences("sounds", Context.MODE_PRIVATE);
-      if (shared != null) {
-        return shared;
-      }
-    }
-    return null;
-  }
+  private View mThisView;
+  private RecyclerView mRecyclerView;
+  private List<Sound> mImageries = new ArrayList<>();
+  private String mParent;
+
+  private SoundSelectionAdapter mAdapter;
+
+  private SoundsRepository mSoundsRepository;
 
   public static SoundSelectionFragment newInstance(String mediaOrigin) {
     SoundSelectionFragment fragment = new SoundSelectionFragment();
@@ -59,9 +49,17 @@ public class SoundSelectionFragment extends BaseFragment {
     return fragment;
   }
 
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mSoundsRepository = ((BaseActivity) getActivity()).getRelaxUcApplication()
+        .getSoundsRepository();
+  }
+
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                           @Nullable Bundle savedInstanceState) {
     mThisView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
@@ -79,64 +77,10 @@ public class SoundSelectionFragment extends BaseFragment {
     mRecyclerView.setHasFixedSize(true);
     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
     mRecyclerView.setLayoutManager(mLayoutManager);
+    mAdapter = new SoundSelectionAdapter(mImageries, mParent);
+    mRecyclerView.setAdapter(mAdapter);
     downloadJson();
     return mThisView;
-  }
-
-  private void downloadJson() {
-    final Gson gson = new GsonBuilder()
-        .create();
-
-    Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl(SoundApi.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build();
-    SoundApi apiInstance = retrofit.create(SoundApi.class);
-    if (mParent.equals(IMAGERY_CONSTANT)) {
-      mCallInstance = apiInstance.getImagerySoundList();
-    } else if (mParent.equals(AMBIENTAL_CONSTANT)) {
-      mCallInstance = apiInstance.getAmbientalSoundList();
-    }
-    mCallInstance.enqueue(new Callback<List<Sound>>() {
-      @Override
-      public void onResponse(Call<List<Sound>> call, Response<List<Sound>> response) {
-        if (response.isSuccessful()) {
-          SharedPreferences shared = getThisSharedPreferences();
-          if (shared != null) {
-            SharedPreferences.Editor editor = shared.edit();
-            editor.putString("json", gson.toJson(response.body()));
-            editor.commit();
-          }
-        }
-        loadImageries();
-      }
-
-      @Override
-      public void onFailure(Call<List<Sound>> call, Throwable t) {
-        Snackbar.make(mThisView.findViewById(R.id.fragment_recycler_view_coordinator_layout), getString(R.string.failed_download_json), Snackbar.LENGTH_SHORT).show();
-        loadImageries();
-      }
-    });
-  }
-
-  private void loadImageries() {
-    if (!mListLoaded) {
-      SharedPreferences shared = getThisSharedPreferences();
-      if (shared != null) {
-        String json = getThisSharedPreferences().getString("json", null);
-        if (json != null) {
-          Gson gson = new Gson();
-          List<Sound> imageries = gson.fromJson(json, new TypeToken<List<Sound>>() {
-          }.getType());
-          if (imageries != null) {
-            mImageries = imageries;
-          }
-          RecyclerView.Adapter mAdapter = new SoundSelectionAdapter(mImageries, mParent);
-          mRecyclerView.setAdapter(mAdapter);
-          mListLoaded = true;
-        }
-      }
-    }
   }
 
   @Override
@@ -144,6 +88,31 @@ public class SoundSelectionFragment extends BaseFragment {
     savedInstanceState.putString(MEDIA_ORIGIN, mParent);
     // Always call the superclass so it can save the view hierarchy state
     super.onSaveInstanceState(savedInstanceState);
+  }
+
+  private void downloadJson() {
+    Observable<List<Sound>> observable = mParent.equals(IMAGERY_CONSTANT)
+        ? mSoundsRepository.getImagerySoundList() : mSoundsRepository.getAmbientalSoundList();
+    observable.observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<List<Sound>>() {
+          @Override
+          public void onCompleted() {
+
+          }
+
+          @Override
+          public void onError(Throwable e) {
+            Snackbar.make(mThisView.findViewById(R.id.fragment_recycler_view_coordinator_layout),
+                getString(R.string.failed_download_json), Snackbar.LENGTH_SHORT).show();
+          }
+
+          @Override
+          public void onNext(List<Sound> sounds) {
+            mImageries.clear();
+            mImageries.addAll(sounds);
+            mAdapter.notifyDataSetChanged();
+          }
+        });
   }
 
 
