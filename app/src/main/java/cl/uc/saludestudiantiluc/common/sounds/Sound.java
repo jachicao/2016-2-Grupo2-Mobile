@@ -7,10 +7,12 @@ import android.os.Parcelable;
  * Created by camilo on 15-09-16.
  */
 public class Sound implements Parcelable {
-  private int id = 0;
-  private String name = "";
-  private String description = "";
-  private String type = "";
+  public int id = 0;
+  public String name = "";
+  public String description = "";
+  public String type = "";
+  public String preview = "";
+  public String sound = "";
   private int duration = 0;
 
 
@@ -22,32 +24,20 @@ public class Sound implements Parcelable {
     this.duration = duration;
   }
 
-  @Override
-  public int describeContents() {
-    return 0;
-  }
-
-  @Override
-  public void writeToParcel(Parcel dest, int flags) {
-    dest.writeInt(this.id);
-    dest.writeString(this.name);
-    dest.writeString(this.description);
-    dest.writeString(this.type);
-    dest.writeInt(this.duration);
-  }
-
   protected Sound(Parcel in) {
-    this.id = in.readInt();
-    this.name = in.readString();
-    this.description = in.readString();
-    this.type = in.readString();
-    this.duration = in.readInt();
+    id = in.readInt();
+    name = in.readString();
+    description = in.readString();
+    type = in.readString();
+    preview = in.readString();
+    sound = in.readString();
+    duration = in.readInt();
   }
 
   public static final Creator<Sound> CREATOR = new Creator<Sound>() {
     @Override
-    public Sound createFromParcel(Parcel source) {
-      return new Sound(source);
+    public Sound createFromParcel(Parcel in) {
+      return new Sound(in);
     }
 
     @Override
@@ -56,19 +46,23 @@ public class Sound implements Parcelable {
     }
   };
 
-  public String getName() {
-    return name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
   public String getType() {
     return type;
   }
 
-  public int getDuration() {
-    return duration;
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeInt(id);
+    dest.writeString(name);
+    dest.writeString(description);
+    dest.writeString(type);
+    dest.writeString(preview);
+    dest.writeString(sound);
+    dest.writeInt(duration);
   }
 }

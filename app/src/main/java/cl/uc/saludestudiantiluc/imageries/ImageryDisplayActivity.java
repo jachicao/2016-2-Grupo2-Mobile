@@ -59,7 +59,7 @@ public class ImageryDisplayActivity extends SoundActivity {
     rLSeekBarParams.addRule(RelativeLayout.ABOVE, R.id.sound_activity_stop);
     relativeLayout.addView(mSeekBar, rLSeekBarParams);
     Sound sound = getSound();
-    if (sound.getName().equals("Imagery")) {
+    if (sound.name.equals("Imagery")) {
       MediaPlayer mAuxPlayer = MediaPlayer.create(this, R.raw.imagineria);
       mSeekBar.setMax(mAuxPlayer.getDuration());
       mAuxPlayer.release();
