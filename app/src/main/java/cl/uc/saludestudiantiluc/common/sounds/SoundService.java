@@ -151,7 +151,7 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
     mIsReleased = false;
     mState = START_STATE;
     String url = "http://www.soundjay.com/nature/sounds/rain-01.mp3"; // your URL here
-    nName = mPlayingSound.getName();
+    nName = mPlayingSound.name;
     nDuration = "1:30";
   }
 

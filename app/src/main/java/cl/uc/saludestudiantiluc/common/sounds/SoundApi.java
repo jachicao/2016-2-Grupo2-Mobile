@@ -12,15 +12,12 @@ import retrofit2.http.Path;
  */
 public interface SoundApi {
 
-  public static final String BASE_URL = "http://private-6d312d-sound.apiary-mock.com";
+  String BASE_URL = "https://raw.githubusercontent.com/jachicao/Testing/master/";
 
-  @GET("/imagery")
+  @GET("imagery.json")
   Call<List<Sound>> getImagerySoundList();
 
-  @GET("/ambiental")
+  @GET("ambiental.json")
   Call<List<Sound>> getAmbientalSoundList();
-
-  @GET("sounds/{soundId}")
-  Call<Sound> getSound(@Path("soundId") String soundId);
 
 }
