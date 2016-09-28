@@ -6,14 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.ViewManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.VideoView;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.sounds.SoundActivity;
@@ -25,33 +19,15 @@ public class ImageryDisplayActivity extends SoundActivity {
   private MediaPlayer mPlayer;
   private SeekBar mSeekBar;
   private final Handler mHandler = new Handler();
-  private ImageView mImageView;
-  private Animation mFadeIn;
-  private Animation mFadeOut;
-  private FrameLayout frameLayout;
   private RelativeLayout relativeLayout;
   private Runnable notification;
-  private int count = 0;
   private int delayMilis = 500;
-  private int firstImageConstant = 0;
-  private int secondImageConstant = 1;
-  private int thirdImageConstant = 2;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mSeekBar = new SeekBar(this);
-    mImageView = new ImageView(this);
-    mImageView.setBackgroundResource(R.drawable.forest);
-    mFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-    mFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
-    mFadeIn.setRepeatCount(Animation.INFINITE);
-    mImageView.startAnimation(mFadeIn);
-    frameLayout = (FrameLayout) findViewById(R.id.sound_activity_frame_layout);
-    frameLayout.addView(mImageView);
-    mImageView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-        FrameLayout.LayoutParams.MATCH_PARENT));
-
+    setUriString("android.resource://cl.uc.saludestudiantiluc/raw/lake");
     relativeLayout = (RelativeLayout) findViewById(R.id.sound_activity_relative_layout);
     RelativeLayout.LayoutParams rLSeekBarParams =
         new RelativeLayout.LayoutParams(
@@ -64,47 +40,6 @@ public class ImageryDisplayActivity extends SoundActivity {
       mSeekBar.setMax(mAuxPlayer.getDuration());
       mAuxPlayer.release();
     }
-
-    mFadeIn.setAnimationListener(new Animation.AnimationListener() {
-      @Override
-      public void onAnimationStart(Animation animation) {
-      }
-      @Override
-      public void onAnimationEnd(Animation animation) {
-
-        mImageView.startAnimation(mFadeOut);
-      }
-      @Override
-      public void onAnimationRepeat(Animation animation) {
-
-      }
-    });
-
-    mFadeOut.setAnimationListener(new Animation.AnimationListener() {
-      @Override
-      public void onAnimationStart(Animation animation) {
-      }
-      @Override
-      public void onAnimationEnd(Animation animation) {
-        if (count == secondImageConstant) {
-          mImageView.setBackgroundResource(R.drawable.sky);
-        } else if (count == thirdImageConstant) {
-          mImageView.setBackgroundResource(R.drawable.forest);
-        } else {
-          mImageView.setBackgroundResource(R.drawable.ocean);
-        }
-        count ++;
-        if (count > thirdImageConstant) {
-          count = firstImageConstant;
-        }
-
-        mImageView.startAnimation(mFadeIn);
-      }
-      @Override
-      public void onAnimationRepeat(Animation animation) {
-
-      }
-    });
 
     mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -144,16 +79,8 @@ public class ImageryDisplayActivity extends SoundActivity {
   @Override
   protected void onResume() {
     super.onResume();
-    VideoView mVideoView = (VideoView) findViewById(R.id.sound_activity_surface_view);
-    if (mVideoView != null) {
-      ((ViewManager) mVideoView.getParent()).removeView(mVideoView);
-    }
   }
 
-  @Override
-  public void setVideo(){
-
-  }
 
   @Override
   public void onBackPressed() {

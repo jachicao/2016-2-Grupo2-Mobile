@@ -18,7 +18,8 @@
             android:value="GlideModule"/>
 
         <activity android:name=".MainActivity" />
-        <activity android:name=".common.sounds.SoundActivity"/>
+        <activity android:name=".common.sounds.SoundActivity"
+                  android:configChanges="orientation|screenSize"/>
         <activity android:name=".imageries.ImageryDisplayActivity"/>
         <activity android:name=".sequences.ImagesActivity" />
         <activity android:name=".squarebreathing.SquareBreathingActivity" />

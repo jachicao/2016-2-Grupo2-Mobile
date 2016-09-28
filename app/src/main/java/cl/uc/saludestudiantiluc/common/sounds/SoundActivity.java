@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.VideoView;
-
 import cl.uc.saludestudiantiluc.R;
 
 public class SoundActivity extends AppCompatActivity {
@@ -26,7 +25,10 @@ public class SoundActivity extends AppCompatActivity {
   private boolean mBound = false;
   private ImageButton mMediaPlayerButton;
   private String mServiceState;
+  private String mUriString = "android.resource://cl.uc.saludestudiantiluc/raw/v1";
   private VideoView mVideoView;
+  private MediaPlayer mMediaPlayer;
+  private boolean mStartedOnDefault = false;
   public static final String START_STATE = "playing";
   public static final String STOP_STATE = "stopped";
   public static final String PAUSE_STATE = "paused";
@@ -70,8 +72,9 @@ public class SoundActivity extends AppCompatActivity {
     } else {
       mServiceState = STOP_STATE;
     }
+    mStartedOnDefault = true;
+    setVideo(mServiceState);
     setMediaButtonIcon(mServiceState);
-    setVideo();
     int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -86,7 +89,7 @@ public class SoundActivity extends AppCompatActivity {
     }
   }
 
-  public void setVideo() {
+  public void setVideo(String state) {
     mVideoView = (VideoView) findViewById(R.id.sound_activity_surface_view);
     //de forma alternativa si queremos un streaming usar
     //mVideoView.setVideoURI(Uri.parse(URLstring));
@@ -97,10 +100,23 @@ public class SoundActivity extends AppCompatActivity {
       layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
       mVideoView.setLayoutParams(layoutParams);
     }
-    Uri video = Uri.parse("android.resource://cl.uc.saludestudiantiluc/raw/v1");
+    Uri video = Uri.parse(mUriString);
     mVideoView.setVideoURI(video);
+
+    mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+      @Override
+      public void onPrepared(MediaPlayer mp) {
+        mMediaPlayer = mp;
+        mMediaPlayer.setLooping(true);
+      }
+    });
+
+    if (mSound.getType().equals("Imagery") || (!mSound.getType().equals("Imagery") && state.equals(START_STATE))){
+      mVideoView.start();
+    }
+
+
     //mVideoView.setVideoPath("/mnt/sdcard/video.mp4");
-    mVideoView.start();
     mVideoView.requestFocus();
     this.setVolumeControlStream(0);
   }
@@ -155,6 +171,7 @@ public class SoundActivity extends AppCompatActivity {
           mServiceState = STOP_STATE;
         }
       }
+      setVideo(mServiceState);
       setMediaButtonIcon(mServiceState);
       mBound = true;
       Intent intent = getIntent();
@@ -174,6 +191,7 @@ public class SoundActivity extends AppCompatActivity {
   };
 
   public void handleService(Intent intent) {
+    mStartedOnDefault = false;
     if (mServiceState.equals(START_STATE)) {
       if (!mSound.getType().equals("Imagery")) {
         mService.onStop();
@@ -214,11 +232,17 @@ public class SoundActivity extends AppCompatActivity {
   }
 
   public void restoreInfo(String status) {
-
+    if (mMediaPlayer != null && !mStartedOnDefault) {
+      if (status.equals(START_STATE)) {
+        mMediaPlayer.start();
+      } else {
+        mMediaPlayer.pause();
+      }
+    }
   }
 
-  public VideoView getVideoView() {
-    return mVideoView;
+  public void setUriString(String uri) {
+    mUriString = uri;
   }
 
 }
