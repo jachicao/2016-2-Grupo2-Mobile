@@ -18,19 +18,4 @@ public class  BaseFragment extends Fragment {
   public void setListener(FragmentListener listener) {
     mListener = listener;
   }
-
-  public void dismiss() {
-    FragmentActivity activity = getActivity();
-    if (activity != null) {
-      activity.getSupportFragmentManager().beginTransaction().remove(this)
-          .commitAllowingStateLoss();
-      if (mListener != null) {
-        mListener.onDismissed();
-      }
-    }
-  }
-
-  public void onBackPressed() {
-    dismiss();
-  }
 }
