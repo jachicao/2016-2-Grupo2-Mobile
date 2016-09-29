@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
  */
 
 public class UserLocalDataRepository implements UserRepository {
-  
+
   private static final String KEY_USER_EMAIL = "email";
   private static final String KEY_USER_NAME = "name";
   private static final String KEY_USER_ACCESS_TOKEN = "access_token";

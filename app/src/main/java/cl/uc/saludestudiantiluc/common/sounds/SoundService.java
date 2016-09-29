@@ -7,8 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
@@ -108,10 +106,10 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   public void onSound(String origin) {
     if (mState.equals(STOP_STATE)) {
       if (origin.equals("Imagery")) {
-        mMediaPlayer = MediaPlayer.create(this, R.raw.imagineria);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.imagineria_en);
         mCurrentSound = "Imagery";
       } else {
-        mMediaPlayer = MediaPlayer.create(this, R.raw.nature);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.rain_audio);
         mCurrentSound = "Ambiental";
       }
       mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
@@ -127,10 +125,10 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   public void onModifiedSound(String origin, int start) {
     if (mState.equals(STOP_STATE)) {
       if (origin.equals("Imagery")) {
-        mMediaPlayer = MediaPlayer.create(this, R.raw.imagineria);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.imagineria_en);
         mCurrentSound = "Imagery";
       } else {
-        mMediaPlayer = MediaPlayer.create(this, R.raw.nature);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.rain_audio);
         mCurrentSound = "Ambiental";
       }
       mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
