@@ -1,6 +1,5 @@
 package cl.uc.saludestudiantiluc.common.sounds;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,6 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
@@ -25,9 +26,8 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   private BroadcastReceiver mReceiver;
   private boolean mIsReleased = true;
   private String mState = ""; //paused; played; stopped
-  private String nName;
-  private String nDuration;
-  RemoteViews contentView;
+  private String mName;
+  private String mDuration;
   NotificationCompat.Builder mNotifyBuilder ;
   NotificationManager mNotificationManager;
   public static final String EXTRA_MESSAGE = "com.app.algo";
@@ -74,15 +74,11 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
             if(mState.equals(START_STATE)) {
               Log.v("SoundService", "pause");
               onPause();
-              contentView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_play_arrow_black_24dp);
-              mNotifyBuilder.setContent(contentView);
-              mNotificationManager.notify(0, mNotifyBuilder.build());
+              setViews(false);
             } else {
+              setViews(true);
               Log.v("SoundService", "start");
               onResume();
-              contentView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_pause_black_24dp);
-              mNotifyBuilder.setContent(contentView);
-              mNotificationManager.notify(0, mNotifyBuilder.build());
             }
           }
         }
@@ -93,29 +89,6 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
 
   @Override
   public int onStartCommand (Intent intent, int flags, int startId) {
-
-    if (intent != null) {
-      /*
-      int message = intent.getIntExtra(SoundService.EXTRA_MESSAGE, 0);
-      if(message == MESSAGE_START_STOP) {
-
-        if(mState.equals(START_STATE)) {
-          onPause();
-          contentView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_pause_black_24dp);
-          mNotifyBuilder.setContent(contentView);
-          mNotificationManager.notify(0, mNotifyBuilder.build());
-        } else {
-          onResume();
-          contentView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_play_arrow_black_24dp);
-          mNotifyBuilder.setContent(contentView);
-          mNotificationManager.notify(0, mNotifyBuilder.build());
-        }
-      } else if(message == MESSAGE_CLOSE)  {
-        onDelete();
-      }
-      */
-    }
-
     return START_STICKY;
   }
 
@@ -141,14 +114,14 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
         mMediaPlayer = MediaPlayer.create(this, R.raw.nature);
         mCurrentSound = "Ambiental";
       }
-        mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+      mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
     }
+    mName = mPlayingSound.name;
+    Log.v("Sound", mName);
+    mDuration = "1:30";
     mMediaPlayer.start();
     mIsReleased = false;
     mState = START_STATE;
-    String url = "http://www.soundjay.com/nature/sounds/rain-01.mp3"; // your URL here
-    nName = mPlayingSound.name;
-    nDuration = "1:30";
   }
 
   public void onModifiedSound(String origin, int start) {
@@ -168,44 +141,36 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
     mState = START_STATE;
   }
 
-   // mMediaPlayer = new MediaPlayer();
-    /*
-    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-    try {
-      mMediaPlayer.setDataSource(url);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    mMediaPlayer.setOnPreparedListener(this);
-    mMediaPlayer.prepareAsync(); // prepare async to not block main thread
-*/
-   // mMediaPlayer.start();
-    //mMediaPlayer.setLooping(true); // Set looping
-   // mMediaPlayer.setVolume(100,100);
+  private RemoteViews getView(boolean isCollapsed, boolean showPause) {
+    RemoteViews contentView = new RemoteViews(getPackageName(), isCollapsed ? R.layout.sound_notification_collapsed : R.layout.sound_notification_expanded);
+    contentView.setImageViewResource(R.id.sound_notification_icon, R.drawable.ic_headset_black_24dp);
+    contentView.setImageViewResource(R.id.sound_notification_play_and_pause, showPause ? R.drawable.ic_pause_black_24dp : R.drawable.ic_play_arrow_black_24dp);
+    contentView.setImageViewResource(R.id.sound_notification_previous, R.drawable.ic_skip_previous_black_24dp);
+    contentView.setImageViewResource(R.id.sound_notification_next, R.drawable.ic_skip_next_black_24dp);
+    contentView.setImageViewResource(R.id.sound_notification_thumbnail, R.drawable.ic_library_music_black_24dp);
+    contentView.setTextViewText(R.id.sound_notification_title, "Relajación"); // <- mName no está funcionando
+
+    // TEMPORARY REMOVAL OF PREVIOUS / NEXT BUTTONS
+    contentView.setViewVisibility(R.id.sound_notification_previous, View.INVISIBLE);
+    contentView.setViewVisibility(R.id.sound_notification_next, View.INVISIBLE);
+    return contentView;
+  }
+
+  public void setViews(boolean showPause) {
+    RemoteViews collapsedView = getView(true, showPause);
+    RemoteViews expandedView = getView(false, showPause);
+
+    //Pause events
+    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, MESSAGE_START_STOP, new Intent(PAUSE_STATE), 0);
+    collapsedView.setOnClickPendingIntent(R.id.sound_notification_play_and_pause, pendingIntent);
+    expandedView.setOnClickPendingIntent(R.id.sound_notification_play_and_pause, pendingIntent);
+    mNotifyBuilder.setCustomContentView(collapsedView).setCustomBigContentView(expandedView);
+
+    mNotificationManager.notify(0, mNotifyBuilder.build());
+  }
 
   public void notifySound() {
     if(mState.equals(START_STATE)) {
-      contentView = new RemoteViews(getPackageName(), R.layout.sound_notification_collapsed);
-      contentView.setImageViewResource(R.id.sound_notification_icon, R.drawable.ic_headset_black_24dp);
-      contentView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_pause_black_24dp);
-      contentView.setImageViewResource(R.id.sound_notification_previous, R.drawable.ic_skip_previous_black_24dp);
-      contentView.setImageViewResource(R.id.sound_notification_next, R.drawable.ic_skip_next_black_24dp);
-      contentView.setImageViewResource(R.id.sound_notification_thumbnail, R.drawable.ic_library_music_black_24dp);
-
-      // TEMPORARY REMOVAL OF PREVIOUS / NEXT BUTTONS
-      contentView.setViewVisibility(R.id.sound_notification_previous, View.INVISIBLE);
-      contentView.setViewVisibility(R.id.sound_notification_next, View.INVISIBLE);
-
-      RemoteViews expandedView = new RemoteViews(getPackageName(), R.layout.sound_notification_expanded);
-      expandedView.setImageViewResource(R.id.sound_notification_icon, R.drawable.ic_headset_black_24dp);
-      expandedView.setImageViewResource(R.id.sound_notification_play_and_pause, R.drawable.ic_pause_black_24dp);
-      expandedView.setImageViewResource(R.id.sound_notification_previous, R.drawable.ic_skip_previous_black_24dp);
-      expandedView.setImageViewResource(R.id.sound_notification_next, R.drawable.ic_skip_next_black_24dp);
-      expandedView.setImageViewResource(R.id.sound_notification_thumbnail, R.drawable.ic_library_music_black_24dp);
-
-      // TEMPORARY REMOVAL OF PREVIOUS / NEXT BUTTONS
-      expandedView.setViewVisibility(R.id.sound_notification_previous, View.INVISIBLE);
-      expandedView.setViewVisibility(R.id.sound_notification_next, View.INVISIBLE);
 
 
       Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -213,27 +178,18 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
 
 
       mNotifyBuilder = new NotificationCompat.Builder(this)
-          .setContent(contentView)
           .setSmallIcon(R.drawable.ic_headset_black_24dp);
-
-      mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-      //Pause event
-      registerReceiver(mReceiver, new IntentFilter(PAUSE_STATE));
-      contentView.setOnClickPendingIntent(R.id.sound_notification_play_and_pause, PendingIntent.getBroadcast(this, MESSAGE_START_STOP, new Intent(PAUSE_STATE), 0));
 
       //Swipe event
       registerReceiver(mReceiver, new IntentFilter(SWIPE_STATE));
       mNotifyBuilder.setDeleteIntent(PendingIntent.getBroadcast(this, MESSAGE_SWIPE, new Intent(SWIPE_STATE), 0));
 
-      /*
-      mNotifyBuilder.flags |= mNotifyBuilder.FLAG_NO_CLEAR; //Do not clear the notification
-      mNotifyBuilder.defaults |= mNotifyBuilder.DEFAULT_SOUND; // Sound
-      mNotifyBuilder.defaults |= mNotifyBuilder.DEFAULT_LIGHTS; // LED
-      mNotifyBuilder.defaults |= mNotifyBuilder.DEFAULT_VIBRATE; //Vibration
-*/
-      //  mNotificationManager.notify(1, notification);
-      mNotificationManager.notify(0, mNotifyBuilder.build());
+      mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+      //Register pause event
+      registerReceiver(mReceiver, new IntentFilter(PAUSE_STATE));
+
+      setViews(true);
     }
   }
 
@@ -306,4 +262,3 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   }
 
 }
-
