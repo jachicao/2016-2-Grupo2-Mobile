@@ -8,8 +8,7 @@ import android.content.SharedPreferences;
  */
 
 public class UserLocalDataRepository implements UserRepository {
-
-  private static final boolean SKIP_AUTH = true;
+  
   private static final String KEY_USER_EMAIL = "email";
   private static final String KEY_USER_NAME = "name";
   private static final String KEY_USER_ACCESS_TOKEN = "access_token";
@@ -35,10 +34,7 @@ public class UserLocalDataRepository implements UserRepository {
 
   @Override
   public boolean isUserLoggedIn() {
-    if (SKIP_AUTH) {
-      return !getUserEmail().equals("");
-    }
-    return mPrefs.contains(KEY_USER_EMAIL);
+    return !getUserEmail().equals("");
   }
 
   @Override
@@ -78,9 +74,6 @@ public class UserLocalDataRepository implements UserRepository {
 
   @Override
   public void logOut() {
-    mPrefs.edit().remove(KEY_USER_EMAIL).apply();
-    mPrefs.edit().remove(KEY_USER_ACCESS_TOKEN).apply();
-    mPrefs.edit().remove(KEY_USER_ACCESS_TOKEN_CLIENT).apply();
-    mPrefs.edit().remove(KEY_USER_UID).apply();
+    mPrefs.edit().clear().apply();
   }
 }
