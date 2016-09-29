@@ -45,10 +45,7 @@ public class MainActivity extends BaseActivity {
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
     setupBackground();
     setupNavigationDrawer();
-    getSupportFragmentManager()
-        .beginTransaction()
-        .add(R.id.fragment_container, HomeFragment.newInstance())
-        .commit();
+    changeFragment(HomeFragment.newInstance());
     mCurrentFragment = R.id.drawer_home;
   }
 
@@ -73,7 +70,6 @@ public class MainActivity extends BaseActivity {
     setupNavDrawerHeader(navViewWidth);
     setNavViewWidth(navViewWidth);
     setupNavDrawer();
-
   }
 
   private void setupNavDrawerHeader(int navViewWidth) {
