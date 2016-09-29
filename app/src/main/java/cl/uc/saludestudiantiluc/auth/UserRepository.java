@@ -22,4 +22,6 @@ public interface UserRepository {
 
   void storeUid(String uid);
 
+  void logOut();
+
 }
