@@ -72,4 +72,8 @@ public class UserLocalDataRepository implements UserRepository {
         .apply();
   }
 
+  @Override
+  public void logOut() {
+    mPrefs.edit().clear().apply();
+  }
 }

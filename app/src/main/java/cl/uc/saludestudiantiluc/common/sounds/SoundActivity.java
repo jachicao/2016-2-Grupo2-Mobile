@@ -25,7 +25,7 @@ public class SoundActivity extends AppCompatActivity {
   private boolean mBound = false;
   private ImageButton mMediaPlayerButton;
   private String mServiceState;
-  private String mUriString = "android.resource://cl.uc.saludestudiantiluc/raw/v1";
+  private String mUriString = "android.resource://cl.uc.saludestudiantiluc/raw/rain_video";
   private VideoView mVideoView;
   private MediaPlayer mMediaPlayer;
   private boolean mStartedOnDefault = false;

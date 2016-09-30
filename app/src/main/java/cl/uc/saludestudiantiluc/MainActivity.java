@@ -18,8 +18,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import cl.uc.saludestudiantiluc.auth.AuthActivity;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.common.sounds.SoundSelectionFragment;
+import cl.uc.saludestudiantiluc.profile.ProfileActivity;
 import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
 import cl.uc.saludestudiantiluc.utils.ViewUtils;
@@ -117,6 +119,14 @@ public class MainActivity extends BaseActivity {
           case R.id.drawer_sounds:
             changeFragment(SoundSelectionFragment.newInstance(
                 SoundSelectionFragment.AMBIENTAL_CONSTANT));
+            break;
+          case R.id.drawer_profile:
+            startActivity(ProfileActivity.getIntent(MainActivity.this));
+            break;
+          case R.id.drawer_logout:
+            getUserRepository().logOut();
+            startActivity(AuthActivity.getIntent(MainActivity.this));
+            finish();
             break;
           default:
             mCurrentFragment = R.id.drawer_home;

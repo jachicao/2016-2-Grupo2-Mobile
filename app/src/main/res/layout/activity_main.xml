@@ -41,6 +41,8 @@
         app:menu="@menu/drawer"
         app:itemTextColor="@color/nav_drawer_item_text_selector"
         app:itemIconTint="@color/nav_drawer_item_text_selector"
+        android:listDivider="@color/nav_drawer_item_text_selector"
+        android:textColorSecondary="@color/nav_drawer_item_text_selector"
         />
 
 </android.support.v4.widget.DrawerLayout>

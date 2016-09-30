@@ -7,22 +7,23 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".RelaxUcApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".RelaxUcApplication">
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="cl.uc.saludestudiantiluc.utils.GlideConfiguration"
             android:value="GlideModule"/>
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".common.sounds.SoundActivity"
-                  android:configChanges="orientation|screenSize"/>
+        <activity android:name=".MainActivity"/>
+        <activity
+            android:name=".common.sounds.SoundActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".imageries.ImageryDisplayActivity"/>
-        <activity android:name=".sequences.ImagesActivity" />
-        <activity android:name=".squarebreathing.SquareBreathingActivity" />
+        <activity android:name=".sequences.ImagesActivity"/>
+        <activity android:name=".squarebreathing.SquareBreathingActivity"/>
 
         <service
             android:name=".common.sounds.SoundService"
@@ -37,6 +38,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".profile.ProfileActivity">
         </activity>
     </application>
 
