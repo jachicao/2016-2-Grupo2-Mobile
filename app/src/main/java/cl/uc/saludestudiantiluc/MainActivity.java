@@ -21,6 +21,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import cl.uc.saludestudiantiluc.auth.AuthActivity;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.common.sounds.SoundSelectionFragment;
+import cl.uc.saludestudiantiluc.evaluations.HomeEvaluation;
 import cl.uc.saludestudiantiluc.profile.ProfileActivity;
 import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
@@ -119,6 +120,9 @@ public class MainActivity extends BaseActivity {
           case R.id.drawer_sounds:
             changeFragment(SoundSelectionFragment.newInstance(
                 SoundSelectionFragment.AMBIENTAL_CONSTANT));
+            break;
+          case R.id.drawer_evaluations:
+            startActivity(HomeEvaluation.getIntent(MainActivity.this));
             break;
           case R.id.drawer_profile:
             startActivity(ProfileActivity.getIntent(MainActivity.this));
