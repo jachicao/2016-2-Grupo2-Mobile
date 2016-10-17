@@ -48,6 +48,8 @@
             android:label="@string/title_activity_base_evaluation"
             android:theme="@style/AppTheme">
         </activity>
+        <activity android:name=".evaluations.EvaluationResults">
+        </activity>
     </application>
 
 </manifest>

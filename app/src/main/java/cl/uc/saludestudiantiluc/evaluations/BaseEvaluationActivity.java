@@ -46,6 +46,8 @@ public class BaseEvaluationActivity extends AppCompatActivity {
    */
   private SectionsPagerAdapter mSectionsPagerAdapter;
   protected evaluationModel mEvaluation;
+  private int mQuantity;
+  private String[] mResults;
 
   /**
    * The {@link ViewPager} that will host the section contents.
@@ -61,19 +63,20 @@ public class BaseEvaluationActivity extends AppCompatActivity {
     //setSupportActionBar(toolbar);
 
     //Set the evaluation model
-    generateEvaluation gEval = new generateEvaluation() ;
+    generateEvaluation geval = new generateEvaluation() ;
     InputStream file = getResources().openRawResource(R.raw.t1);
-    String str = gEval.getStringFromJson(file);
-    mEvaluation = gEval.getEvaluation(str);
+    String str = geval.getStringFromJson(file);
+    mEvaluation = geval.getEvaluation(str);
     String evaluationName = mEvaluation.evaluationName;
     int numberOptions = mEvaluation.numberOptions;
-    int quantity = mEvaluation.quantity;
+    mQuantity = mEvaluation.quantity;
     List<String> questions = new ArrayList<String>();
     questions.addAll(mEvaluation.questions);
+    mResults = new String[mQuantity];
 
     // Create the adapter that will return a fragment for each of the three
     // primary sections of the activity.
-    mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), quantity, questions);
+    mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), mQuantity, questions);
 
     // Set up the ViewPager with the sections adapter.
     mViewPager = (ViewPager) findViewById(R.id.container);
@@ -86,14 +89,6 @@ public class BaseEvaluationActivity extends AppCompatActivity {
     toolbar.setTextSize(20);
     toolbar.setTextColor(getResources().getColor(R.color.black));
 
-
-
-
-
-
-
-
-
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -105,15 +100,38 @@ public class BaseEvaluationActivity extends AppCompatActivity {
 
   }
 
+  public void setResults(int i, String result) {
+    mResults[i] = result;
+  }
+
+  public boolean areAllSelected() {
+    for (int i = 0; i < mQuantity; i++) {
+      if (mResults[i] == null) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
   public void publicar(View view) {
-    PlaceholderFragment pFrag = (PlaceholderFragment)  mSectionsPagerAdapter.getFragment(0);
-    String i = pFrag.getSelection();
 
+    if (areAllSelected()) {
+      int suma = 0;
+      for (int i = 0; i<mResults.length ; i++) {
+        suma += Integer.parseInt(mResults[i]);
+      }
+      Snackbar.make(view, "Haz Sumado " + suma, Snackbar.LENGTH_LONG)
+          .setAction("Action", null).show();
+    } else {
+      Snackbar.make(view, "faltan algunos... ", Snackbar.LENGTH_LONG)
+          .setAction("Action", null).show();
+    }
 
-    Snackbar.make(view, "Replace with your own action: " + i, Snackbar.LENGTH_LONG)
-        .setAction("Action", null).show();
 
   }
+
+
 
 
 
@@ -136,12 +154,10 @@ public class BaseEvaluationActivity extends AppCompatActivity {
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
-
     //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
       return true;
     }
-
     return super.onOptionsItemSelected(item);
   }
 
@@ -153,9 +169,9 @@ public class BaseEvaluationActivity extends AppCompatActivity {
    * one of the sections/tabs/pages.
    */
   public class SectionsPagerAdapter extends FragmentPagerAdapter {
-    private final SparseArray<WeakReference<PlaceholderFragment>> instantiatedFragments = new SparseArray<>();
     private int mQuantity;
     private List<String> mQuestions = new ArrayList<String>();
+
     public SectionsPagerAdapter(FragmentManager fm, int quantity, List<String> questions) {
       super(fm);
       mQuestions.addAll(questions);
@@ -166,21 +182,10 @@ public class BaseEvaluationActivity extends AppCompatActivity {
     public Fragment getItem(int position) {
       // getItem is called to instantiate the fragment for the given page.
       // Return a PlaceholderFragment (defined as a static inner class below).
-      PlaceholderFragment pc = PlaceholderFragment.newInstance(position + 1, mQuestions.get(position));
-      instantiatedFragments.put(position, new WeakReference<>(pc));
+      PlaceholderFragment pc = PlaceholderFragment.newInstance(position + 1, mQuestions.get(position) );
       return pc;
-
     }
 
-
-    public PlaceholderFragment getFragment(int position){
-      final WeakReference<PlaceholderFragment> wr = instantiatedFragments.get(position);
-      if (wr != null) {
-        return wr.get();
-      } else {
-        return null;
-      }
-    }
 
     @Override
     public int getCount() {
@@ -247,7 +252,8 @@ public class BaseEvaluationActivity extends AppCompatActivity {
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final String ARG_QUESTION = "quesion";
+    private static final String ARG_QUESTION = "question";
+    private int mQuestionNumber = 0;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -256,7 +262,10 @@ public class BaseEvaluationActivity extends AppCompatActivity {
     public static PlaceholderFragment newInstance(int sectionNumber, String question) {
       PlaceholderFragment fragment = new PlaceholderFragment();
       Bundle args = new Bundle();
+
+
       args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+
       args.putString(ARG_QUESTION, question);
       fragment.setArguments(args);
       return fragment;
@@ -268,12 +277,13 @@ public class BaseEvaluationActivity extends AppCompatActivity {
 
 
     public String getSelection() {
-      RadioGroup radiogroup = (RadioGroup) getView().findViewById(R.id.radioGroupOptions);
+      RadioGroup radiogroup = (RadioGroup) this.getView().findViewById(R.id.radioGroupOptions);
       int selectedId = radiogroup.getCheckedRadioButtonId();
       RadioButton radiobutton = (RadioButton) getView().findViewById(selectedId);
       String tag = radiobutton.getTag().toString();
       return tag;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -281,7 +291,16 @@ public class BaseEvaluationActivity extends AppCompatActivity {
       View rootView = inflater.inflate(R.layout.fragment_base_evaluation, container, false);
       TextView textView = (TextView) rootView.findViewById(R.id.section_label);
       textView.setText(getArguments().getString(ARG_QUESTION));
-      //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+      mQuestionNumber = getArguments().getInt((ARG_SECTION_NUMBER));
+
+      RadioGroup radiogroup = (RadioGroup) rootView.findViewById(R.id.radioGroupOptions);
+      radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+          ((BaseEvaluationActivity) getActivity()).setResults(mQuestionNumber-1, getSelection());
+          }
+        });
+
       return rootView;
     }
   }
