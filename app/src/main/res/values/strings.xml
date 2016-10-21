@@ -92,6 +92,11 @@
     <string name="answer_T1_d">A menudo</string>
     <string name="answer_T1_e">Muy a menudo</string>
 
+    <string name="answer_T2_a">Nunca</string>
+    <string name="answer_T2_b">Varios días</string>
+    <string name="answer_T2_c">Más de la mitad de los días</string>
+    <string name="answer_T2_d">Casi todos los días</string>
+
 
     <string name="home_start_now">Comenzar a relajarme</string>
     <string name="square_breathing">Respiración cuadrada</string>

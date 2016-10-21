@@ -2,7 +2,6 @@ package cl.uc.saludestudiantiluc.evaluations;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,9 +22,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.io.File;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +45,10 @@ public class BaseEvaluationActivity extends AppCompatActivity {
   protected evaluationModel mEvaluation;
   private int mQuantity;
   private String[] mResults;
+  private FloatingActionButton mButtonFloat;
+  private int mEvaluationType; //0: nulo ; 1:estres ; 2:ansiedad; 3:Sueño
+
+  public static final String TOTAL_SCORE = "com.example.relaxuc.evaluations.score";
 
   /**
    * The {@link ViewPager} that will host the section contents.
@@ -58,13 +59,24 @@ public class BaseEvaluationActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_base_evaluation);
+    TextView toolbar = (TextView) findViewById(R.id.toolbar) ;
 
-    TextView toolbar = (TextView) findViewById(R.id.toolbar);
     //setSupportActionBar(toolbar);
+    Intent intent = getIntent();
+    mEvaluationType = intent.getIntExtra(HomeEvaluation.TEST_TYPE, 0) ;
 
     //Set the evaluation model
     generateEvaluation geval = new generateEvaluation() ;
-    InputStream file = getResources().openRawResource(R.raw.t1);
+    InputStream file;
+    if (mEvaluationType == 1) {
+      file = getResources().openRawResource(R.raw.te);
+    } else if (mEvaluationType == 2) {
+      file = getResources().openRawResource(R.raw.ta);
+    } else {
+      file = getResources().openRawResource(R.raw.ts);
+    }
+
+
     String str = geval.getStringFromJson(file);
     mEvaluation = geval.getEvaluation(str);
     String evaluationName = mEvaluation.evaluationName;
@@ -78,9 +90,28 @@ public class BaseEvaluationActivity extends AppCompatActivity {
     // primary sections of the activity.
     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), mQuantity, questions);
 
+
+    mButtonFloat = (FloatingActionButton) findViewById(R.id.fab);
+
+    mButtonFloat.setVisibility(View.INVISIBLE);
+
     // Set up the ViewPager with the sections adapter.
     mViewPager = (ViewPager) findViewById(R.id.container);
     mViewPager.setAdapter(mSectionsPagerAdapter);
+
+    mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+      public void onPageScrollStateChanged(int state) {
+        if (mViewPager.getCurrentItem() == (mQuantity - 1 ) ) {
+          mButtonFloat.setVisibility(View.VISIBLE);
+        }
+      }
+      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+      public void onPageSelected(int position) {
+        // Check if this is the page you want.
+      }
+    });
+
 
 
 
@@ -100,6 +131,10 @@ public class BaseEvaluationActivity extends AppCompatActivity {
 
   }
 
+
+
+
+
   public void setResults(int i, String result) {
     mResults[i] = result;
   }
@@ -113,22 +148,41 @@ public class BaseEvaluationActivity extends AppCompatActivity {
     return true;
   }
 
+  public int getNotSelected() {
+    int number = mResults.length - 1;
+    for (int i = 0; i < mResults.length ; i++) {
+      if (mResults[i] == null) {
+        number = i;
+      }
+    }
+    return number;
+  }
+
 
   public void publicar(View view) {
 
     if (areAllSelected()) {
-      int suma = 0;
-      for (int i = 0; i<mResults.length ; i++) {
-        suma += Integer.parseInt(mResults[i]);
-      }
-      Snackbar.make(view, "Haz Sumado " + suma, Snackbar.LENGTH_LONG)
+
+      Snackbar.make(view, "En breve podrá ver su resultado", Snackbar.LENGTH_LONG)
           .setAction("Action", null).show();
+      showResults();
     } else {
-      Snackbar.make(view, "faltan algunos... ", Snackbar.LENGTH_LONG)
+      mViewPager.setCurrentItem(getNotSelected() );
+      Snackbar.make(view, "Debe responder todas las preguntas ", Snackbar.LENGTH_LONG)
           .setAction("Action", null).show();
     }
 
 
+  }
+
+  public void showResults() {
+    int score = 0;
+    for (int i = 0; i < mResults.length ; i++) {
+      score += Integer.parseInt(mResults[i]);
+    }
+    Intent intent = new Intent(this, EvaluationResults.class);
+    intent.putExtra(TOTAL_SCORE, score);
+    startActivity(intent);
   }
 
 
@@ -301,7 +355,51 @@ public class BaseEvaluationActivity extends AppCompatActivity {
           }
         });
 
+      setUi(rootView);
+
       return rootView;
+    }
+
+    public void setUi(View rootView) {
+      if (((BaseEvaluationActivity) getActivity()).mEvaluationType == 2) {
+        RadioButton radioButton5 = (RadioButton) rootView.findViewById(R.id.radioButton5);
+        radioButton5.setVisibility(View.INVISIBLE);
+
+        RadioButton radioButton1 = (RadioButton) rootView.findViewById(R.id.radioButton);
+        radioButton1.setText(getResources().getString(R.string.answer_T2_a));
+
+        RadioButton radioButton2 = (RadioButton) rootView.findViewById(R.id.radioButton2);
+        radioButton2.setText(getResources().getString(R.string.answer_T2_b));
+
+        RadioButton radioButton3 = (RadioButton) rootView.findViewById(R.id.radioButton3);
+        radioButton3.setText(getResources().getString(R.string.answer_T2_c));
+
+        RadioButton radioButton4 = (RadioButton) rootView.findViewById(R.id.radioButton4);
+        radioButton4.setText(getResources().getString(R.string.answer_T2_d));
+
+      } else if (((BaseEvaluationActivity) getActivity()).mEvaluationType == 1) {
+
+
+        RadioButton radioButton1 = (RadioButton) rootView.findViewById(R.id.radioButton);
+        radioButton1.setText(getResources().getString(R.string.answer_T1_a));
+
+        RadioButton radioButton2 = (RadioButton) rootView.findViewById(R.id.radioButton2);
+        radioButton2.setText(getResources().getString(R.string.answer_T1_b));
+
+        RadioButton radioButton3 = (RadioButton) rootView.findViewById(R.id.radioButton3);
+        radioButton3.setText(getResources().getString(R.string.answer_T1_c));
+
+        RadioButton radioButton4 = (RadioButton) rootView.findViewById(R.id.radioButton4);
+        radioButton4.setText(getResources().getString(R.string.answer_T1_d));
+
+        RadioButton radioButton5 = (RadioButton) rootView.findViewById(R.id.radioButton5);
+        radioButton5.setText(getResources().getString(R.string.answer_T1_e));
+
+
+      }
+
+
+
     }
   }
 }

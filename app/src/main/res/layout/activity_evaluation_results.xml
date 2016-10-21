@@ -11,4 +11,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cl.uc.saludestudiantiluc.evaluations.EvaluationResults">
 
+    <TextView
+        android:text="TextView"
+        android:textSize="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="55dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="151dp"
+        android:id="@+id/total_score_results"/>
 </RelativeLayout>

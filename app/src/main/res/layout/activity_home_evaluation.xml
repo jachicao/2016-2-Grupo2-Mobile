@@ -12,7 +12,7 @@
     tools:context="cl.uc.saludestudiantiluc.evaluations.HomeEvaluation">
 
     <Button
-        android:text="@string/name_evaluation_1"
+        android:text="@string/name_evaluation_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -24,7 +24,7 @@
         android:layout_alignParentEnd="true"/>
 
     <Button
-        android:text="@string/name_evaluation_2"
+        android:text="@string/name_evaluation_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_evaluation_two"
