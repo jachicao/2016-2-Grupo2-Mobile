@@ -53,6 +53,7 @@ public class ScheduleActivity extends BaseActivity {
   private ArrayList<Schedule> mSchedule;
   private CalendarApi mApiInstance;
   private LinearLayout mLinearLayout;
+  private LinearLayout mListViewLayout;
   private View mLoadView;
   private boolean mLoaded;
   private LayoutInflater mInflater;
@@ -109,9 +110,9 @@ public class ScheduleActivity extends BaseActivity {
       mDialogService = savedInstanceState.getString("dialogService");
       mDialogCampus = savedInstanceState.getString("dialogCampus");
     }
-
-    mLinearLayout = (LinearLayout) findViewById(R.id.listLayout);
     mListView = new ListView(this);
+    /*mLinearLayout = (LinearLayout) findViewById(R.id.listLayout);
+
     mInflater = (LayoutInflater) this
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     mLoadView = (View) mInflater.inflate(
@@ -119,7 +120,10 @@ public class ScheduleActivity extends BaseActivity {
     mLoadView.setLayoutParams(new LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.MATCH_PARENT,
         LinearLayout.LayoutParams.MATCH_PARENT, 1f));
-    mLinearLayout.addView(mLoadView);
+    mLinearLayout.addView(mLoadView);*/
+    mLinearLayout = (LinearLayout) findViewById(R.id.hourContainer);
+    mInflater = (LayoutInflater) this
+        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     if (!mLoaded) {
       Retrofit retrofit = new Retrofit.Builder()
           .baseUrl(CalendarApi.BASE_URL)
@@ -186,19 +190,31 @@ public class ScheduleActivity extends BaseActivity {
 
 
   public void loadListAdapter() {
+
+    //Eliminate progress bar
+    View circleView = findViewById(R.id.progressBarLayout);
+    mLinearLayout.removeView(circleView);
+
+    //Create CardView
+    mLoadView =  mInflater.inflate(
+        R.layout.available_hour_list, mLinearLayout);
+
+    //Obtain ListLayout
+    mListViewLayout = (LinearLayout) mLoadView.findViewById(R.id.listLayout);
+
+    //Set adapter and add the list
     mListView.setAdapter(new YourAdapter(this, mSchedule));
-    mLinearLayout.removeView(mLoadView);
-    mLinearLayout.addView(mListView);
+    mListViewLayout.addView(mListView);
+
   }
 
   public void loadEmptyMessage() {
-    View view = (View) mInflater.inflate(
-        R.layout.empty_list_message, null);
-    view.setLayoutParams(new LinearLayout.LayoutParams(
-        LinearLayout.LayoutParams.MATCH_PARENT,
-        LinearLayout.LayoutParams.MATCH_PARENT, 1f));
-    mLinearLayout.removeView(mLoadView);
-    mLinearLayout.addView(view);
+    View circleView = findViewById(R.id.progressBarLayout);
+    mLinearLayout.removeView(circleView);
+
+    View view =  mInflater.inflate(
+        R.layout.empty_list_message, mLinearLayout);
+
   }
 
   public void showConfirmationDialog() {
@@ -216,6 +232,7 @@ public class ScheduleActivity extends BaseActivity {
     professional.setText("Profesional: " + mDialogProfessional);
     service.setText("Servicio: " + mDialogService);
     campus.setText("Campus: " + mDialogCampus);
+    dialog.setCanceledOnTouchOutside(false);
     dialog.show();
     dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
       @Override
