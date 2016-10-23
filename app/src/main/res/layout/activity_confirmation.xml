@@ -10,15 +10,12 @@
     android:orientation="vertical"
     android:elevation="24dp">
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Servicio: Consejería"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/confirmation_service"
@@ -26,9 +23,7 @@
                     android:textSize="14sp"
                     android:layout_marginTop="8dp"/>
 
-
                 <TextView
-                    android:text="Profesional: María Paz Jana"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/confirmation_professional"
@@ -37,7 +32,6 @@
                     android:textColor="@color/black"/>
 
                 <TextView
-                    android:text="Fecha: 01-mar-2016"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/confirmation_date"
@@ -46,7 +40,6 @@
                     android:textSize="14sp"/>
 
                 <TextView
-                    android:text="Campus: San Joaquín"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/confirmation_campus"
@@ -61,11 +54,11 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_marginTop="24dp">
 
             <Button
-                android:text="Cancelar"
+                android:text="@string/cancel_button"
                 android:layout_width="wrap_content"
                 android:id="@+id/cancelReservationButton"
                 style="@style/Widget.AppCompat.Button.Borderless"
@@ -76,7 +69,7 @@
                 android:layout_weight="1"/>
 
             <Button
-                android:text="Reservar"
+                android:text="@string/reserve_button"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dialog_button_height"
                 android:id="@+id/confirmReservationButton"

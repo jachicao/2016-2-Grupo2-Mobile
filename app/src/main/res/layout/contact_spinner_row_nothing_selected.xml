@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@android:id/text1"
+          android:id="@+id/spinner_selector_text"
           style="?android:attr/spinnerItemStyle"
           android:maxLines="1"
           android:layout_width="match_parent"
@@ -8,5 +8,5 @@
           android:ellipsize="marquee"
           android:textSize="18sp"
           android:textColor="#808080"
-          android:text="Selecciona un campo válido"
+          android:text="@string/selector"
     />

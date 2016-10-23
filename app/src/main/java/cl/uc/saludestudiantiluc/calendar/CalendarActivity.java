@@ -23,14 +23,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 
-public class CalendarActivity extends BaseActivity{
+public class CalendarActivity extends BaseActivity {
 
   private Spinner mServiceSpinner;
   private Spinner mCampusSpinner;
   private Button mButton;
 
-  private final String SERVICE_SELECTION = "Service";
-  private final String CAMPUS_SELECTION = "Campus";
+  private static final String SERVICE_SELECTION = "Service";
+  private static final String CAMPUS_SELECTION = "Campus";
 
   private boolean mServiceSelected;
   private boolean mCampusSelected;
@@ -61,32 +61,28 @@ public class CalendarActivity extends BaseActivity{
         .into((ImageView) findViewById(R.id.main_background_image));
 
     mButton = (Button) findViewById(R.id.button);
-
     mServiceSpinner =  (Spinner) findViewById(R.id.spinner);
     ArrayAdapter<CharSequence> serviceAdapter = ArrayAdapter.createFromResource(this,
         R.array.service_array, android.R.layout.simple_spinner_item);
     serviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mServiceSpinner.setAdapter( new NothingSelectedSpinnerAdapter(serviceAdapter, R.layout.contact_spinner_row_nothing_selected, this));
     mServiceSpinner.setOnItemSelectedListener(new OnItemSelectedListener(SERVICE_SELECTION));
-
     mCampusSpinner =  (Spinner) findViewById(R.id.spinner3);
     ArrayAdapter<CharSequence> campusAdapter = ArrayAdapter.createFromResource(this,
         R.array.campus_array, android.R.layout.simple_spinner_item);
     campusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mCampusSpinner.setAdapter( new NothingSelectedSpinnerAdapter(campusAdapter, R.layout.contact_spinner_row_nothing_selected, this));
     mCampusSpinner.setOnItemSelectedListener(new OnItemSelectedListener(CAMPUS_SELECTION));
-
     mCampusSpinner.setEnabled(false);
     mButton.setEnabled(false);
     mButton.setTextColor(Color.parseColor("#C0C0C0"));
-
     mButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         if (mButton.isEnabled() && mServiceSelected && mCampusSelected) {
           Intent intent = new Intent(CalendarActivity.this, ScheduleActivity.class);
-          intent.putExtra("service", mServiceSpinner.getSelectedItem().toString());
-          intent.putExtra("campus", mCampusSpinner.getSelectedItem().toString());
+          intent.putExtra(SERVICE_SELECTION, mServiceSpinner.getSelectedItem().toString());
+          intent.putExtra(CAMPUS_SELECTION, mCampusSpinner.getSelectedItem().toString());
           startActivity(intent);
         }
 
@@ -128,19 +124,16 @@ public class CalendarActivity extends BaseActivity{
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
-
   }
 
   public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapter {
 
-    protected static final int EXTRA = 1;
-    protected SpinnerAdapter adapter;
-    protected Context context;
-    protected int nothingSelectedLayout;
-    protected int nothingSelectedDropdownLayout;
-    protected LayoutInflater layoutInflater;
-
+    private static final int EXTRA = 1;
+    private SpinnerAdapter mAdapter;
+    protected Context mContext;
+    private int mNothingSelectedLayout;
+    private int mNothingSelectedDropdownLayout;
+    private LayoutInflater mLayoutInflater;
 
     public NothingSelectedSpinnerAdapter(
         SpinnerAdapter spinnerAdapter,
@@ -151,51 +144,48 @@ public class CalendarActivity extends BaseActivity{
 
     public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter,
                                          int nothingSelectedLayout, int nothingSelectedDropdownLayout, Context context) {
-      this.adapter = spinnerAdapter;
-      this.context = context;
-      this.nothingSelectedLayout = nothingSelectedLayout;
-      this.nothingSelectedDropdownLayout = nothingSelectedDropdownLayout;
-      layoutInflater = LayoutInflater.from(context);
+      this.mAdapter = spinnerAdapter;
+      this.mContext = context;
+      this.mNothingSelectedLayout = nothingSelectedLayout;
+      this.mNothingSelectedDropdownLayout = nothingSelectedDropdownLayout;
+      mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public final View getView(int position, View convertView, ViewGroup parent) {
-      // This provides the View for the Selected Item in the Spinner, not
-      // the dropdown (unless dropdownView is not set).
       if (position == 0) {
         return getNothingSelectedView(parent);
       }
-      return adapter.getView(position - EXTRA, null, parent); // Could re-use
-      // the convertView if possible.
+      return mAdapter.getView(position - EXTRA, null, parent);
     }
 
     protected View getNothingSelectedView(ViewGroup parent) {
-      return layoutInflater.inflate(nothingSelectedLayout, parent, false);
+      return mLayoutInflater.inflate(mNothingSelectedLayout, parent, false);
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
       if (position == 0) {
-        return nothingSelectedDropdownLayout == -1 ?
-            new View(context) :
+        return mNothingSelectedDropdownLayout == -1
+            ? new View(mContext) :
             getNothingSelectedDropdownView(parent);
       }
-      return adapter.getDropDownView(position - EXTRA, null, parent);
+      return mAdapter.getDropDownView(position - EXTRA, null, parent);
     }
 
     protected View getNothingSelectedDropdownView(ViewGroup parent) {
-      return layoutInflater.inflate(nothingSelectedDropdownLayout, parent, false);
+      return mLayoutInflater.inflate(mNothingSelectedDropdownLayout, parent, false);
     }
 
     @Override
     public int getCount() {
-      int count = adapter.getCount();
+      int count = mAdapter.getCount();
       return count == 0 ? 0 : count + EXTRA;
     }
 
     @Override
     public Object getItem(int position) {
-      return position == 0 ? null : adapter.getItem(position - EXTRA);
+      return position == 0 ? null : mAdapter.getItem(position - EXTRA);
     }
 
     @Override
@@ -210,27 +200,27 @@ public class CalendarActivity extends BaseActivity{
 
     @Override
     public long getItemId(int position) {
-      return position >= EXTRA ? adapter.getItemId(position - EXTRA) : position - EXTRA;
+      return position >= EXTRA ? mAdapter.getItemId(position - EXTRA) : position - EXTRA;
     }
 
     @Override
     public boolean hasStableIds() {
-      return adapter.hasStableIds();
+      return mAdapter.hasStableIds();
     }
 
     @Override
     public boolean isEmpty() {
-      return adapter.isEmpty();
+      return mAdapter.isEmpty();
     }
 
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
-      adapter.registerDataSetObserver(observer);
+      mAdapter.registerDataSetObserver(observer);
     }
 
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
-      adapter.unregisterDataSetObserver(observer);
+      mAdapter.unregisterDataSetObserver(observer);
     }
 
     @Override

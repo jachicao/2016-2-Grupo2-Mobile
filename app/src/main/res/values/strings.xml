@@ -80,6 +80,7 @@
 
     <string name="profile">Perfil</string>
 
+    <!-- User calendar -->
     <string-array name="service_array">
         <item>Consejería</item>
         <item>Talleres grupales</item>
@@ -99,12 +100,25 @@
         <item>Lo Contador</item>
     </string-array>
 
+    <string name="selector">Selecciona un campo válido</string>
 
     <string name="empty_message">No existen horas disponibles que cumplan con los parámetros de búsqueda
     </string>
 
+    <!-- Calendar Titles -->
     <string name="service_select">Reservar hora</string>
+    <string name="available_hours_list">Horarios disponibles</string>
+
+    <!-- Calendar Buttons -->
     <string name="available_hours_button">BUSCAR HORARIOS</string>
-    <string name="available_hours_list">HORARIOS DISPONIBLES</string>
+    <string name="reserve_button">RESERVAR</string>
+    <string name="cancel_button">CANCELAR</string>
+
+    <!-- Calendar Text -->
+    <string name="date_start">Fecha:\u0020</string>
+    <string name="professional_start">Profesional:\u0020</string>
+    <string name="campus_start">Campus:\u0020</string>
+    <string name="service_start">Servicio:\u0020</string>
+    <string name="booking_confirmation">Confirmación de hora</string>
 
 </resources>
