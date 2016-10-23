@@ -79,4 +79,32 @@
 
 
     <string name="profile">Perfil</string>
+
+    <string-array name="service_array">
+        <item>Consejería</item>
+        <item>Talleres grupales</item>
+        <item>Taller de Mindfulness</item>
+    </string-array>
+
+    <string-array name="professionals_array">
+        <item>María 1</item>
+        <item>María 2</item>
+        <item>María 3</item>
+    </string-array>
+
+    <string-array name="campus_array">
+        <item>San Joaquín</item>
+        <item>Casa Central</item>
+        <item>Campus Oriente</item>
+        <item>Lo Contador</item>
+    </string-array>
+
+
+    <string name="empty_message">No existen horas disponibles que cumplan con los parámetros de búsqueda
+    </string>
+
+    <string name="service_select">Reservar hora</string>
+    <string name="available_hours_button">BUSCAR HORARIOS</string>
+    <string name="available_hours_list">HORARIOS DISPONIBLES</string>
+
 </resources>

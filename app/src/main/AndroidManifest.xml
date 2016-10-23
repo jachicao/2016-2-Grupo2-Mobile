@@ -41,6 +41,12 @@
         </activity>
         <activity android:name=".profile.ProfileActivity">
         </activity>
+        <activity android:name=".calendar.CalendarActivity">
+        </activity>
+        <activity android:name=".calendar.ScheduleActivity">
+        </activity>
+        <activity android:name=".calendar.ConfirmationActivity">
+        </activity>
     </application>
 
 </manifest>

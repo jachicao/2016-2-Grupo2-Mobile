@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import cl.uc.saludestudiantiluc.auth.AuthActivity;
+import cl.uc.saludestudiantiluc.calendar.CalendarActivity;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.common.sounds.SoundSelectionFragment;
 import cl.uc.saludestudiantiluc.profile.ProfileActivity;
@@ -122,6 +123,9 @@ public class MainActivity extends BaseActivity {
             break;
           case R.id.drawer_profile:
             startActivity(ProfileActivity.getIntent(MainActivity.this));
+            break;
+          case R.id.drawer_request_appointment:
+            startActivity(CalendarActivity.getIntent(MainActivity.this));
             break;
           case R.id.drawer_logout:
             getUserRepository().logOut();
