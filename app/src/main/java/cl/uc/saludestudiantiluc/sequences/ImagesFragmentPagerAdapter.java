@@ -4,13 +4,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import cl.uc.saludestudiantiluc.sequences.models.Sequence;
+import cl.uc.saludestudiantiluc.sequences.models.SequencesImage;
+
 /**
  * Created by jchicao on 15-09-16.
  */
-public class ImagesFragmentPagerAdapter extends FragmentStatePagerAdapter {
+class ImagesFragmentPagerAdapter extends FragmentStatePagerAdapter {
   private Sequence mSequence;
 
-  public ImagesFragmentPagerAdapter(FragmentManager fm, Sequence sequence) {
+  ImagesFragmentPagerAdapter(FragmentManager fm, Sequence sequence) {
     super(fm);
     mSequence = sequence;
   }

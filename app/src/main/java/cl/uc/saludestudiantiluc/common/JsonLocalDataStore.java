@@ -7,9 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.util.List;
 
-import cl.uc.saludestudiantiluc.sequences.Sequence;
 import cl.uc.saludestudiantiluc.utils.JsonStoreUtils;
 import rx.Observable;
 import rx.functions.Func0;

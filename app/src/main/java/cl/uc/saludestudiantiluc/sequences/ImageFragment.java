@@ -8,27 +8,49 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import cl.uc.saludestudiantiluc.R;
+import cl.uc.saludestudiantiluc.common.BaseActivity;
+import cl.uc.saludestudiantiluc.sequences.models.SequencesImage;
+import cl.uc.saludestudiantiluc.utils.TouchDetector;
+import cl.uc.saludestudiantiluc.utils.TouchListener;
 
 public class ImageFragment extends Fragment {
-  private SequencesImage mSequencesImage;
-  private ImageView mImageView;
+  private static final String SEQUENCE_IMAGE_EXTRAS = "SequencesImage";
+
   public static ImageFragment newInstance(SequencesImage sequencesImage) {
     ImageFragment fragment = new ImageFragment();
     Bundle args = new Bundle();
-    args.putParcelable("SequencesImage", sequencesImage);
+    args.putParcelable(SEQUENCE_IMAGE_EXTRAS, sequencesImage);
     fragment.setArguments(args);
     return fragment;
   }
+
+  private BaseActivity getThisActivity() {
+    return (BaseActivity) getActivity();
+  }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     ViewGroup rootView = (ViewGroup) inflater.inflate(
         R.layout.sequences_image_fragment, container, false);
-    mImageView = (ImageView) rootView.findViewById(R.id.sequences_image_fragment_view);
-    if (mImageView != null) {
-      mSequencesImage = getArguments().getParcelable("SequencesImage");
-      if (mSequencesImage != null) {
-        mSequencesImage.loadImage(mImageView);
+    TouchDetector.register(rootView, new TouchListener() {
+      @Override
+      public void onTouch(int type) {
+        switch (type) {
+          case TouchDetector.ON_SINGLE_TAP_CONFIRMED:
+            getThisActivity().onSingleTap();
+            break;
+        }
+      }
+    });
+    ImageView imageView = (ImageView) rootView.findViewById(R.id.sequences_image_fragment_view);
+    if (imageView != null) {
+      SequencesImage sequenceImage = getArguments().getParcelable(SEQUENCE_IMAGE_EXTRAS);
+      if (sequenceImage != null) {
+        BaseActivity activity = (BaseActivity) getActivity();
+        if (activity != null) {
+          activity.getDownloadService().requestIntoImageView(imageView, sequenceImage.getImageRequest());
+        }
       }
     }
     return rootView;

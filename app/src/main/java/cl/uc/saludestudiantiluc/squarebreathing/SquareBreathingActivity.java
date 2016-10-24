@@ -2,16 +2,8 @@ package cl.uc.saludestudiantiluc.squarebreathing;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
@@ -38,12 +30,7 @@ public class SquareBreathingActivity extends BaseActivity {
       }
     });
 
-    Glide
-        .with(this)
-        .load(R.drawable.sunset_background)
-        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-        .centerCrop()
-        .into((ImageView) findViewById(R.id.main_background_image));
+    loadMainBackground();
   }
 
   public static Intent getIntent(Activity activity) {

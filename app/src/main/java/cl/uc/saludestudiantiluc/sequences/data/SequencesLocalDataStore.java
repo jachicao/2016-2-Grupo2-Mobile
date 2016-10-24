@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.common.JsonLocalDataStore;
-import cl.uc.saludestudiantiluc.sequences.Sequence;
+import cl.uc.saludestudiantiluc.sequences.models.Sequence;
 import rx.Observable;
 
 /**

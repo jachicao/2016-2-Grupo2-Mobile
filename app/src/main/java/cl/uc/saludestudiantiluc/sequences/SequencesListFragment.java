@@ -3,68 +3,46 @@ package cl.uc.saludestudiantiluc.sequences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.BaseActivity;
-import cl.uc.saludestudiantiluc.common.BaseFragment;
+import cl.uc.saludestudiantiluc.common.BaseListFragment;
+import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
 import cl.uc.saludestudiantiluc.sequences.data.SequencesRepository;
+import cl.uc.saludestudiantiluc.sequences.models.Sequence;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class SequencesListFragment extends BaseFragment {
+public class SequencesListFragment extends BaseListFragment {
   
   public static final String TAG = SequencesListFragment.class.getSimpleName();
-
-  private boolean mTryingToLoadSequence = false;
+  public static final String SEQUENCE_EXTRAS = "Sequence";
 
   private List<Sequence> mSequences = new ArrayList<>();
-  private RecyclerView mRecyclerView;
   private SequencesRepository mSequencesRepository;
-  private ListAdapter mAdapter;
 
-  private View mThisView;
-
-  public static SequencesListFragment newInstance() {
+  public static Fragment newInstance() {
     return new SequencesListFragment();
   }
 
-  @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater,
-                           @Nullable ViewGroup container,
-                           @Nullable Bundle savedInstanceState) {
-    mThisView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
-    mRecyclerView = (RecyclerView) mThisView.findViewById(R.id.fragment_recycler_view);
-    mRecyclerView.setHasFixedSize(true);
-    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-    mRecyclerView.setLayoutManager(mLayoutManager);
-    mAdapter = new ListAdapter(mSequences, new ListAdapter.CardViewListener() {
-      @Override
-      public void onClick(Sequence sequence) {
-        loadSequence(sequence);
-      }
-    });
-    mRecyclerView.setAdapter(mAdapter);
-    BitmapManager.setFilesDir(getActivity().getFilesDir());
-    BitmapManager.setContext(getActivity().getApplicationContext());
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setAdapter(new SequencesListAdapter(this));
+  }
 
-    return mThisView;
+  public List<Sequence> getDetailedList() {
+    return mSequences;
   }
 
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    mSequencesRepository = ((BaseActivity) getActivity()).getRelaxUcApplication()
+    mSequencesRepository = getBaseActivity().getRelaxUcApplication()
         .getSequencesRepository();
     getSequences();
   }
@@ -81,27 +59,28 @@ public class SequencesListFragment extends BaseFragment {
           @Override
           public void onError(Throwable e) {
             Log.e(TAG, "error: ", e);
-            Snackbar.make(mThisView.findViewById(R.id.fragment_recycler_view_coordinator_layout),
-                getString(R.string.failed_download_json), Snackbar.LENGTH_SHORT).show();
+            notifyMessage(getString(R.string.failed_download_json));
           }
 
           @Override
           public void onNext(List<Sequence> sequences) {
-            // Because there are few sequences, just clear the list and add the new ones.
+            // Because there are few sequences, just clear the list and addRequest the new ones.
             mSequences.clear();
             mSequences.addAll(sequences);
-            mAdapter.notifyDataSetChanged();
+            getAdapter().notifyDataSetChanged();
           }
         });
   }
 
-  public void loadSequence(Sequence sequence) {
-    if (!mTryingToLoadSequence && sequence != null) {
-      mTryingToLoadSequence = true;
+  public void loadActivity(Sequence sequence) {
+    if (sequence != null) {
       Intent intent = new Intent(getActivity(), ImagesActivity.class);
-      intent.putExtra(getString(R.string.sequences_parcelable_name), sequence);
+      intent.putExtra(SEQUENCE_EXTRAS, sequence);
       startActivity(intent);
-      mTryingToLoadSequence = false;
     }
+  }
+  @Override
+  public List<BaseFragmentListModel> getModelList() {
+    return new ArrayList<BaseFragmentListModel>(getDetailedList());
   }
 }

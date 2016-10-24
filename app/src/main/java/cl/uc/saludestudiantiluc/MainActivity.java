@@ -10,18 +10,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
+import cl.uc.saludestudiantiluc.ambiences.AmbiencesListFragment;
 import cl.uc.saludestudiantiluc.auth.AuthActivity;
 import cl.uc.saludestudiantiluc.calendar.CalendarActivity;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
-import cl.uc.saludestudiantiluc.common.sounds.SoundSelectionFragment;
+import cl.uc.saludestudiantiluc.imageries.ImageriesListFragment;
 import cl.uc.saludestudiantiluc.profile.ProfileActivity;
 import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
@@ -35,7 +32,6 @@ public class MainActivity extends BaseActivity {
 
   private NavigationView mNavigationView;
   private DrawerLayout mDrawerLayout;
-  private ImageView mBackgroundView;
 
   private int mCurrentFragment;
 
@@ -43,10 +39,9 @@ public class MainActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    mBackgroundView = (ImageView) findViewById(R.id.main_background_image);
     mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-    setupBackground();
+    loadMainBackground();
     setupNavigationDrawer();
     changeFragment(HomeFragment.newInstance());
     mCurrentFragment = R.id.drawer_home;
@@ -57,15 +52,6 @@ public class MainActivity extends BaseActivity {
         .beginTransaction()
         .replace(R.id.fragment_container, fragment)
         .commit();
-  }
-
-  private void setupBackground() {
-    Glide
-        .with(this)
-        .load(R.drawable.sunset_background)
-        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-        .centerCrop()
-        .into(mBackgroundView);
   }
 
   private void setupNavigationDrawer() {
@@ -114,12 +100,10 @@ public class MainActivity extends BaseActivity {
             changeFragment(SequencesListFragment.newInstance());
             break;
           case R.id.drawer_imaginery:
-            changeFragment(SoundSelectionFragment.newInstance(
-                SoundSelectionFragment.IMAGERY_CONSTANT));
+            changeFragment(ImageriesListFragment.newInstance());
             break;
-          case R.id.drawer_sounds:
-            changeFragment(SoundSelectionFragment.newInstance(
-                SoundSelectionFragment.AMBIENTAL_CONSTANT));
+          case R.id.drawer_ambience:
+            changeFragment(AmbiencesListFragment.newInstance());
             break;
           case R.id.drawer_profile:
             startActivity(ProfileActivity.getIntent(MainActivity.this));

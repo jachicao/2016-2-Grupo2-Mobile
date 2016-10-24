@@ -14,14 +14,14 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import cl.uc.saludestudiantiluc.MainActivity;
 import cl.uc.saludestudiantiluc.R;
+import cl.uc.saludestudiantiluc.auth.api.UserAuthApi;
+import cl.uc.saludestudiantiluc.auth.data.UserRepository;
+import cl.uc.saludestudiantiluc.auth.models.LoginResponse;
+import cl.uc.saludestudiantiluc.auth.models.RegisterResponse;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,12 +72,7 @@ public class AuthActivity extends BaseActivity {
       return;
     }
 
-    Glide
-        .with(this)
-        .load(R.drawable.sunset_background)
-        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-        .centerCrop()
-        .into((ImageView) findViewById(R.id.main_background_image));
+    loadMainBackground();
 
     mCardView = findViewById(R.id.auth_card_view);
     mEmailLayout = findViewById(R.id.auth_email_layout);

@@ -1,18 +1,24 @@
 <resources>
     <string name="app_name">RelaxUC</string>
-    <string name="download">Descargar</string>
     <string name="failed_download_json">"Ocurrió un error al conectarse con el servidor."</string>
+
+    <!-- Downloads -->
+    <string name="download">Descargar</string>
+    <string name="downloaded">Descargado/a.</string>
+    <string name="file_not_downloaded">Archivo no descargado.</string>
+    <string name="downloading">Descargando...</string>
+    <string name="zero_files_downloaded">No hay archivos descargados.</string>
 
     <!-- Square breathing -->
     <string name="square_breathing_inhale">Inhala</string>
     <string name="square_breathing_exhale">Exhala</string>
-    <string name="square_breathing_hold">Manten</string>
+    <string name="square_breathing_hold">Mantén</string>
 
     <!-- Strings related to login -->
 
     <string name="main_menu_sequences">Secuencias</string>
     <string name="main_menu_exercises">Ejercicios de relajación</string>
-    <string name="main_menu_ambient_sounds">Naturaleza</string>
+    <string name="main_menu_ambience">Naturaleza</string>
     <string name="main_menu_imaginary">Imaginerías</string>
 
     <string name="drawer_home">Inicio</string>

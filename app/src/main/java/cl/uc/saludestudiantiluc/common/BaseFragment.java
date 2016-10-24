@@ -1,21 +1,38 @@
 package cl.uc.saludestudiantiluc.common;
 
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+
+import cl.uc.saludestudiantiluc.R;
+import cl.uc.saludestudiantiluc.services.download.DownloadService;
 
 /**
  * Created by jchicao on 9/25/16.
  */
 
-public class  BaseFragment extends Fragment {
+public class BaseFragment extends Fragment {
 
-  public interface FragmentListener {
-    void onDismissed();
+  private DownloadService mDownloadService = null;
+  public DownloadService getDownloadService() {
+    if (mDownloadService == null) {
+      mDownloadService = new DownloadService(getContext());
+    }
+    return mDownloadService;
   }
 
-  private FragmentListener mListener;
+  public BaseActivity getBaseActivity() {
+    return (BaseActivity) getActivity();
+  }
 
-  public void setListener(FragmentListener listener) {
-    mListener = listener;
+  @Override
+  public void onDestroy() {
+    if (mDownloadService != null) {
+      mDownloadService.onDestroy();
+    }
+    super.onDestroy();
+  }
+
+  public void notifyMessage(String message) {
+    getBaseActivity().notifyMessage(message);
   }
 }

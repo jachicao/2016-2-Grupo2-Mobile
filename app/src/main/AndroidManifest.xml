@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".RelaxUcApplication"
@@ -18,15 +18,11 @@
             android:value="GlideModule"/>
 
         <activity android:name=".MainActivity"/>
-        <activity
-            android:name=".common.sounds.SoundActivity"
-            android:configChanges="orientation|screenSize"/>
-        <activity android:name=".imageries.ImageryDisplayActivity"/>
         <activity android:name=".sequences.ImagesActivity"/>
         <activity android:name=".squarebreathing.SquareBreathingActivity"/>
 
         <service
-            android:name=".common.sounds.SoundService"
+            android:name=".services.sound.SoundService"
             android:enabled="true"
             android:exported="true"
             android:stopWithTask="false">
@@ -40,6 +36,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".profile.ProfileActivity">
+        </activity>
+        <activity android:name=".ambiences.AmbienceActivity">
+        </activity>
+        <activity android:name=".imageries.ImageryActivity">
         </activity>
         <activity android:name=".calendar.CalendarActivity">
         </activity>

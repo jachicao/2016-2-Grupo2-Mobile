@@ -1,16 +1,17 @@
 package cl.uc.saludestudiantiluc;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import cl.uc.saludestudiantiluc.common.BaseFragment;
 
 /**
  * Created by lukas on 9/27/16.
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
   public static final String TAG = HomeFragment.class.getSimpleName();
   public HomeFragment() {
@@ -30,7 +31,6 @@ public class HomeFragment extends Fragment {
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-
       }
     });
     //fab.getBackground().setColorFilter(getResources().getColor(android.R.color.white), PorterDuff.Mode.SRC_ATOP);

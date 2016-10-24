@@ -2,12 +2,9 @@ package cl.uc.saludestudiantiluc.calendar;
 
 import java.util.List;
 
-import cl.uc.saludestudiantiluc.common.sounds.Sound;
 import retrofit2.Call;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by camilo on 16-10-16.

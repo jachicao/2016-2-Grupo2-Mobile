@@ -24,11 +24,11 @@
               android:checked="false"
               android:icon="@drawable/ic_movie_creation_black_24dp"
               android:title="@string/main_menu_imaginary"/>
-        <item android:id="@+id/drawer_sounds"
+        <item android:id="@+id/drawer_ambience"
               android:checkable="true"
               android:checked="false"
               android:icon="@drawable/ic_audiotrack_black_24dp"
-              android:title="@string/main_menu_ambient_sounds" />
+              android:title="@string/main_menu_ambience" />
     </group>
     <group
         android:id="@+id/menu_bottom"
