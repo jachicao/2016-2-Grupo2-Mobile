@@ -3,6 +3,8 @@ package cl.uc.saludestudiantiluc;
 import android.app.Application;
 import android.util.Log;
 
+import com.birbit.android.jobqueue.JobManager;
+import com.birbit.android.jobqueue.config.Configuration;
 import com.google.gson.Gson;
 
 import cl.uc.saludestudiantiluc.ambiences.api.AmbienceApi;
@@ -38,6 +40,7 @@ public class RelaxUcApplication extends Application {
   private ImageryRepository mImageryRepository;
   private AmbiencesRepository mAmbiencesRepository;
   private OkHttpClient mOkHttpClient;
+  private JobManager mJobManager;
 
 
   @Override
@@ -50,6 +53,7 @@ public class RelaxUcApplication extends Application {
     mImageryRepository = createSoundsRepository();
     mAmbiencesRepository = createAmbiencesRepository();
     mOkHttpClient = new OkHttpClient();
+    mJobManager = new JobManager(new Configuration.Builder(this).build());
     Log.d("APP", "on create");
   }
 
@@ -95,6 +99,10 @@ public class RelaxUcApplication extends Application {
 
   public OkHttpClient getOkHttpClient() {
     return mOkHttpClient;
+  }
+
+  public JobManager getJobManager() {
+    return mJobManager;
   }
 
 }

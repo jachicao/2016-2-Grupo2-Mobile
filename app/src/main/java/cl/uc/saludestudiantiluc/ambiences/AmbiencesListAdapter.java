@@ -3,6 +3,9 @@ package cl.uc.saludestudiantiluc.ambiences;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.ambiences.models.Ambience;
 import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
@@ -47,12 +50,12 @@ class AmbiencesListAdapter extends BaseListAdapter {
           FilesRequest filesRequest = ambience.getFilesRequest();
           filesRequest.addListener(new FilesListener() {
             @Override
-            public void onFilesReady() {
+            public void onFilesReady(ArrayList<File> files) {
               getFragment().notifyMessage(ambience.name + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
           });
-          getFragment().getDownloadService().requestFiles(filesRequest);
+          getFragment().getDownloadService().requestFiles(getFragment().getContext(), filesRequest);
           downloadButton.setText(getFragment().getString(R.string.downloading));
           clicked[0] = true;
         }
@@ -64,7 +67,7 @@ class AmbiencesListAdapter extends BaseListAdapter {
   public boolean isDownloaded(BaseFragmentListModel model) {
     Ambience ambience = (Ambience) model;
     if (ambience != null) {
-      return DownloadService.containsFiles(ambience.getFilesRequest());
+      return DownloadService.containsFiles(getFragment().getContext(), ambience.getFilesRequest());
     }
     return false;
   }

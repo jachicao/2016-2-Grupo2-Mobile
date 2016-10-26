@@ -88,7 +88,7 @@ public class ImageriesListFragment extends BaseListFragment {
       if (ima.equals(imagery)) {
         index = downloadedList.size();
       }
-      if (DownloadService.containsFiles(ima.getFilesRequest())) {
+      if (DownloadService.containsFiles(getContext(), ima.getFilesRequest())) {
         downloadedList.add(ima);
       }
     }

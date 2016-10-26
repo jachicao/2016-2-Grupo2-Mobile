@@ -74,7 +74,7 @@ public class AmbiencesListFragment extends BaseListFragment {
       if (amb.equals(ambience)) {
         index = downloadedList.size();
       }
-      if (DownloadService.containsFiles(amb.getFilesRequest())) {
+      if (DownloadService.containsFiles(getContext(), amb.getFilesRequest())) {
         downloadedList.add(amb);
       }
     }

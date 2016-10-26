@@ -67,7 +67,7 @@ public class BaseListAdapter extends RecyclerView.Adapter<BaseListAdapter.BaseLi
     void setView(BaseListAdapter adapter, BaseFragmentListModel baseFragmentListModel) {
       mName.setText(baseFragmentListModel.name);
       mDescription.setText(baseFragmentListModel.description);
-      adapter.getFragment().getDownloadService().requestIntoImageView(mPreview, baseFragmentListModel.getPreviewRequest());
+      adapter.getFragment().getDownloadService().requestIntoImageView(adapter.getFragment().getContext(), mPreview, baseFragmentListModel.getPreviewRequest());
     }
 
     public Button getDownloadButton() {

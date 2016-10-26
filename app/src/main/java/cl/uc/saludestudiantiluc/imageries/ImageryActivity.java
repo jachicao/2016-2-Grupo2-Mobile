@@ -15,6 +15,7 @@ import java.util.List;
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.SoundServiceActivity;
 import cl.uc.saludestudiantiluc.imageries.models.Imagery;
+import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import cl.uc.saludestudiantiluc.services.sound.SoundService;
 import cl.uc.saludestudiantiluc.utils.TouchDetector;
 import cl.uc.saludestudiantiluc.utils.TouchListener;
@@ -41,7 +42,7 @@ public class ImageryActivity extends SoundServiceActivity {
     mImageriesList = intent.getParcelableArrayListExtra(ImageriesListFragment.IMAGERIES_EXTRAS_LIST);
     mTextureView = (TextureView) findViewById(R.id.imagery_activity_texture_view);
     mVideoPlayer
-        = new VideoPlayer(mTextureView, getCurrentImagery().getVideoRequest().getAbsoluteFile().getPath());
+        = new VideoPlayer(mTextureView, DownloadService.getStringDir(this, getCurrentImagery().getVideoRequest()));
     mVideoPlayer.setMediaPlayerPosition(savedInstanceState);
     mVideoPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
       @Override
@@ -186,7 +187,7 @@ public class ImageryActivity extends SoundServiceActivity {
     }
     if (mSoundService != null) {
       Imagery imagery = getCurrentImagery();
-      mSoundService.newSound(imagery.getSoundRequest().getAbsoluteFile().getAbsolutePath(), imagery.name, true, 0);
+      mSoundService.newSound(DownloadService.getStringDir(this, imagery.getSoundRequest()), imagery.name, true, 0);
     }
   }
 }

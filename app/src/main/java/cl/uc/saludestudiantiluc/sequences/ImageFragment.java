@@ -49,7 +49,7 @@ public class ImageFragment extends Fragment {
       if (sequenceImage != null) {
         BaseActivity activity = (BaseActivity) getActivity();
         if (activity != null) {
-          activity.getDownloadService().requestIntoImageView(imageView, sequenceImage.getImageRequest());
+          activity.getDownloadService().requestIntoImageView(getContext(), imageView, sequenceImage.getImageRequest());
         }
       }
     }

@@ -1,5 +1,6 @@
 package cl.uc.saludestudiantiluc.services.download;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -24,9 +25,9 @@ public class FilesRequest implements FilesListener {
   }
 
   @Override
-  public void onFilesReady() {
-    for(FilesListener listener : mListeners) {
-      listener.onFilesReady();
+  public void onFilesReady(ArrayList<File> files) {
+    for (FilesListener filesListener : mListeners) {
+      filesListener.onFilesReady(files);
     }
   }
 }

@@ -1,5 +1,7 @@
 package cl.uc.saludestudiantiluc.services.download;
 
+import android.content.Context;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -25,18 +27,14 @@ public class FileRequest implements FileListener {
     return mStringPath;
   }
 
-  public File getAbsoluteFile() {
-    return DownloadService.getFileDir(mStringPath);
-  }
-
   public String getUrl() {
     return mBaseUrl + mStringPath;
   }
 
   @Override
-  public void onFileReady() {
-    for(FileListener listener : mListeners) {
-      listener.onFileReady();
+  public void onFileReady(File file) {
+    for (FileListener fileListener : mListeners) {
+      fileListener.onFileReady(file);
     }
   }
 }

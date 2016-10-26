@@ -3,6 +3,9 @@ package cl.uc.saludestudiantiluc.imageries;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseListAdapter;
 import cl.uc.saludestudiantiluc.common.BaseListFragment;
@@ -47,12 +50,12 @@ class ImageriesListAdapter extends BaseListAdapter {
           FilesRequest filesRequest = imagery.getFilesRequest();
           filesRequest.addListener(new FilesListener() {
             @Override
-            public void onFilesReady() {
+            public void onFilesReady(ArrayList<File> files) {
               getFragment().notifyMessage(imagery.name + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
           });
-          getFragment().getDownloadService().requestFiles(filesRequest);
+          getFragment().getDownloadService().requestFiles(getFragment().getContext(), filesRequest);
           downloadButton.setText(getFragment().getString(R.string.downloading));
           clicked[0] = true;
         }
@@ -64,7 +67,7 @@ class ImageriesListAdapter extends BaseListAdapter {
   public boolean isDownloaded(BaseFragmentListModel model) {
     Imagery imagery = (Imagery) model;
     if (imagery != null) {
-      return DownloadService.containsFiles(imagery.getFilesRequest());
+      return DownloadService.containsFiles(getFragment().getContext(), imagery.getFilesRequest());
     }
     return false;
   }

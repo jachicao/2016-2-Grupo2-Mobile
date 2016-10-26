@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.ambiences.models.Ambience;
+import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import cl.uc.saludestudiantiluc.utils.TouchDetector;
 import cl.uc.saludestudiantiluc.utils.TouchListener;
 import cl.uc.saludestudiantiluc.utils.VideoPlayer;
@@ -51,7 +52,7 @@ public class AmbienceViewPagerFragment extends Fragment {
     mAmbience = getArguments().getParcelable(EXTRAS_AMBIENCE);
     mIndex = getArguments().getInt(EXTRAS_INDEX);
     if (mAmbience != null) {
-      String videoPath = mAmbience.getVideoRequest().getAbsoluteFile().getAbsolutePath();
+      String videoPath = DownloadService.getStringDir(getContext(), mAmbience.getVideoRequest());
       TextureView textureView = (TextureView) mThisView.findViewById(R.id.ambience_view_pager_fragment_texture);
       mVideoPlayer = new VideoPlayer(textureView, videoPath);
       mVideoPlayer.setMediaPlayerPosition(savedInstanceState);

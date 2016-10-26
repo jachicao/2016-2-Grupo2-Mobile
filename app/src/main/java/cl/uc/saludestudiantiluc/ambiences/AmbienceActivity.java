@@ -14,6 +14,7 @@ import java.util.Map;
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.ambiences.models.Ambience;
 import cl.uc.saludestudiantiluc.common.SoundServiceActivity;
+import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import me.relex.circleindicator.CircleIndicator;
 
 public class AmbienceActivity extends SoundServiceActivity {
@@ -104,7 +105,7 @@ public class AmbienceActivity extends SoundServiceActivity {
 
   public void setNewSound(Ambience ambience) {
     if (mSoundService != null) {
-      mSoundService.newSound(ambience.getSoundRequest().getAbsoluteFile().getAbsolutePath(), ambience.name, isImmersiveMode(), 0);
+      mSoundService.newSound(DownloadService.getStringDir(this, ambience.getSoundRequest()), ambience.name, isImmersiveMode(), 0);
     }
   }
 }

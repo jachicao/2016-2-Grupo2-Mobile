@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.birbit.android.jobqueue.JobManager;
@@ -16,6 +17,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cl.uc.saludestudiantiluc.RelaxUcApplication;
+
 /**
  * Created by jchicao on 10/19/16.
  */
@@ -23,34 +26,33 @@ import java.util.HashMap;
 public class DownloadService {
 
   private static final String TAG = DownloadService.class.getSimpleName();
-  public static File getFileDir(String filePath) {
-    return new File(sContext.getFilesDir() + File.separator + filePath).getAbsoluteFile();
+
+  public static String getStringDir(Context context, FileRequest fileRequest) {
+    return getFileDir(context, fileRequest).getAbsolutePath();
   }
 
-  public static File getFileDir(FileRequest fileRequest) {
-    return new File(sContext.getFilesDir() + File.separator + fileRequest.getRelativePath()).getAbsoluteFile();
+  public static File getFileDir(Context context, FileRequest fileRequest) {
+    return new File(context.getFilesDir() + File.separator + fileRequest.getRelativePath()).getAbsoluteFile();
   }
 
-  public static boolean containsFile(FileRequest fileRequest) {
-    return getFileDir(fileRequest).exists();
+  public static boolean containsFile(Context context, FileRequest fileRequest) {
+    return getFileDir(context, fileRequest).exists();
   }
 
-  public static boolean containsFiles(FilesRequest filesRequest) {
+  public static boolean containsFiles(Context context, FilesRequest filesRequest) {
     for(FileRequest fileRequest : filesRequest.getFileRequests()) {
-      if (!containsFile(fileRequest)) {
+      if (!containsFile(context, fileRequest)) {
         return false;
       }
     }
     return true;
   }
-  private static Context sContext;
-  private JobManager mJobManager;
+
   private BroadcastReceiver mBroadcastReceiver;
   private HashMap<String, FileRequest> mFileRequests = new HashMap<>();
+  private LocalBroadcastManager mLocalBroadcastManager;
 
   public DownloadService(Context context) {
-    sContext = context;
-    mJobManager = new JobManager(new Configuration.Builder(sContext).build());
     mBroadcastReceiver = new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
@@ -61,65 +63,73 @@ public class DownloadService {
         switch (action) {
           case DownloadJob.DOWNLOAD_JOB_DONE:
             String path = intent.getStringExtra(DownloadJob.DOWNLOAD_JOB_MESSAGE_PATH);
-            //Log.v(TAG, "Downloaded - " + path);
+            Log.v(TAG, "Downloaded - " + path);
             if (mFileRequests.containsKey(path)) {
-              mFileRequests.get(path).onFileReady();
+              mFileRequests.get(path).onFileReady(new File(path));
               mFileRequests.remove(path);
             }
             break;
         }
       }
     };
-    LocalBroadcastManager.getInstance(sContext).registerReceiver(mBroadcastReceiver, new IntentFilter(DownloadJob.DOWNLOAD_JOB_DONE));
+    mLocalBroadcastManager = LocalBroadcastManager.getInstance(context);
+    mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, new IntentFilter(DownloadJob.DOWNLOAD_JOB_DONE));
   }
 
-  public void requestIntoImageView(final ImageView imageView, final FileRequest fileRequest) {
+  public void requestIntoImageView(final Context context, final ImageView imageView, final FileRequest fileRequest) {
     fileRequest.addListener(new FileListener() {
       @Override
-      public void onFileReady() {
-        Glide.with(sContext).load(fileRequest.getAbsoluteFile()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView);
+      public void onFileReady(File file) {
+        Glide.with(context).load(file).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView);
       }
     });
-    requestFile(fileRequest);
+    requestFile(context, fileRequest);
   }
 
-  public void requestFiles(final FilesRequest filesRequest) {
+  public void requestFiles(Context context, final FilesRequest filesRequest) {
     final ArrayList<FileRequest> requestArrayList = filesRequest.getFileRequests();
-    final int[] counter = {0};
-    for(FileRequest fileRequest : requestArrayList) {
+    final int size = filesRequest.getFileRequests().size();
+    final ArrayList<File> files = new ArrayList<>();
+    for (FileRequest fileRequest : requestArrayList) {
       fileRequest.addListener(new FileListener() {
         @Override
-        public void onFileReady() {
-          counter[0]++;
-          if (requestArrayList.size() == counter[0]) {
-            filesRequest.onFilesReady();
+        public void onFileReady(File file) {
+          files.add(file);
+          if (files.size() == size) {
+            filesRequest.onFilesReady(files);
           }
         }
       });
-      requestFile(fileRequest);
+      requestFile(context, fileRequest);
     }
   }
 
-  public void requestFile(FileRequest fileRequest) {
-    if (fileRequest.getAbsoluteFile().exists()) {
+  public void requestFile(Context context, FileRequest fileRequest) {
+    File file = getFileDir(context, fileRequest);
+    if (file.exists()) {
       //file is inside internal storage, so we trigger onFileReady
-      fileRequest.onFileReady();
+      fileRequest.onFileReady(file);
     } else {
       //file must be downloaded
-      downloadFile(fileRequest);
+      downloadFile(context, fileRequest);
     }
   }
 
-  private void downloadFile(final FileRequest fileRequest) {
-    String path = getFileDir(fileRequest).getAbsolutePath();
-    if (!mFileRequests.containsKey(path)) {
-      mFileRequests.put(path, fileRequest);
-      mJobManager.addJobInBackground(new DownloadJob(fileRequest.getUrl(), getFileDir(fileRequest).getAbsolutePath()));
+  private void downloadFile(Context context, final FileRequest fileRequest) {
+    String path = getFileDir(context, fileRequest).getAbsolutePath();
+    RelaxUcApplication relaxUcApplication = (RelaxUcApplication) context.getApplicationContext();
+    if (relaxUcApplication != null) {
+      JobManager jobManager = relaxUcApplication.getJobManager();
+      if (!mFileRequests.containsKey(path)) {
+        mFileRequests.put(path, fileRequest);
+        jobManager.addJobInBackground(new DownloadJob(fileRequest.getUrl(), getFileDir(context, fileRequest).getAbsolutePath()));
+      }
     }
   }
 
   public void onDestroy() {
-    //mJobManager.destroyService();
-    LocalBroadcastManager.getInstance(sContext).unregisterReceiver(mBroadcastReceiver);
+    if (mLocalBroadcastManager != null) {
+      mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
+    }
   }
 }

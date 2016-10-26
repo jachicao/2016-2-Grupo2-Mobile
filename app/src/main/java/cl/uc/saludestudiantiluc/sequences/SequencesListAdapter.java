@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseListAdapter;
@@ -31,7 +32,7 @@ class SequencesListAdapter extends BaseListAdapter {
   public boolean isDownloaded(BaseFragmentListModel model) {
     Sequence sequence = (Sequence) model;
     if (sequence != null) {
-      return DownloadService.containsFiles(sequence.getFilesRequest());
+      return DownloadService.containsFiles(getFragment().getContext(), sequence.getFilesRequest());
     }
     return false;
   }
@@ -61,12 +62,12 @@ class SequencesListAdapter extends BaseListAdapter {
           FilesRequest filesRequest = sequence.getFilesRequest();
           filesRequest.addListener(new FilesListener() {
             @Override
-            public void onFilesReady() {
+            public void onFilesReady(ArrayList<File> files) {
               getFragment().notifyMessage(sequence.name + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
           });
-          getFragment().getDownloadService().requestFiles(filesRequest);
+          getFragment().getDownloadService().requestFiles(getFragment().getContext(), filesRequest);
           downloadButton.setText(getFragment().getString(R.string.downloading));
           clicked[0] = true;
         }
