@@ -16,6 +16,7 @@ import java.io.IOException;
 import cl.uc.saludestudiantiluc.RelaxUcApplication;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okio.BufferedSink;
 import okio.Okio;
 
@@ -46,7 +47,8 @@ class DownloadJob extends Job {
       RelaxUcApplication relaxUcApplication = (RelaxUcApplication) getApplicationContext();
       if (relaxUcApplication != null) {
         File file = new File(mFilePath);
-        Response response = relaxUcApplication.getOkHttpClient().newCall(new Request.Builder().url(mUrl).build()).execute();
+        Response response = relaxUcApplication.getOkHttpClient()
+            .newCall(new Request.Builder().url(mUrl).build()).execute();
         if (!response.isSuccessful()) {
           throw new Exception("error");
         }
@@ -54,6 +56,7 @@ class DownloadJob extends Job {
         BufferedSink sink = Okio.buffer(Okio.sink(file));
         sink.writeAll(response.body().source());
         sink.close();
+        response.close();
         Intent intent = new Intent(DOWNLOAD_JOB_DONE);
         intent.putExtra(DOWNLOAD_JOB_MESSAGE_PATH, mFilePath);
         //Log.v(TAG, "Downloaded - " + file);

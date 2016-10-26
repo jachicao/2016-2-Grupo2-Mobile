@@ -22,9 +22,4 @@ public class ImageryRemoteDataStore implements ImageryDataStore {
   public Observable<List<Imagery>> getImagerySoundList() {
     return mImageryApi.getImagerySoundList();
   }
-
-  @Override
-  public Observable<List<Imagery>> getAmbientalSoundList() {
-    return mImageryApi.getAmbientalSoundList();
-  }
 }

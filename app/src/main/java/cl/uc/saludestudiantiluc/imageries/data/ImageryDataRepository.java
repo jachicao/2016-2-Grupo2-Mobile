@@ -56,37 +56,4 @@ public class ImageryDataRepository implements ImageryRepository {
 
     return Observable.concat(localData, remoteData);
   }
-
-  @Override
-  public Observable<List<Imagery>> getAmbientalSoundList() {
-    Observable<List<Imagery>> localData = mSoundsLocalDataStore.getAmbientalSoundList()
-        .filter(new Func1<List<Imagery>, Boolean>() {
-          @Override
-          public Boolean call(List<Imagery> sounds) {
-            return sounds != null;
-          }
-        }).subscribeOn(Schedulers.io());
-    Observable<List<Imagery>> remoteData = mSoundsRemoteDataStore.getAmbientalSoundList()
-        .onErrorReturn(new Func1<Throwable, List<Imagery>>() {
-          @Override
-          public List<Imagery> call(Throwable throwable) {
-            Log.e(ImageryDataRepository.class.getSimpleName(),
-                "Error while fetching data. Swallowing the exception.", throwable);
-            return null;
-          }
-        }).filter(new Func1<List<Imagery>, Boolean>() {
-          @Override
-          public Boolean call(List<Imagery> sounds) {
-            return sounds != null;
-          }
-        }).doOnNext(new Action1<List<Imagery>>() {
-          @Override
-          public void call(List<Imagery> sounds) {
-            mSoundsLocalDataStore.storeAmbientalSoundList(sounds);
-          }
-        })
-        .subscribeOn(Schedulers.io());
-
-    return Observable.concat(localData, remoteData);
-  }
 }

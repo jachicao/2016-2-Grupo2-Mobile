@@ -13,6 +13,4 @@ public interface ImageryDataStore {
 
   Observable<List<Imagery>> getImagerySoundList();
 
-  Observable<List<Imagery>> getAmbientalSoundList();
-
 }

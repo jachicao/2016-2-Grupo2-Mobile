@@ -4,11 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.JobManager;
+import com.birbit.android.jobqueue.callback.JobManagerCallback;
 import com.birbit.android.jobqueue.config.Configuration;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,16 +35,16 @@ public class DownloadService {
     return getFileDir(context, fileRequest).getAbsolutePath();
   }
 
-  public static File getFileDir(Context context, FileRequest fileRequest) {
+  static File getFileDir(Context context, FileRequest fileRequest) {
     return new File(context.getFilesDir() + File.separator + fileRequest.getRelativePath()).getAbsoluteFile();
   }
 
-  public static boolean containsFile(Context context, FileRequest fileRequest) {
+  private static boolean containsFile(Context context, FileRequest fileRequest) {
     return getFileDir(context, fileRequest).exists();
   }
 
   public static boolean containsFiles(Context context, FilesRequest filesRequest) {
-    for(FileRequest fileRequest : filesRequest.getFileRequests()) {
+    for (FileRequest fileRequest : filesRequest.getFileRequests()) {
       if (!containsFile(context, fileRequest)) {
         return false;
       }

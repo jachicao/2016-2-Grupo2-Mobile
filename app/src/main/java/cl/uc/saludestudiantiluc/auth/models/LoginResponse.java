@@ -1,5 +1,7 @@
 package cl.uc.saludestudiantiluc.auth.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,16 +12,20 @@ import okhttp3.Headers;
  */
 
 public class LoginResponse {
-  //Header
-  public HeaderResponse header = new HeaderResponse();
 
-  //body
-  public DataResponse data = new DataResponse();
+  @SerializedName("data")
+  private DataResponse mData;
 
-  public boolean success = true;
 
   public List<String> errors = new ArrayList<>();
 
-  public void setHeaderResponse(Headers h){
+
+  public int getId() {
+    return mData.getId();
   }
+
+  public String getEmail() {
+    return mData.getEmail();
+  }
+
 }
