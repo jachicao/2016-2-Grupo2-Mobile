@@ -99,9 +99,9 @@ public class AuthActivity extends BaseActivity {
     mProgressBar.setVisibility(View.GONE);
     mRememberMeCheckBox.setVisibility(View.GONE);
     if (AUTO_FILL_DATA) {
-      mEmailEditText.setText("email@uc.cl");
-      mPasswordEditText.setText("password");
-      mPasswordConfirmEditText.setText("password");
+      mEmailEditText.setText("lezorich@uc.cl");
+      mPasswordEditText.setText("123456");
+      mPasswordConfirmEditText.setText("123456");
     }
 
     Retrofit retrofit = new Retrofit.Builder()
