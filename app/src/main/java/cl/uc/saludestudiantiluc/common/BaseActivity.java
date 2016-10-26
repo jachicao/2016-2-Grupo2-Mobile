@@ -50,7 +50,7 @@ public class BaseActivity extends AppCompatActivity {
   protected void loadMainBackground() {
     Glide
         .with(this)
-        .load(R.drawable.sunset_background)
+        .load(R.drawable.main_background)
         .diskCacheStrategy(DiskCacheStrategy.RESULT)
         .centerCrop()
         .into((ImageView) findViewById(R.id.main_background_image));

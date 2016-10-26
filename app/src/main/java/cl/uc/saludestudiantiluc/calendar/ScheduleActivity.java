@@ -78,12 +78,8 @@ public class ScheduleActivity extends BaseActivity {
         onBackPressed();
       }
     });
-    Glide
-        .with(this)
-        .load(R.drawable.sunset_background)
-        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-        .centerCrop()
-        .into((ImageView) findViewById(R.id.main_background_image));
+
+    loadMainBackground();
 
     mLoaded = false;
     mIsDialogShown = false;
