@@ -18,80 +18,67 @@
         layout="@layout/toolbar"/>
 
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/hoursCardView"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:layout_marginTop="95dp"
-        android:background="@color/red_50"
-        app:cardBackgroundColor="@color/transparent"
-        app:cardCornerRadius="@dimen/card_view_corner_radius"
-        app:cardElevation="@dimen/card_view_elevation"
-        app:cardUseCompatPadding="true"
+        android:id="@+id/listLayout"
+        android:layout_marginBottom="25dp"
+        android:paddingLeft="@dimen/card_view_text_margin_left_right"
+        android:paddingRight="@dimen/card_view_text_margin_left_right"
         android:layout_below="@+id/toolbar"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center"
+        android:weightSum="1">
 
-        <LinearLayout
-            android:orientation="vertical"
+
+        <TextView
+            android:text="TextView"
+            android:textStyle="bold"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/white"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            android:layout_marginTop="50dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listLayout"
-            android:layout_marginBottom="25dp"
-            android:paddingLeft="@dimen/card_view_text_margin_left_right"
-            android:paddingRight="@dimen/card_view_text_margin_left_right"
-            android:weightSum="1">
+            android:id="@+id/stressEvaluation"/>
+
+        <TextView
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/white"
+            android:textSize="25sp"
+            android:paddingTop="10dp"
+            android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/anxietyEvaluation"/>
+
+        <TextView
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/white"
+            android:textSize="25sp"
+            android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sleepingEvaluation"
+
+            />
 
 
-            <TextView
-                android:text="TextView"
-                android:textStyle="bold"
-                android:background="@drawable/rounded_corner"
-                android:backgroundTint="@color/white"
-                android:textAlignment="center"
-                android:textSize="25sp"
-                android:layout_marginTop="50dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/stressEvaluation"/>
-
-            <TextView
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:background="@drawable/rounded_corner"
-                android:backgroundTint="@color/white"
-                android:textSize="25sp"
-                android:paddingTop="10dp"
-                android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
-                android:paddingBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/anxietyEvaluation"/>
-
-            <TextView
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:background="@drawable/rounded_corner"
-                android:backgroundTint="@color/white"
-                android:textSize="25sp"
-                android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sleepingEvaluation"
-
-                />
-
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
 
 </RelativeLayout>
