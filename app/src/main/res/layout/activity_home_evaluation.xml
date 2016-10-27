@@ -1,37 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_home_evaluation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cl.uc.saludestudiantiluc.evaluations.HomeEvaluation">
 
-    <Button
-        android:text="@string/name_evaluation_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="79dp"
-        android:id="@+id/button_evaluation_one"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+    <ImageView
+        android:id="@+id/main_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-    <Button
-        android:text="@string/name_evaluation_1"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/hoursCardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button_evaluation_two"
-        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="95dp"
+        android:background="@color/red_50"
+        app:cardBackgroundColor="@color/transparent"
+        app:cardCornerRadius="@dimen/card_view_corner_radius"
+        app:cardElevation="@dimen/card_view_elevation"
+        app:cardUseCompatPadding="true"
+        android:layout_below="@+id/toolbar"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="61dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listLayout"
+            android:layout_marginBottom="25dp"
+            android:paddingLeft="@dimen/card_view_text_margin_left_right"
+            android:paddingRight="@dimen/card_view_text_margin_left_right"
+            android:weightSum="1">
+
+
+            <TextView
+                android:text="TextView"
+                android:textStyle="bold"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/white"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                android:layout_marginTop="50dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/stressEvaluation"/>
+
+            <TextView
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/white"
+                android:textSize="25sp"
+                android:paddingTop="10dp"
+                android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
+                android:paddingBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/anxietyEvaluation"/>
+
+            <TextView
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/white"
+                android:textSize="25sp"
+                android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sleepingEvaluation"
+
+                />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
 </RelativeLayout>

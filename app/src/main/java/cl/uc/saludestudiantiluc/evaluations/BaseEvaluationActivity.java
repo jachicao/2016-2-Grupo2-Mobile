@@ -1,7 +1,9 @@
 package cl.uc.saludestudiantiluc.evaluations;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.InputStream;
 
@@ -28,10 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.R;
+import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.evaluations.data.evaluationModel;
 import cl.uc.saludestudiantiluc.evaluations.data.generateEvaluation;
 
-public class BaseEvaluationActivity extends AppCompatActivity {
+public class BaseEvaluationActivity extends BaseActivity {
 
   /**
    * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -48,7 +55,11 @@ public class BaseEvaluationActivity extends AppCompatActivity {
   private FloatingActionButton mButtonFloat;
   private int mEvaluationType; //0: nulo ; 1:estres ; 2:ansiedad; 3:Sueño
 
+  private LayoutInflater mInflater;
+
   public static final String TOTAL_SCORE = "com.example.relaxuc.evaluations.score";
+  public static final String EVALUATION_TYPE = "com.example.relaxuc.evaluations.type";
+  public static final String USER_ROLE = "com.example.relaxuc.evaluations.role";
 
   /**
    * The {@link ViewPager} that will host the section contents.
@@ -59,11 +70,40 @@ public class BaseEvaluationActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_base_evaluation);
-    TextView toolbar = (TextView) findViewById(R.id.toolbar) ;
+    TextView questionTitle = (TextView) findViewById(R.id.title_question) ;
 
-    //setSupportActionBar(toolbar);
+
+
     Intent intent = getIntent();
     mEvaluationType = intent.getIntExtra(HomeEvaluation.TEST_TYPE, 0) ;
+
+    //setToolBar
+
+    String[] types_array = getResources().getStringArray(R.array.evaluetions_types);
+
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle(types_array[mEvaluationType-1]);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+    }
+
+    getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        onBackPressed();
+      }
+    });
+
+    //Set background
+    Glide
+        .with(this)
+        .load(R.drawable.sunset_background)
+        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+        .centerCrop()
+        .into((ImageView) findViewById(R.id.main_background_image));
+
+    mInflater = (LayoutInflater) this
+        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     //Set the evaluation model
     generateEvaluation geval = new generateEvaluation() ;
@@ -112,20 +152,18 @@ public class BaseEvaluationActivity extends AppCompatActivity {
       }
     });
 
+    //Set the questionTitle
+    questionTitle.setText(evaluationName);
+    questionTitle.setTextSize(20);
+    questionTitle.setTextColor(getResources().getColor(R.color.white));
 
-
-
-    //Set the toolbar
-    toolbar.setText(evaluationName);
-    toolbar.setTextSize(20);
-    toolbar.setTextColor(getResources().getColor(R.color.black));
-
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
+    FloatingActionButton send = (FloatingActionButton) findViewById(R.id.fab);
+    send.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+    send.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
 
-        publicar(view);
+        sendScore(view);
       }
     });
 
@@ -138,6 +176,8 @@ public class BaseEvaluationActivity extends AppCompatActivity {
   public void setResults(int i, String result) {
     mResults[i] = result;
   }
+
+
 
   public boolean areAllSelected() {
     for (int i = 0; i < mQuantity; i++) {
@@ -159,7 +199,7 @@ public class BaseEvaluationActivity extends AppCompatActivity {
   }
 
 
-  public void publicar(View view) {
+  public void sendScore(View view) {
 
     if (areAllSelected()) {
 
@@ -176,13 +216,36 @@ public class BaseEvaluationActivity extends AppCompatActivity {
   }
 
   public void showResults() {
-    int score = 0;
-    for (int i = 0; i < mResults.length ; i++) {
-      score += Integer.parseInt(mResults[i]);
-    }
+
+    int score;
+    score = calculateScore();
     Intent intent = new Intent(this, EvaluationResults.class);
     intent.putExtra(TOTAL_SCORE, score);
+    intent.putExtra(EVALUATION_TYPE, mEvaluationType);
+    intent.putExtra(USER_ROLE, 1);
     startActivity(intent);
+
+  }
+
+  public int calculateScore() {
+    int score = 0;
+    for ( int i = 0; i < mResults.length ; i++) {
+
+      if (mEvaluationType == 1) { // If evaluation is for stress recomenation
+        if ( i == 3 || i == 4 || i == 5 || i == 6 || i == 8 || i == 9 || i == 12 ) {
+          score += 4 - (Integer.parseInt(mResults[i]) - 1);
+        } else {
+          score += Integer.parseInt(mResults[i]) - 1;
+        }
+      }
+
+      if (mEvaluationType == 2) {
+        score += Integer.parseInt((mResults[i])) - 1;
+      }
+
+    }
+
+    return score;
   }
 
 
@@ -209,9 +272,7 @@ public class BaseEvaluationActivity extends AppCompatActivity {
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
     //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
+
     return super.onOptionsItemSelected(item);
   }
 

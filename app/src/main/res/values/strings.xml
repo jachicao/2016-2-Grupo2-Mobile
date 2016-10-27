@@ -97,9 +97,20 @@
     <string name="answer_T2_c">Más de la mitad de los días</string>
     <string name="answer_T2_d">Casi todos los días</string>
 
+    <string name="stress_evaluetion">Evaluación de estrés</string>
+    <string name="anxiety_evaluetion">Evaluación de ansiedad</string>
+    <string name="sleeping_evaluetion">Evaluación de calidad del sueño</string>
 
     <string name="home_start_now">Comenzar a relajarme</string>
     <string name="square_breathing">Respiración cuadrada</string>
+    <string name="evaluations">Evaluaciones disponibles</string>
+    <string-array name="evaluetions_types">
+        <item>@string/stress_evaluetion</item>
+        <item>@string/anxiety_evaluetion</item>
+        <item>@string/sleeping_evaluetion</item>
+    </string-array>
+    <string name="evaluetion_results">Resultados de evaluación</string>
+
 
 
     <string name="profile">Perfil</string>

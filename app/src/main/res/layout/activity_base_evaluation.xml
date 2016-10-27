@@ -8,39 +8,61 @@
                                                  android:fitsSystemWindows="true"
                                                  tools:context="cl.uc.saludestudiantiluc.evaluations.BaseEvaluationActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/main_background_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
 
         <TextView
-            android:id="@+id/toolbar"
+            android:id="@+id/title_question"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:background="?attr/colorPrimary"
-            android:textSize="25dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:textAlignment="center"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_below="@+id/toolbar"
+            app:layout_scrollFlags="scroll|enterAlways">
         </TextView>
 
-    </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_send_black_24dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="121dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_send_black_24dp"
+            android:layout_alignRight="@+id/container"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="30dp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_below="@+id/title_question"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+    </RelativeLayout>
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>
