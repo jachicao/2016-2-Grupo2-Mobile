@@ -8,4 +8,5 @@ import java.io.File;
 
 public interface FileListener {
   void onFileReady(File file);
+  void onProgressUpdate(long percentage);
 }

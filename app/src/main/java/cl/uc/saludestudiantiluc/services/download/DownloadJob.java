@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 
 import cl.uc.saludestudiantiluc.RelaxUcApplication;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okio.BufferedSink;
@@ -24,9 +26,13 @@ import okio.Okio;
  */
 
 class DownloadJob extends Job {
+
   private static final String TAG = DownloadJob.class.getSimpleName();
-  static final String DOWNLOAD_JOB_DONE = "DownloadJobDone";
-  static final String DOWNLOAD_JOB_MESSAGE_PATH = "DownloadJobMessagePath";
+  static final String DOWNLOAD_JOB = "DownloadJob";
+  static final String DOWNLOAD_JOB_PATH = "DownloadJobPath";
+  static final String DOWNLOAD_JOB_ON_FILE_READY = "DownloadJobOnFileReady";
+  static final String DOWNLOAD_JOB_ON_UPDATE_PERCENTAGE = "DownloadJobOnUpdatePercentage";
+
   private String mUrl;
   private String mFilePath;
 
@@ -38,6 +44,7 @@ class DownloadJob extends Job {
 
   @Override
   public void onAdded() {
+
   }
 
   @Override
@@ -46,7 +53,30 @@ class DownloadJob extends Job {
       RelaxUcApplication relaxUcApplication = (RelaxUcApplication) getApplicationContext();
       if (relaxUcApplication != null) {
         File file = new File(mFilePath);
-        Response response = relaxUcApplication.getOkHttpClient().newCall(new Request.Builder().url(mUrl).build()).execute();
+        OkHttpClient.Builder builder =
+            relaxUcApplication.getOkHttpClient().newBuilder();
+        OkHttpClient okHttpClient = builder
+            .addNetworkInterceptor(new Interceptor() {
+              @Override
+              public Response intercept(Chain chain) throws IOException {
+                Response originalResponse = chain.proceed(chain.request());
+                CustomResponseBody customResponseBody
+                    = new CustomResponseBody(originalResponse.body(), new ProgressListener() {
+                  @Override
+                  public void onUpdate(long percentage) {
+                    Intent intent = new Intent(DOWNLOAD_JOB);
+                    intent.putExtra(DOWNLOAD_JOB_PATH, mFilePath);
+                    intent.putExtra(DOWNLOAD_JOB_ON_UPDATE_PERCENTAGE, percentage);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                  }
+                });
+                return originalResponse.newBuilder()
+                    .body(customResponseBody)
+                    .build();
+              }
+            }).build();
+        Request request = new Request.Builder().url(mUrl).build();
+        Response response = okHttpClient.newCall(request).execute();
         if (!response.isSuccessful()) {
           throw new Exception("error");
         }
@@ -54,13 +84,14 @@ class DownloadJob extends Job {
         BufferedSink sink = Okio.buffer(Okio.sink(file));
         sink.writeAll(response.body().source());
         sink.close();
-        Intent intent = new Intent(DOWNLOAD_JOB_DONE);
-        intent.putExtra(DOWNLOAD_JOB_MESSAGE_PATH, mFilePath);
+        Intent intent = new Intent(DOWNLOAD_JOB);
+        intent.putExtra(DOWNLOAD_JOB_PATH, mFilePath);
+        intent.putExtra(DOWNLOAD_JOB_ON_FILE_READY, true);
         //Log.v(TAG, "Downloaded - " + file);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
       }
-    } catch (IOException e) {
-      throw e;
+    } catch (IOException error) {
+      throw error;
     }
   }
 
@@ -87,8 +118,8 @@ class DownloadJob extends Job {
               Log.v(TAG, "createNewFile error");
               return;
             }
-          } catch (IOException e) {
-            e.printStackTrace();
+          } catch (IOException error) {
+            error.printStackTrace();
           }
         }
       } else {

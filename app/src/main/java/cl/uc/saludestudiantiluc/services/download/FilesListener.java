@@ -9,4 +9,5 @@ import java.util.ArrayList;
 
 public interface FilesListener {
   void onFilesReady(ArrayList<File> files);
+  void onProgressUpdate(long percentage);
 }

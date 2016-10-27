@@ -11,10 +11,7 @@ import cl.uc.saludestudiantiluc.common.BaseListAdapter;
 import cl.uc.saludestudiantiluc.common.BaseListFragment;
 import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
 import cl.uc.saludestudiantiluc.sequences.models.Sequence;
-import cl.uc.saludestudiantiluc.sequences.models.SequencesImage;
 import cl.uc.saludestudiantiluc.services.download.DownloadService;
-import cl.uc.saludestudiantiluc.services.download.FileListener;
-import cl.uc.saludestudiantiluc.services.download.FileRequest;
 import cl.uc.saludestudiantiluc.services.download.FilesListener;
 import cl.uc.saludestudiantiluc.services.download.FilesRequest;
 
@@ -60,15 +57,19 @@ class SequencesListAdapter extends BaseListAdapter {
             return;
           }
           FilesRequest filesRequest = sequence.getFilesRequest();
-          filesRequest.addListener(new FilesListener() {
+          filesRequest.addFilesListener(new FilesListener() {
             @Override
             public void onFilesReady(ArrayList<File> files) {
               getFragment().notifyMessage(sequence.name + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
+
+            @Override
+            public void onProgressUpdate(long percentage) {
+              downloadButton.setText(getFragment().getString(R.string.downloading) + " " + percentage + "%");
+            }
           });
           getFragment().getDownloadService().requestFiles(getFragment().getContext(), filesRequest);
-          downloadButton.setText(getFragment().getString(R.string.downloading));
           clicked[0] = true;
         }
       });

@@ -1,7 +1,5 @@
 package cl.uc.saludestudiantiluc.services.download;
 
-import android.content.Context;
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -10,6 +8,7 @@ import java.util.ArrayList;
  */
 
 public class FileRequest implements FileListener {
+
   private String mBaseUrl;
   private String mStringPath;
   private ArrayList<FileListener> mListeners = new ArrayList<>();
@@ -19,15 +18,15 @@ public class FileRequest implements FileListener {
     mStringPath = stringPath;
   }
 
-  public void addListener(FileListener listener) {
+  void addFileListener(FileListener listener) {
     mListeners.add(listener);
   }
 
-  public String getRelativePath() {
+  String getRelativePath() {
     return mStringPath;
   }
 
-  public String getUrl() {
+  String getUrl() {
     return mBaseUrl + mStringPath;
   }
 
@@ -35,6 +34,13 @@ public class FileRequest implements FileListener {
   public void onFileReady(File file) {
     for (FileListener fileListener : mListeners) {
       fileListener.onFileReady(file);
+    }
+  }
+
+  @Override
+  public void onProgressUpdate(long percentage) {
+    for (FileListener fileListener : mListeners) {
+      fileListener.onProgressUpdate(percentage);
     }
   }
 }
