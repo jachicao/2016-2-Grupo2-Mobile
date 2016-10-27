@@ -1,0 +1,88 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/section_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            tools:context="cl.uc.saludestudiantiluc.evaluations.BaseEvaluationActivity$PlaceholderFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:id="@+id/section_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="19sp"
+            android:textColor="@color/white"
+            android:textAlignment="center" />
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="110dp"
+                    android:id="@+id/radioGroupOptions"
+                    android:orientation="vertical">
+            <RadioButton
+                android:text="@string/answer_T1_a"
+                android:buttonTint="@color/white"
+                android:textColor="@color/white"
+                android:tag="@string/tag_answer_T1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioButton"
+                android:layout_marginTop="26dp"
+                android:layout_centerHorizontal="true"/>
+
+            <RadioButton
+                android:text="@string/answer_T1_b"
+                android:buttonTint="@color/white"
+                android:textColor="@color/white"
+                android:tag="@string/tag_answer_T2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:id="@+id/radioButton2"/>
+
+            <RadioButton
+                android:text="@string/answer_T1_c"
+                android:buttonTint="@color/white"
+                android:textColor="@color/white"
+                android:tag="@string/tag_answer_T3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:id="@+id/radioButton3"/>
+
+            <RadioButton
+                android:text="@string/answer_T1_d"
+                android:buttonTint="@color/white"
+                android:textColor="@color/white"
+                android:tag="@string/tag_answer_T4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:id="@+id/radioButton4"/>
+
+            <RadioButton
+                android:text="@string/answer_T1_e"
+                android:buttonTint="@color/white"
+                android:textColor="@color/white"
+                android:tag="@string/tag_answer_T5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:id="@+id/radioButton5"/>
+        </RadioGroup>
+
+    </RelativeLayout>
+
+</ScrollView>

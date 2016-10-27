@@ -37,6 +37,7 @@
         </activity>
         <activity android:name=".profile.ProfileActivity">
         </activity>
+
         <activity android:name=".ambiences.AmbienceActivity">
         </activity>
         <activity android:name=".imageries.ImageryActivity">
@@ -46,6 +47,16 @@
         <activity android:name=".calendar.ScheduleActivity">
         </activity>
         <activity android:name=".calendar.ConfirmationActivity">
+        </activity>
+        <activity android:name=".evaluations.HomeEvaluation">
+        </activity>
+        <activity
+            android:name=".evaluations.BaseEvaluationActivity"
+            android:label="@string/title_activity_base_evaluation"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".evaluations.EvaluationResults">
+
         </activity>
     </application>
 

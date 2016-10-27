@@ -1,0 +1,7 @@
+﻿{
+       "evaluationName":"¿Durante las últimas dos semanas, con qué frecuencia sintió molestias por los siguientes problemas?" , 
+       "questions":["1. Sentirse nervioso/a, ansioso/a o con los nervios de punta", "2. No poder dejar de preocuparse o no poder controlar la preocupación", "3. Preocuparse demasiado por diferentes cosas", "4. Dificultad para relajarse", "5. Estar tan inquieto/a que es difícil permanecer sentado/a quieto/a", "6. Enojarse o irritarse con facilidad", "7. Sentirse con miedo como si algo terrible fuera a suceder"],
+       "quantity": 7,
+       "numberOptions": 4   
+   
+}
