@@ -20,6 +20,7 @@
     <string name="main_menu_exercises">Ejercicios de relajación</string>
     <string name="main_menu_ambience">Naturaleza</string>
     <string name="main_menu_imaginary">Imaginerías</string>
+    <string name="main_menu_evaluations">Evaluaciones</string>
 
     <string name="drawer_home">Inicio</string>
     <string name="drawer_profile">Perfil</string>
@@ -80,8 +81,42 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <!--Evaluations -->
+    <string name="name_evaluation_1">Evalua Ansiedad</string>
+    <string name="name_evaluation_2">Evalua Estres</string>
+    <string name="name_evaluation_3">Evalua tu Sueño</string>
+
+    <string name="tag_answer_T1">1</string>
+    <string name="tag_answer_T2">2</string>
+    <string name="tag_answer_T3">3</string>
+    <string name="tag_answer_T4">4</string>
+    <string name="tag_answer_T5">5</string>
+
+    <string name="answer_T1_a">Nunca</string>
+    <string name="answer_T1_b">Casi nunca</string>
+    <string name="answer_T1_c">De vez en cuando</string>
+    <string name="answer_T1_d">A menudo</string>
+    <string name="answer_T1_e">Muy a menudo</string>
+
+    <string name="answer_T2_a">Nunca</string>
+    <string name="answer_T2_b">Varios días</string>
+    <string name="answer_T2_c">Más de la mitad de los días</string>
+    <string name="answer_T2_d">Casi todos los días</string>
+
+    <string name="stress_evaluetion">Evaluación de estrés</string>
+    <string name="anxiety_evaluetion">Evaluación de ansiedad</string>
+    <string name="sleeping_evaluetion">Evaluación de calidad del sueño</string>
+
     <string name="home_start_now">Comenzar a relajarme</string>
     <string name="square_breathing">Respiración cuadrada</string>
+    <string name="evaluations">Evaluaciones disponibles</string>
+    <string-array name="evaluetions_types">
+        <item>@string/stress_evaluetion</item>
+        <item>@string/anxiety_evaluetion</item>
+        <item>@string/sleeping_evaluetion</item>
+    </string-array>
+    <string name="evaluetion_results">Resultados de evaluación</string>
+
 
 
     <string name="profile">Perfil</string>
@@ -126,5 +161,10 @@
     <string name="campus_start">Campus:\u0020</string>
     <string name="service_start">Servicio:\u0020</string>
     <string name="booking_confirmation">Confirmación de hora</string>
+
+
+    <string name="title_activity_base_evaluation">BaseEvaluationActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

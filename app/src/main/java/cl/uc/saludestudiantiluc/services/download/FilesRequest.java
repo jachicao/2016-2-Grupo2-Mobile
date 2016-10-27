@@ -12,7 +12,7 @@ public class FilesRequest implements FilesListener {
   private ArrayList<FilesListener> mListeners = new ArrayList<>();
   private ArrayList<FileRequest> mFileRequests = new ArrayList<>();
 
-  public ArrayList<FileRequest> getFileRequests() {
+  ArrayList<FileRequest> getFileRequests() {
     return mFileRequests;
   }
 
@@ -20,7 +20,7 @@ public class FilesRequest implements FilesListener {
     mFileRequests.add(fileRequest);
   }
 
-  public void addListener(FilesListener listener) {
+  public void addFilesListener(FilesListener listener) {
     mListeners.add(listener);
   }
 
@@ -28,6 +28,13 @@ public class FilesRequest implements FilesListener {
   public void onFilesReady(ArrayList<File> files) {
     for (FilesListener filesListener : mListeners) {
       filesListener.onFilesReady(files);
+    }
+  }
+
+  @Override
+  public void onProgressUpdate(long percentage) {
+    for (FilesListener filesListener : mListeners) {
+      filesListener.onProgressUpdate(percentage);
     }
   }
 }

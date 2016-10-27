@@ -1,7 +1,5 @@
 package cl.uc.saludestudiantiluc.services.download;
 
-import android.content.Context;
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -20,7 +18,7 @@ public class FileRequest implements FileListener {
     mStringPath = stringPath;
   }
 
-  void addListener(FileListener listener) {
+  void addFileListener(FileListener listener) {
     mListeners.add(listener);
   }
 
@@ -36,6 +34,13 @@ public class FileRequest implements FileListener {
   public void onFileReady(File file) {
     for (FileListener fileListener : mListeners) {
       fileListener.onFileReady(file);
+    }
+  }
+
+  @Override
+  public void onProgressUpdate(long percentage) {
+    for (FileListener fileListener : mListeners) {
+      fileListener.onProgressUpdate(percentage);
     }
   }
 }

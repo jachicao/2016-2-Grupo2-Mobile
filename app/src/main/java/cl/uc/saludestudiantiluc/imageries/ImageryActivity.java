@@ -178,6 +178,20 @@ public class ImageryActivity extends SoundServiceActivity {
           return 0;
         }
       });
+      /*
+      TODO(Javier): Agregar botones para cambiar sonido
+      mSoundMediaController.setPrevNextListeners(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+      }, new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+      });
+      */
       mHandler.post(new Runnable() {
         public void run() {
           mSoundMediaController.setEnabled(true);

@@ -48,15 +48,19 @@ class ImageriesListAdapter extends BaseListAdapter {
             return;
           }
           FilesRequest filesRequest = imagery.getFilesRequest();
-          filesRequest.addListener(new FilesListener() {
+          filesRequest.addFilesListener(new FilesListener() {
             @Override
             public void onFilesReady(ArrayList<File> files) {
               getFragment().notifyMessage(imagery.name + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
+
+            @Override
+            public void onProgressUpdate(long percentage) {
+              downloadButton.setText(getFragment().getString(R.string.downloading) + " " + percentage + "%");
+            }
           });
           getFragment().getDownloadService().requestFiles(getFragment().getContext(), filesRequest);
-          downloadButton.setText(getFragment().getString(R.string.downloading));
           clicked[0] = true;
         }
       });

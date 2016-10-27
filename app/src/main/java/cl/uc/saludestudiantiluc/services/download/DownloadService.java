@@ -4,22 +4,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.JobManager;
-import com.birbit.android.jobqueue.callback.JobManagerCallback;
-import com.birbit.android.jobqueue.config.Configuration;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import cl.uc.saludestudiantiluc.RelaxUcApplication;
 
@@ -39,7 +35,7 @@ public class DownloadService {
     return new File(context.getFilesDir() + File.separator + fileRequest.getRelativePath()).getAbsoluteFile();
   }
 
-  private static boolean containsFile(Context context, FileRequest fileRequest) {
+  static boolean containsFile(Context context, FileRequest fileRequest) {
     return getFileDir(context, fileRequest).exists();
   }
 
@@ -64,27 +60,42 @@ public class DownloadService {
           return;
         }
         String action = intent.getAction();
+        //Log.v(TAG, "Action - " + action);
         switch (action) {
-          case DownloadJob.DOWNLOAD_JOB_DONE:
-            String path = intent.getStringExtra(DownloadJob.DOWNLOAD_JOB_MESSAGE_PATH);
-            Log.v(TAG, "Downloaded - " + path);
+          case DownloadJob.DOWNLOAD_JOB:
+            String path = intent.getStringExtra(DownloadJob.DOWNLOAD_JOB_PATH);
             if (mFileRequests.containsKey(path)) {
-              mFileRequests.get(path).onFileReady(new File(path));
-              mFileRequests.remove(path);
+              boolean onFileReady = intent.getBooleanExtra(DownloadJob.DOWNLOAD_JOB_ON_FILE_READY, false);
+              if (onFileReady) {
+                Log.v(TAG, "onFileReady - " + path);
+                mFileRequests.get(path).onFileReady(new File(path));
+                mFileRequests.remove(path);
+              } else {
+                long percentage = intent.getLongExtra(DownloadJob.DOWNLOAD_JOB_ON_UPDATE_PERCENTAGE, -1);
+                if (percentage > -1) {
+                  //Log.v(TAG, "onUpdate - " + path + " - " + currentBytes + " - " + totalBytes + " - " + percentage + "%");
+                  mFileRequests.get(path).onProgressUpdate(percentage);
+                }
+              }
             }
             break;
         }
       }
     };
     mLocalBroadcastManager = LocalBroadcastManager.getInstance(context);
-    mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, new IntentFilter(DownloadJob.DOWNLOAD_JOB_DONE));
+    mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, new IntentFilter(DownloadJob.DOWNLOAD_JOB));
   }
 
   public void requestIntoImageView(final Context context, final ImageView imageView, final FileRequest fileRequest) {
-    fileRequest.addListener(new FileListener() {
+    fileRequest.addFileListener(new FileListener() {
       @Override
       public void onFileReady(File file) {
         Glide.with(context).load(file).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView);
+      }
+
+      @Override
+      public void onProgressUpdate(long percentage) {
+
       }
     });
     requestFile(context, fileRequest);
@@ -94,8 +105,10 @@ public class DownloadService {
     final ArrayList<FileRequest> requestArrayList = filesRequest.getFileRequests();
     final int size = filesRequest.getFileRequests().size();
     final ArrayList<File> files = new ArrayList<>();
-    for (FileRequest fileRequest : requestArrayList) {
-      fileRequest.addListener(new FileListener() {
+    final HashMap<FileRequest, Long> percentages = new HashMap<>();
+    for (final FileRequest fileRequest : requestArrayList) {
+      percentages.put(fileRequest, 0L);
+      fileRequest.addFileListener(new FileListener() {
         @Override
         public void onFileReady(File file) {
           files.add(file);
@@ -103,12 +116,23 @@ public class DownloadService {
             filesRequest.onFilesReady(files);
           }
         }
+
+        @Override
+        public void onProgressUpdate(long percentage) {
+          percentages.put(fileRequest, percentage);
+          long totalPercentages = 0L;
+          for (Map.Entry<FileRequest, Long> entry : percentages.entrySet()) {
+            totalPercentages += entry.getValue();
+          }
+          filesRequest.onProgressUpdate(totalPercentages / size);
+        }
       });
+      filesRequest.onProgressUpdate(0L);
       requestFile(context, fileRequest);
     }
   }
 
-  public void requestFile(Context context, FileRequest fileRequest) {
+  void requestFile(Context context, FileRequest fileRequest) {
     File file = getFileDir(context, fileRequest);
     if (file.exists()) {
       //file is inside internal storage, so we trigger onFileReady

@@ -18,7 +18,12 @@ import cl.uc.saludestudiantiluc.ambiences.AmbiencesListFragment;
 import cl.uc.saludestudiantiluc.auth.AuthActivity;
 import cl.uc.saludestudiantiluc.calendar.CalendarActivity;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
+
 import cl.uc.saludestudiantiluc.imageries.ImageriesListFragment;
+
+
+import cl.uc.saludestudiantiluc.evaluations.HomeEvaluation;
+
 import cl.uc.saludestudiantiluc.profile.ProfileActivity;
 import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
@@ -104,6 +109,9 @@ public class MainActivity extends BaseActivity {
             break;
           case R.id.drawer_ambience:
             changeFragment(AmbiencesListFragment.newInstance());
+            break;
+          case R.id.drawer_evaluations:
+            startActivity(HomeEvaluation.getIntent(MainActivity.this));
             break;
           case R.id.drawer_profile:
             startActivity(ProfileActivity.getIntent(MainActivity.this));

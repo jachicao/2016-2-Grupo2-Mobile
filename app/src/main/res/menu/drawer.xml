@@ -29,7 +29,16 @@
               android:checked="false"
               android:icon="@drawable/ic_audiotrack_black_24dp"
               android:title="@string/main_menu_ambience" />
+
+              android:title="@string/main_menu_ambient_sounds" />
+        <item android:id="@+id/drawer_evaluations"
+              android:checkable="true"
+              android:checked="false"
+              android:icon="@drawable/ic_assignment_turned_in_black_24dp"
+              android:title="@string/main_menu_evaluations" />
     </group>
+
+
     <group
         android:id="@+id/menu_bottom"
         android:checkableBehavior="single">

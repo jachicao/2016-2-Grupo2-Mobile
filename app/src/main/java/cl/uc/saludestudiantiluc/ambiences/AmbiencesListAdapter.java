@@ -48,15 +48,19 @@ class AmbiencesListAdapter extends BaseListAdapter {
             return;
           }
           FilesRequest filesRequest = ambience.getFilesRequest();
-          filesRequest.addListener(new FilesListener() {
+          filesRequest.addFilesListener(new FilesListener() {
             @Override
             public void onFilesReady(ArrayList<File> files) {
               getFragment().notifyMessage(ambience.name + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
+
+            @Override
+            public void onProgressUpdate(long percentage) {
+              downloadButton.setText(getFragment().getString(R.string.downloading) + " " + percentage + "%");
+            }
           });
           getFragment().getDownloadService().requestFiles(getFragment().getContext(), filesRequest);
-          downloadButton.setText(getFragment().getString(R.string.downloading));
           clicked[0] = true;
         }
       });
@@ -66,7 +70,7 @@ class AmbiencesListAdapter extends BaseListAdapter {
   @Override
   public boolean isDownloaded(BaseFragmentListModel model) {
     Ambience ambience = (Ambience) model;
-    if (ambience != null) {
+    if(ambience != null) {
       return DownloadService.containsFiles(getFragment().getContext(), ambience.getFilesRequest());
     }
     return false;
