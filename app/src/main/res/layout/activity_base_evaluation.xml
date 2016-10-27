@@ -6,16 +6,21 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
+                                                 android:background="@color/black_overlay"
                                                  tools:context="cl.uc.saludestudiantiluc.evaluations.BaseEvaluationActivity">
+
+    <ImageView
+
+        android:id="@+id/main_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black_overlay">
 
-        <ImageView
-            android:id="@+id/main_background_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+
 
         <include
             android:id="@+id/toolbar"
