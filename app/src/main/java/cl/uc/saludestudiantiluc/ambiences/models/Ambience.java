@@ -2,8 +2,10 @@ package cl.uc.saludestudiantiluc.ambiences.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
-import cl.uc.saludestudiantiluc.ambiences.api.AmbienceApi;
+import com.google.gson.annotations.SerializedName;
+
 import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
 import cl.uc.saludestudiantiluc.services.download.FileRequest;
 import cl.uc.saludestudiantiluc.services.download.FilesRequest;
@@ -14,13 +16,27 @@ import cl.uc.saludestudiantiluc.services.download.FilesRequest;
 
 public class Ambience extends BaseFragmentListModel implements Parcelable {
 
-  private String video;
-  private String sound;
+  private static final String AMBIANCE_SOUNDS_CACHE_PATH = "/nature/sounds/";
+
+  private static final String AMBIANCE_VIDEO_CACHE_PATH = "/nature/videos/";
+
+  @SerializedName("video_file_file_name")
+  private String mVideoFileName;
+
+  @SerializedName("audio_file_file_name")
+  private String mAudioFileName;
+
+  @SerializedName("video_url")
+  private String mVideoUrl;
+
+
+  @SerializedName("audio_url")
+  private String mAudioUrl;
 
   protected Ambience(Parcel in) {
     super(in);
-    video = in.readString();
-    sound = in.readString();
+    mVideoFileName = in.readString();
+    mAudioFileName = in.readString();
   }
 
   public static final Creator<Ambience> CREATOR = new Creator<Ambience>() {
@@ -43,16 +59,16 @@ public class Ambience extends BaseFragmentListModel implements Parcelable {
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
-    dest.writeString(video);
-    dest.writeString(sound);
+    dest.writeString(mVideoFileName);
+    dest.writeString(mAudioFileName);
   }
 
   public FileRequest getSoundRequest() {
-    return new FileRequest(AmbienceApi.BASE_URL, sound);
+    return new FileRequest(mAudioUrl, AMBIANCE_SOUNDS_CACHE_PATH + mAudioFileName);
   }
 
   public FileRequest getVideoRequest() {
-    return new FileRequest(AmbienceApi.BASE_URL, video);
+    return new FileRequest(mVideoUrl, AMBIANCE_VIDEO_CACHE_PATH + mVideoFileName);
   }
 
   public FilesRequest getFilesRequest() {

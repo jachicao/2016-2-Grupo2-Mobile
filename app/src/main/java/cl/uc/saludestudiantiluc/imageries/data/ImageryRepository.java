@@ -12,5 +12,4 @@ public interface ImageryRepository {
 
   Observable<List<Imagery>> getImagerySoundList();
 
-  Observable<List<Imagery>> getAmbientalSoundList();
 }

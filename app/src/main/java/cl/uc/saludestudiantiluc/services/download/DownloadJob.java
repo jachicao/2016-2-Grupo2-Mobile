@@ -18,6 +18,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okio.BufferedSink;
 import okio.Okio;
 
@@ -84,6 +85,7 @@ class DownloadJob extends Job {
         BufferedSink sink = Okio.buffer(Okio.sink(file));
         sink.writeAll(response.body().source());
         sink.close();
+        response.close();
         Intent intent = new Intent(DOWNLOAD_JOB);
         intent.putExtra(DOWNLOAD_JOB_PATH, mFilePath);
         intent.putExtra(DOWNLOAD_JOB_ON_FILE_READY, true);

@@ -2,6 +2,8 @@ package cl.uc.saludestudiantiluc.ambiences.api;
 
 import java.util.List;
 
+import cl.uc.saludestudiantiluc.BuildConfig;
+import cl.uc.saludestudiantiluc.ambiences.models.Ambience;
 import retrofit2.http.GET;
 import rx.Observable;
 
@@ -10,8 +12,8 @@ import rx.Observable;
  */
 
 public interface AmbienceApi {
-  String BASE_URL = "https://raw.githubusercontent.com/jachicao/Testing/master/";
+  String BASE_URL = BuildConfig.HOST + "/api/v1/";
 
-  @GET("ambientals.json")
-  Observable<List<cl.uc.saludestudiantiluc.ambiences.models.Ambience>> getAmbientals();
+  @GET("nature")
+  Observable<List<Ambience>> getAmbientals();
 }

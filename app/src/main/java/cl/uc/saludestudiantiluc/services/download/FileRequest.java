@@ -9,12 +9,12 @@ import java.util.ArrayList;
 
 public class FileRequest implements FileListener {
 
-  private String mBaseUrl;
+  private String mUrl;
   private String mStringPath;
   private ArrayList<FileListener> mListeners = new ArrayList<>();
 
-  public FileRequest(String baseUrl, String stringPath) {
-    mBaseUrl = baseUrl;
+  public FileRequest(String url, String stringPath) {
+    mUrl = url;
     mStringPath = stringPath;
   }
 
@@ -27,7 +27,7 @@ public class FileRequest implements FileListener {
   }
 
   String getUrl() {
-    return mBaseUrl + mStringPath;
+    return mUrl;
   }
 
   @Override

@@ -18,6 +18,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        localhost {
+            buildConfigField 'String', 'HOST', '"http://10.0.2.2:3000"'
+        }
+        dev {
+            buildConfigField 'String', 'HOST', '"http://esp2stg.ing.puc.cl"'
+        }
+    }
 }
 
 dependencies {

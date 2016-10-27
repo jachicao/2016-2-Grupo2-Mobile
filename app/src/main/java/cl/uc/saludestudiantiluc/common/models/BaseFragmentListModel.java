@@ -3,6 +3,8 @@ package cl.uc.saludestudiantiluc.common.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import cl.uc.saludestudiantiluc.ambiences.api.AmbienceApi;
 import cl.uc.saludestudiantiluc.services.download.FileRequest;
 
@@ -11,16 +13,24 @@ import cl.uc.saludestudiantiluc.services.download.FileRequest;
  */
 
 public class BaseFragmentListModel implements Parcelable {
+
+  private static final String PREVIEW_CACHE_PATH = "/preview/";
+
   public int id = 0;
   public String name = "";
   public String description = "";
-  public String preview = "";
+
+  @SerializedName("image_url")
+  private String mPreviewUrl;
+
+  @SerializedName("image_file_file_name")
+  private String mPreviewName;
 
   protected BaseFragmentListModel(Parcel in) {
     id = in.readInt();
     name = in.readString();
     description = in.readString();
-    preview = in.readString();
+    mPreviewUrl = in.readString();
   }
 
   public static final Creator<BaseFragmentListModel> CREATOR = new Creator<BaseFragmentListModel>() {
@@ -45,11 +55,11 @@ public class BaseFragmentListModel implements Parcelable {
     dest.writeInt(id);
     dest.writeString(name);
     dest.writeString(description);
-    dest.writeString(preview);
+    dest.writeString(mPreviewUrl);
   }
 
   public FileRequest getPreviewRequest() {
-    return new FileRequest(AmbienceApi.BASE_URL, preview);
+    return new FileRequest(mPreviewUrl, PREVIEW_CACHE_PATH + mPreviewName);
   }
 
 }

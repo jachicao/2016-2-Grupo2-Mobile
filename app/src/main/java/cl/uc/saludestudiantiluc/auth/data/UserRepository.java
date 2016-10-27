@@ -10,6 +10,14 @@ public interface UserRepository {
 
   String getUserName();
 
+  String getUserAccessToken();
+
+  String getUserAccessTokenClient();
+
+  String getUid();
+
+  String getUserPassword();
+
   boolean isUserLoggedIn();
 
   void storeUserEmail(String email);

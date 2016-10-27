@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -98,9 +99,9 @@ public class AuthActivity extends BaseActivity {
     mProgressBar.setVisibility(View.GONE);
     mRememberMeCheckBox.setVisibility(View.GONE);
     if (AUTO_FILL_DATA) {
-      mEmailEditText.setText("email@uc.cl");
-      mPasswordEditText.setText("password");
-      mPasswordConfirmEditText.setText("password");
+      mEmailEditText.setText("lezorich@uc.cl");
+      mPasswordEditText.setText("123456");
+      mPasswordConfirmEditText.setText("123456");
     }
 
     Retrofit retrofit = new Retrofit.Builder()
@@ -233,13 +234,10 @@ public class AuthActivity extends BaseActivity {
         public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
           mAttemptingToRegister = false;
           RegisterResponse res = response.body();
-          if (res.data.errors.full_messages.size() > 0) {
-            String error = "";
-            for (String e : res.data.errors.full_messages) {
-              error += e;
-            }
+          if (!response.isSuccessful()) {
+            // TODO: Show errors
             show(AUTH_TYPE_OPTIONS);
-            Snackbar.make(findViewById(R.id.auth_coordinator_layout), error, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.auth_coordinator_layout), "Hubo un error", Snackbar.LENGTH_LONG).show();
           } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(AuthActivity.this);
             builder.setMessage(getString(R.string.auth_confirmation_email))
@@ -282,7 +280,6 @@ public class AuthActivity extends BaseActivity {
         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
           mAttemptingToLogin = false;
           LoginResponse res = response.body();
-          res.setHeaderResponse(response.headers());
           if (res.errors.size() > 0) {
             String error = "";
             for (String e : res.errors) {
@@ -292,11 +289,16 @@ public class AuthActivity extends BaseActivity {
                 Snackbar.LENGTH_LONG).show();
             show(AUTH_TYPE_OPTIONS);
           } else {
-            mUserRepository.storeAccessToken(res.header.access_token);
-            mUserRepository.storeAccessTokenClient(res.header.client);
-            mUserRepository.storeUid(res.header.uid);
-            mUserRepository.storeUserEmail(res.data.email);
-            mUserRepository.storeUserName(res.data.name);
+            final String accessToken = response.headers().get("access-token");
+            final String accessTokenClient = response.headers().get("client");
+            final String uid = response.headers().get("uid");
+            mUserRepository.storeAccessToken(accessToken);
+            mUserRepository.storeAccessTokenClient(accessTokenClient);
+            mUserRepository.storeUid(uid);
+            mUserRepository.storeUserEmail(res.getEmail());
+            mUserRepository.storeUserName("Lukas Zorich");
+            Log.d(TAG, res.getEmail());
+            getRelaxUcApplication().invalidateUserCredentials();
             onUserLoggedIn();
           }
         }

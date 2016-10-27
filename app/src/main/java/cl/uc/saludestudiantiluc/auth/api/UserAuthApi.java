@@ -1,5 +1,6 @@
 package cl.uc.saludestudiantiluc.auth.api;
 
+import cl.uc.saludestudiantiluc.BuildConfig;
 import cl.uc.saludestudiantiluc.auth.models.LoginResponse;
 import cl.uc.saludestudiantiluc.auth.models.RegisterResponse;
 import retrofit2.Call;
@@ -13,7 +14,7 @@ import retrofit2.http.POST;
 
 public interface UserAuthApi {
 
-  String BASE_URL = "http://private-83f2b-test10256.apiary-mock.com/api/v1/";
+  String BASE_URL = BuildConfig.HOST + "/api/v1/";
 
   @FormUrlEncoded
   @POST("auth")
