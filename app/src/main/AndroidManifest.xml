@@ -51,8 +51,6 @@
         </activity>
         <activity android:name=".calendar.ConfirmationActivity">
         </activity>
-        <activity android:name=".exerciseplans.ExercisePlanMenu">
-        </activity>
         <activity android:name=".evaluations.HomeEvaluation">
         </activity>
         <activity
@@ -63,7 +61,6 @@
         </activity>
         <activity android:name=".evaluations.EvaluationResults">
         </activity>
-
 
         <receiver
             android:name=".sos.SosReceiver"
@@ -83,8 +80,15 @@
 
         <activity android:name=".settings.SettingsActivity">
         </activity>
-        <activity android:name=".exerciseplans.ExercisePlanActivity">
-
+        <activity android:name=".exerciseplans.ExercisePlanActivity" />
+        <activity
+            android:name=".guidedbreathing.GuidedBreathingActivity"
+            android:label="@string/title_activity_guided_breathing"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cl.uc.saludestudiantiluc.MainActivity"/>
         </activity>
     </application>
 

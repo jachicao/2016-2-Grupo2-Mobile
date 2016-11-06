@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:textAlignment="center"
         android:elevation="4dp"
-        android:text="@string/square_breathing_inhale"
+        android:text="@string/inhale"
         android:layout_gravity="center"
         android:textSize="@dimen/display_1"
         android:textColor="#ffffff"

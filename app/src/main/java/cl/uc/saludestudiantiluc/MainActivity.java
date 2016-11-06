@@ -21,19 +21,17 @@ import cl.uc.saludestudiantiluc.ambiences.AmbiencesListFragment;
 import cl.uc.saludestudiantiluc.calendar.CalendarActivity;
 import cl.uc.saludestudiantiluc.calendar.ScheduleActivity;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
-
-import cl.uc.saludestudiantiluc.exerciseplans.ExercisePlanMenu;
-import cl.uc.saludestudiantiluc.imageries.ImageriesListFragment;
-
-
 import cl.uc.saludestudiantiluc.evaluations.HomeEvaluation;
-
-import cl.uc.saludestudiantiluc.profile.ProfileActivity;
+import cl.uc.saludestudiantiluc.exerciseplans.ExercisePlanMenu;
+import cl.uc.saludestudiantiluc.guidedbreathing.GuidedBreathingActivity;
+import cl.uc.saludestudiantiluc.imageries.ImageriesListFragment;
 import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
+
 import cl.uc.saludestudiantiluc.settings.SettingsActivity;
 import cl.uc.saludestudiantiluc.sos.SosReceiver;
 import cl.uc.saludestudiantiluc.sos.SosService;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
+
 import cl.uc.saludestudiantiluc.utils.ViewUtils;
 
 public class MainActivity extends BaseActivity {
@@ -146,7 +144,7 @@ public class MainActivity extends BaseActivity {
             changeFragment(HomeFragment.newInstance());
             break;
           case R.id.drawer_excercises:
-            startActivity(SquareBreathingActivity.getIntent(MainActivity.this));
+            startActivity(GuidedBreathingActivity.getIntent(MainActivity.this));
             break;
           case R.id.drawer_sequences:
             changeFragment(SequencesListFragment.newInstance());
@@ -166,13 +164,11 @@ public class MainActivity extends BaseActivity {
           case R.id.drawer_request_appointment:
             startActivity(CalendarActivity.getIntent(MainActivity.this));
             break;
-
           case R.id.drawer_settings:
             startActivity(SettingsActivity.getIntent(MainActivity.this));
-
+            break;
           case R.id.drawer_check_appointment:
             startActivity(ScheduleActivity.getIntent(MainActivity.this));
-
             break;
           case R.id.drawer_logout:
             logOut();

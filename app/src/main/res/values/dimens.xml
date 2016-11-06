@@ -71,4 +71,9 @@
     <dimen name="dialog_vertical_margin">24dp</dimen>
     <dimen name="dialog_button_height">52dp</dimen>
 
+    <!-- Guided breathing -->
+    <dimen name="balloon_height">200dp</dimen>
+    <dimen name="balloon_width">150dp</dimen>
+    <dimen name="balloon_max_height">300dp</dimen>
+    <dimen name="balloon_max_width">250dp</dimen>
 </resources>

@@ -11,8 +11,8 @@
     <string name="zero_files_downloaded">No hay archivos descargados.</string>
 
     <!-- Square breathing -->
-    <string name="square_breathing_inhale">Inhala</string>
-    <string name="square_breathing_exhale">Exhala</string>
+    <string name="inhale">Inhala</string>
+    <string name="exhale">Exhala</string>
     <string name="square_breathing_hold">Mantén</string>
 
     <!-- Strings related to login -->
@@ -278,8 +278,10 @@
     <string name="campus_start">Campus:\u0020</string>
     <string name="service_start">Servicio:\u0020</string>
     <string name="booking_confirmation">Confirmación de hora</string>
+
     <string name="location_start">Lugar:\u0020</string>
 
+    <string name="title_activity_guided_breathing">Respiración Guiada</string>
 
     <string name="title_activity_base_evaluation">BaseEvaluationActivity</string>
     <string name="action_settings">Settings</string>

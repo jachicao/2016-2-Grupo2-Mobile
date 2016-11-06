@@ -153,11 +153,11 @@ public class SquareBreathingView extends FrameLayout {
 
   private void changeActionText() {
     if (mCurrentCircle <= INHALE_LAST_VIEW_INDEX) {
-      mActionTextView.setText(R.string.square_breathing_inhale);
+      mActionTextView.setText(R.string.inhale);
     } else if (mCurrentCircle <= HOLD_AIR_LAST_VIEW_INDEX) {
       mActionTextView.setText(R.string.square_breathing_hold);
     } else if (mCurrentCircle <= EXHALE_LAST_VIEW_INDEX) {
-      mActionTextView.setText(R.string.square_breathing_exhale);
+      mActionTextView.setText(R.string.exhale);
     } else {
       mActionTextView.setText(R.string.square_breathing_hold);
     }
