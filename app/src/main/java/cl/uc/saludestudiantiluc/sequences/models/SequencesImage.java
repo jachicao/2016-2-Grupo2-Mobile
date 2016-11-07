@@ -3,6 +3,11 @@ package cl.uc.saludestudiantiluc.sequences.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cl.uc.saludestudiantiluc.sequences.api.SequencesApi;
 import cl.uc.saludestudiantiluc.services.download.FileRequest;
 
@@ -10,12 +15,20 @@ import cl.uc.saludestudiantiluc.services.download.FileRequest;
  * Created by jchicao on 15-09-16.
  */
 public class SequencesImage implements Parcelable {
-  public int index;
-  public String url;
+
+  @SerializedName("infographic_id")
+  private int mSequenceId = 0;
+
+  @SerializedName("order")
+  private int mOrder = 1;
+
+  @SerializedName("image")
+  private Image mImage = new Image();
 
   protected SequencesImage(Parcel in) {
-    index = in.readInt();
-    url = in.readString();
+    mSequenceId = in.readInt();
+    mOrder = in.readInt();
+    mImage = in.readParcelable(Image.class.getClassLoader());
   }
 
   public static final Creator<SequencesImage> CREATOR = new Creator<SequencesImage>() {
@@ -36,12 +49,17 @@ public class SequencesImage implements Parcelable {
   }
 
   @Override
-  public void writeToParcel(Parcel parcel, int i) {
-    parcel.writeInt(index);
-    parcel.writeString(url);
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeInt(mSequenceId);
+    dest.writeInt(mOrder);
+    dest.writeParcelable(mImage, flags);
   }
 
   public FileRequest getImageRequest() {
-    return new FileRequest(SequencesApi.BASE_URL, url);
+    return mImage.getFileRequest(mSequenceId);
+  }
+
+  public int getIndex() {
+    return mOrder - 1;
   }
 }

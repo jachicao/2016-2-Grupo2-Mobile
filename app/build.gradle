@@ -23,7 +23,7 @@ android {
             buildConfigField 'String', 'HOST', '"http://10.0.2.2:3000"'
         }
         dev {
-            buildConfigField 'String', 'HOST', '"http://esp2stg.ing.puc.cl"'
+            buildConfigField 'String', 'HOST', '"http://especial2.ing.puc.cl/"'
         }
     }
 }

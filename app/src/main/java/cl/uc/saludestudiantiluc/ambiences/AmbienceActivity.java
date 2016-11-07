@@ -1,8 +1,10 @@
 package cl.uc.saludestudiantiluc.ambiences;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
@@ -15,6 +17,7 @@ import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.ambiences.models.Ambience;
 import cl.uc.saludestudiantiluc.common.SoundServiceActivity;
 import cl.uc.saludestudiantiluc.services.download.DownloadService;
+import cl.uc.saludestudiantiluc.services.sound.SoundService;
 import me.relex.circleindicator.CircleIndicator;
 
 public class AmbienceActivity extends SoundServiceActivity {
@@ -37,7 +40,9 @@ public class AmbienceActivity extends SoundServiceActivity {
     mAmbiencesList = intent.getParcelableArrayListExtra(AmbiencesListFragment.AMBIENCE_EXTRAS_LIST);
     if (mLastPageSelected > -1) {
       setViewPager();
-      enableImmersiveMode();
+      if (!mPreviousImmersiveModeFound) {
+        enableImmersiveMode();
+      }
     }
   }
 
@@ -56,7 +61,6 @@ public class AmbienceActivity extends SoundServiceActivity {
         (CircleIndicator) findViewById(R.id.sequences_view_pager_circle_indicator);
     mPagerAdapter = new AmbiencePagerAdapter(getSupportFragmentManager(), this);
     mPager.setAdapter(mPagerAdapter);
-    mPager.setCurrentItem(mLastPageSelected);
     mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
       @Override
       public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -65,7 +69,7 @@ public class AmbienceActivity extends SoundServiceActivity {
 
       @Override
       public void onPageSelected(int position) {
-        mLastPageSelected = position;
+        setCurrentPage(position);
         startVideoAndSound();
       }
 
@@ -74,6 +78,8 @@ public class AmbienceActivity extends SoundServiceActivity {
 
       }
     });
+    mPager.setCurrentItem(mLastPageSelected, true);
+    setCurrentPage(mLastPageSelected);
     indicator.setViewPager(mPager);
   }
 
@@ -87,12 +93,12 @@ public class AmbienceActivity extends SoundServiceActivity {
   }
 
   public void startVideoAndSound() {
-    setNewSound(getCurrentAmbience());
-    for(Map.Entry<Integer, MediaPlayer> entry : mMediaPlayers.entrySet()) {
+    for (Map.Entry<Integer, MediaPlayer> entry : mMediaPlayers.entrySet()) {
       MediaPlayer mediaPlayer = entry.getValue();
       if (entry.getKey() == mLastPageSelected) {
         if (!mediaPlayer.isPlaying()) {
           mediaPlayer.start();
+          setNewSound(getCurrentAmbience());
         }
       } else {
         mediaPlayer.seekTo(0);
@@ -104,8 +110,28 @@ public class AmbienceActivity extends SoundServiceActivity {
   }
 
   public void setNewSound(Ambience ambience) {
-    if (mSoundService != null) {
-      mSoundService.newSound(DownloadService.getStringDir(this, ambience.getSoundRequest()), ambience.name, isImmersiveMode(), 0);
+    setMediaPlayerSound(DownloadService.getStringDir(this, ambience.getSoundRequest()), ambience.getName(), isImmersiveMode(), 0);
+  }
+
+  private void setCurrentPage(int index) {
+    mLastPageSelected = index;
+    getPostService().sendStatistic(AmbienceActivity.this, getCurrentAmbience());
+  }
+
+  public int getCurrentPage() {
+    return mLastPageSelected;
+  }
+
+  @Override
+  public void onServiceConnected(ComponentName name, IBinder service) {
+    super.onServiceConnected(name, service);
+    switch (mSoundService.getMediaPlayerState()) {
+      case SoundService.MEDIA_PLAYER_STATE_PAUSE:
+        disableImmersiveMode();
+        break;
+      default:
+        enableImmersiveMode();
+        break;
     }
   }
 }

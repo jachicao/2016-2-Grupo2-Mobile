@@ -2,7 +2,6 @@ package cl.uc.saludestudiantiluc.common;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,16 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import cl.uc.saludestudiantiluc.common.models.Media;
 
 /**
  * Created by jchicao on 10/20/16.
  */
 
-public class BaseListFragment extends BaseFragment {
+public class MediaListFragment extends BaseFragment {
 
   private View mThisView;
-  private BaseListAdapter mAdapter;
+  private MediaListAdapter mAdapter;
 
   @Nullable
   @Override
@@ -35,15 +34,15 @@ public class BaseListFragment extends BaseFragment {
     return mThisView;
   }
 
-  public void setAdapter(BaseListAdapter adapter) {
+  public void setAdapter(MediaListAdapter adapter) {
     mAdapter = adapter;
   }
 
-  public BaseListAdapter getAdapter() {
+  public MediaListAdapter getAdapter() {
     return mAdapter;
   }
 
-  public List<BaseFragmentListModel> getModelList() {
+  public List<Media> getModelList() {
     return new ArrayList<>();
   }
 }

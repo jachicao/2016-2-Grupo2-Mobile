@@ -47,7 +47,7 @@ public class ImageFragment extends Fragment {
     if (imageView != null) {
       SequencesImage sequenceImage = getArguments().getParcelable(SEQUENCE_IMAGE_EXTRAS);
       if (sequenceImage != null) {
-        BaseActivity activity = (BaseActivity) getActivity();
+        ImagesActivity activity = (ImagesActivity) getActivity();
         if (activity != null) {
           activity.getDownloadService().requestIntoImageView(getContext(), imageView, sequenceImage.getImageRequest());
         }

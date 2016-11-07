@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by jchicao on 10/23/16.
@@ -22,13 +23,12 @@ import java.io.IOException;
 public class VideoPlayer {
 
   private static final String TAG = VideoPlayer.class.getName();
-
-  public static final String VIDEO_POSITION = "VideoPlayerPosition";
+  private static final String VIDEO_POSITION = "VideoPlayerPosition";
 
   private MediaPlayer mMediaPlayer;
   private TextureView mTextureView;
   private String mVideoPath = "";
-  private MediaPlayer.OnPreparedListener mOnPreparedListener;
+  private ArrayList<MediaPlayer.OnPreparedListener> mOnPreparedListeners = new ArrayList<>();
   private TouchListener mTouchListener;
   private float mVideoWidth;
   private float mVideoHeight;
@@ -39,8 +39,8 @@ public class VideoPlayer {
     mVideoPath = videoPath;
   }
 
-  public void setOnPreparedListener(MediaPlayer.OnPreparedListener onPreparedListener) {
-    mOnPreparedListener = onPreparedListener;
+  public void addOnPreparedListener(MediaPlayer.OnPreparedListener onPreparedListener) {
+    mOnPreparedListeners.add(onPreparedListener);
   }
 
   public void setTouchListener(TouchListener touchListener) {
@@ -90,7 +90,7 @@ public class VideoPlayer {
           mediaPlayer
               .setDataSource(fileDescriptor);
           mediaPlayer.setSurface(surface);
-          mediaPlayer.setVolume(0, 0); // TODO
+          mediaPlayer.setVolume(0, 0);
           mediaPlayer.setLooping(true);
           mediaPlayer.prepareAsync();
           mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -99,8 +99,8 @@ public class VideoPlayer {
               updateTextureViewSize(mTextureView.getWidth(), mTextureView.getHeight());
               mMediaPlayer = mp;
               mp.seekTo(mMediaPlayerPosition);
-              if (mOnPreparedListener != null) {
-                mOnPreparedListener.onPrepared(mp);
+              for (MediaPlayer.OnPreparedListener onPreparedListener : mOnPreparedListeners) {
+                onPreparedListener.onPrepared(mp);
               }
             }
           });

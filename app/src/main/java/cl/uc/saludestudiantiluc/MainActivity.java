@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cl.uc.saludestudiantiluc.ambiences.AmbiencesListFragment;
-import cl.uc.saludestudiantiluc.auth.AuthActivity;
 import cl.uc.saludestudiantiluc.calendar.CalendarActivity;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 
@@ -120,9 +119,7 @@ public class MainActivity extends BaseActivity {
             startActivity(CalendarActivity.getIntent(MainActivity.this));
             break;
           case R.id.drawer_logout:
-            getUserRepository().logOut();
-            startActivity(AuthActivity.getIntent(MainActivity.this));
-            finish();
+            logOut();
             break;
           default:
             mCurrentFragment = R.id.drawer_home;

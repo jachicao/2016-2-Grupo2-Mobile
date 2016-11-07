@@ -2,11 +2,10 @@ package cl.uc.saludestudiantiluc.ambiences.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import cl.uc.saludestudiantiluc.common.models.Media;
 import cl.uc.saludestudiantiluc.services.download.FileRequest;
 import cl.uc.saludestudiantiluc.services.download.FilesRequest;
 
@@ -14,11 +13,13 @@ import cl.uc.saludestudiantiluc.services.download.FilesRequest;
  * Created by jchicao on 10/20/16.
  */
 
-public class Ambience extends BaseFragmentListModel implements Parcelable {
+public class Ambience extends Media implements Parcelable {
+
+  private static final String AMBIENCE_PREVIEW_CACHE_PATH = "/nature/previews/";
 
   private static final String AMBIANCE_SOUNDS_CACHE_PATH = "/nature/sounds/";
 
-  private static final String AMBIANCE_VIDEO_CACHE_PATH = "/nature/videos/";
+  private static final String AMBIENCE_VIDEOS_CACHE_PATH = "/nature/videos/";
 
   @SerializedName("video_file_file_name")
   private String mVideoFileName;
@@ -63,12 +64,17 @@ public class Ambience extends BaseFragmentListModel implements Parcelable {
     dest.writeString(mAudioFileName);
   }
 
+  @Override
+  public FileRequest getPreviewRequest() {
+    return new FileRequest(mPreviewUrl, AMBIENCE_PREVIEW_CACHE_PATH + mPreviewName);
+  }
+
   public FileRequest getSoundRequest() {
     return new FileRequest(mAudioUrl, AMBIANCE_SOUNDS_CACHE_PATH + mAudioFileName);
   }
 
   public FileRequest getVideoRequest() {
-    return new FileRequest(mVideoUrl, AMBIANCE_VIDEO_CACHE_PATH + mVideoFileName);
+    return new FileRequest(mVideoUrl, AMBIENCE_VIDEOS_CACHE_PATH + mVideoFileName);
   }
 
   public FilesRequest getFilesRequest() {

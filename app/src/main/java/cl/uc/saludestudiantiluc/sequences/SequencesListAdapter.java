@@ -7,9 +7,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.BaseListAdapter;
-import cl.uc.saludestudiantiluc.common.BaseListFragment;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import cl.uc.saludestudiantiluc.common.MediaListAdapter;
+import cl.uc.saludestudiantiluc.common.MediaListFragment;
+import cl.uc.saludestudiantiluc.common.models.Media;
 import cl.uc.saludestudiantiluc.sequences.models.Sequence;
 import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import cl.uc.saludestudiantiluc.services.download.FilesListener;
@@ -19,14 +19,14 @@ import cl.uc.saludestudiantiluc.services.download.FilesRequest;
  * Created by jchicao on 15-09-16.
  */
 
-class SequencesListAdapter extends BaseListAdapter {
+class SequencesListAdapter extends MediaListAdapter {
 
-  SequencesListAdapter(BaseListFragment baseListFragment) {
-    super(baseListFragment);
+  SequencesListAdapter(MediaListFragment mediaListFragment) {
+    super(mediaListFragment);
   }
 
   @Override
-  public boolean isDownloaded(BaseFragmentListModel model) {
+  public boolean isDownloaded(Media model) {
     Sequence sequence = (Sequence) model;
     if (sequence != null) {
       return DownloadService.containsFiles(getFragment().getContext(), sequence.getFilesRequest());
@@ -60,7 +60,7 @@ class SequencesListAdapter extends BaseListAdapter {
           filesRequest.addFilesListener(new FilesListener() {
             @Override
             public void onFilesReady(ArrayList<File> files) {
-              getFragment().notifyMessage(sequence.name + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
+              getFragment().notifyMessage(sequence.getName() + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
 

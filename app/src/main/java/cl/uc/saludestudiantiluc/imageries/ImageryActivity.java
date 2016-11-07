@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.TextureView;
+import android.view.View;
 import android.widget.MediaController;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class ImageryActivity extends SoundServiceActivity {
     mVideoPlayer
         = new VideoPlayer(mTextureView, DownloadService.getStringDir(this, getCurrentImagery().getVideoRequest()));
     mVideoPlayer.setMediaPlayerPosition(savedInstanceState);
-    mVideoPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+    mVideoPlayer.addOnPreparedListener(new MediaPlayer.OnPreparedListener() {
       @Override
       public void onPrepared(MediaPlayer mp) {
         mp.start();
@@ -96,7 +97,7 @@ public class ImageryActivity extends SoundServiceActivity {
   public void onServiceConnected(ComponentName name, IBinder service) {
     super.onServiceConnected(name, service);
     if (mSoundService != null && mTextureView != null) {
-      mSoundMediaController = new MediaController(this, false); // TODO: change this to true
+      mSoundMediaController = new MediaController(this, false);
       mSoundMediaController.setAnchorView(mTextureView);
       mSoundMediaController.setMediaPlayer(new MediaController.MediaPlayerControl() {
         @Override
@@ -147,10 +148,7 @@ public class ImageryActivity extends SoundServiceActivity {
 
         @Override
         public boolean isPlaying() {
-          if (mSoundService != null) {
-            return mSoundService.getMediaPlayerState().equals(SoundService.PLAY_STATE);
-          }
-          return true;
+          return mSoundService == null || mSoundService.getMediaPlayerState() == SoundService.MEDIA_PLAYER_STATE_PLAY;
         }
 
         @Override
@@ -178,20 +176,17 @@ public class ImageryActivity extends SoundServiceActivity {
           return 0;
         }
       });
-      /*
-      TODO(Javier): Agregar botones para cambiar sonido
       mSoundMediaController.setPrevNextListeners(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+          onPrev();
         }
       }, new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+          onNext();
         }
       });
-      */
       mHandler.post(new Runnable() {
         public void run() {
           mSoundMediaController.setEnabled(true);
@@ -199,9 +194,30 @@ public class ImageryActivity extends SoundServiceActivity {
         }
       });
     }
+    playSound();
+  }
+
+  private void onPrev() {
+    mLastSoundSelected--;
+    if (mLastSoundSelected < 0) {
+      mLastSoundSelected = getImageriesList().size() - 1;
+    }
+    playSound();
+  }
+
+  private void onNext() {
+    mLastSoundSelected++;
+    if (mLastSoundSelected > getImageriesList().size() - 1) {
+      mLastSoundSelected = 0;
+    }
+    playSound();
+  }
+
+  private void playSound() {
     if (mSoundService != null) {
       Imagery imagery = getCurrentImagery();
-      mSoundService.newSound(DownloadService.getStringDir(this, imagery.getSoundRequest()), imagery.name, true, 0);
+      getPostService().sendStatistic(this, imagery);
+      mSoundService.newSound(DownloadService.getStringDir(this, imagery.getSoundRequest()), imagery.getName(), true, 0);
     }
   }
 }

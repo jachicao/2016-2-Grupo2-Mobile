@@ -10,12 +10,12 @@ import java.util.ArrayList;
 public class FileRequest implements FileListener {
 
   private String mUrl;
-  private String mStringPath;
+  private String mRelativePath;
   private ArrayList<FileListener> mListeners = new ArrayList<>();
 
-  public FileRequest(String url, String stringPath) {
+  public FileRequest(String url, String relativePath) {
     mUrl = url;
-    mStringPath = stringPath;
+    mRelativePath = relativePath;
   }
 
   void addFileListener(FileListener listener) {
@@ -23,7 +23,7 @@ public class FileRequest implements FileListener {
   }
 
   String getRelativePath() {
-    return mStringPath;
+    return mRelativePath;
   }
 
   String getUrl() {

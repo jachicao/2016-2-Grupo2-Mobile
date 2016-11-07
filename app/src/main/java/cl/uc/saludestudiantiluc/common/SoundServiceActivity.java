@@ -4,8 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -17,16 +15,20 @@ import cl.uc.saludestudiantiluc.services.sound.SoundService;
 
 public class SoundServiceActivity extends BaseActivity implements ServiceConnection {
 
+  private static final String TAG = SoundServiceActivity.class.getSimpleName();
+
   protected SoundService mSoundService;
   private boolean mSoundServiceBound = false;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    startSoundService();
-  }
+  private boolean mPendingSound = false;
+  private String mPendingSoundDisplayName = "";
+  private String mPendingSoundPath = "";
+  private boolean mPendingSoundPlay = false;
+  private int mPendingSoundPosition = 0;
 
-  private void startSoundService() {
+  @Override
+  protected void onStart() {
+    super.onStart();
     Intent soundServiceIntent = new Intent(this, SoundService.class);
     bindService(soundServiceIntent, this, Context.BIND_AUTO_CREATE);
     startService(soundServiceIntent);
@@ -43,13 +45,16 @@ public class SoundServiceActivity extends BaseActivity implements ServiceConnect
   public void onSingleTap() {
     super.onSingleTap();
     if (mSoundService != null) {
-      MediaPlayer mediaPlayer = mSoundService.getMediaPlayer();
-      if(mediaPlayer != null) {
-        if (mediaPlayer.isPlaying()) {
+      int state = mSoundService.getMediaPlayerState();
+      switch (state) {
+        case SoundService.MEDIA_PLAYER_STATE_PLAY:
           mSoundService.pauseSound();
-        } else {
+          break;
+        case SoundService.MEDIA_PLAYER_STATE_PAUSE:
           mSoundService.startSound();
-        }
+          break;
+        default:
+          break;
       }
     }
   }
@@ -72,29 +77,37 @@ public class SoundServiceActivity extends BaseActivity implements ServiceConnect
   }
 
   @Override
-  protected void onPause() {
-    unbindService();
-    super.onPause();
-  }
-
-  @Override
-  protected void onDestroy() {
-    unbindService();
-    super.onDestroy();
-  }
-
-  @Override
   public void onServiceConnected(ComponentName name, IBinder service) {
+    Log.v(TAG, "onServiceConnected");
     SoundService.LocalBinder binder = (SoundService.LocalBinder) service;
     mSoundService = binder.getService();
     mSoundServiceBound = true;
     if (mSoundService != null) {
-      mSoundService.onResume();
+      mSoundService.onServiceConnected();
+    }
+    if (mPendingSound) {
+      setMediaPlayerSound(mPendingSoundPath, mPendingSoundDisplayName, mPendingSoundPlay, mPendingSoundPosition);
     }
   }
 
   @Override
   public void onServiceDisconnected(ComponentName name) {
+    Log.v(TAG, "onServiceDisconnected");
     mSoundServiceBound = false;
+  }
+
+
+  public void setMediaPlayerSound(String soundPath, String displayName, boolean play, int position) {
+    if (mSoundService != null) {
+      mSoundService.newSound(soundPath, displayName, play, position);
+      mPendingSound = false;
+    } else {
+      Log.v(TAG, "Pending");
+      mPendingSound = true;
+      mPendingSoundPath = soundPath;
+      mPendingSoundDisplayName = displayName;
+      mPendingSoundPlay = play;
+      mPendingSoundPosition = position;
+    }
   }
 }

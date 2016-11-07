@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.BaseListFragment;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import cl.uc.saludestudiantiluc.common.MediaListFragment;
+import cl.uc.saludestudiantiluc.common.models.Media;
 import cl.uc.saludestudiantiluc.sequences.data.SequencesRepository;
 import cl.uc.saludestudiantiluc.sequences.models.Sequence;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class SequencesListFragment extends BaseListFragment {
+public class SequencesListFragment extends MediaListFragment {
   
   public static final String TAG = SequencesListFragment.class.getSimpleName();
   public static final String SEQUENCE_EXTRAS = "Sequence";
@@ -80,7 +80,7 @@ public class SequencesListFragment extends BaseListFragment {
     }
   }
   @Override
-  public List<BaseFragmentListModel> getModelList() {
-    return new ArrayList<BaseFragmentListModel>(getDetailedList());
+  public List<Media> getModelList() {
+    return new ArrayList<Media>(getDetailedList());
   }
 }

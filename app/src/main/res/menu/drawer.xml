@@ -22,12 +22,12 @@
         <item android:id="@+id/drawer_imaginery"
               android:checkable="true"
               android:checked="false"
-              android:icon="@drawable/ic_movie_creation_black_24dp"
+              android:icon="@drawable/ic_audiotrack_black_24dp"
               android:title="@string/main_menu_imaginary"/>
         <item android:id="@+id/drawer_ambience"
               android:checkable="true"
               android:checked="false"
-              android:icon="@drawable/ic_audiotrack_black_24dp"
+              android:icon="@drawable/ic_movie_creation_black_24dp"
               android:title="@string/main_menu_ambience" />
 
               android:title="@string/main_menu_ambient_sounds" />

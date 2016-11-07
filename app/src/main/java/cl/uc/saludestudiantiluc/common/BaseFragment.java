@@ -1,10 +1,9 @@
 package cl.uc.saludestudiantiluc.common;
 
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 
-import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.services.download.DownloadService;
+import cl.uc.saludestudiantiluc.services.post.PostService;
 
 /**
  * Created by jchicao on 9/25/16.
@@ -12,27 +11,19 @@ import cl.uc.saludestudiantiluc.services.download.DownloadService;
 
 public class BaseFragment extends Fragment {
 
-  private DownloadService mDownloadService = null;
-  public DownloadService getDownloadService() {
-    if (mDownloadService == null) {
-      mDownloadService = new DownloadService(getContext());
-    }
-    return mDownloadService;
-  }
-
   public BaseActivity getBaseActivity() {
     return (BaseActivity) getActivity();
   }
 
-  @Override
-  public void onDestroy() {
-    if (mDownloadService != null) {
-      mDownloadService.onDestroy();
-    }
-    super.onDestroy();
+  public DownloadService getDownloadService() {
+    return getBaseActivity().getDownloadService();
   }
 
   public void notifyMessage(String message) {
-    getBaseActivity().notifyMessage(message);
+    getBaseActivity().showSnackbarMessage(message);
+  }
+
+  public PostService getStatisticService() {
+    return getBaseActivity().getPostService();
   }
 }

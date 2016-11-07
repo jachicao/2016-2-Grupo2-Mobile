@@ -10,20 +10,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import cl.uc.saludestudiantiluc.common.models.Media;
 
 /**
  * Created by jchicao on 10/20/16.
  */
 
-public class BaseListAdapter extends RecyclerView.Adapter<BaseListAdapter.BaseListHolder> {
-  private BaseListFragment mFragment;
+public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.BaseListHolder> {
+  private MediaListFragment mFragment;
 
-  public BaseListAdapter(BaseListFragment baseListFragment) {
-    mFragment = baseListFragment;
+  public MediaListAdapter(MediaListFragment mediaListFragment) {
+    mFragment = mediaListFragment;
   }
 
-  public BaseListFragment getFragment() {
+  public MediaListFragment getFragment() {
     return mFragment;
   }
 
@@ -39,7 +39,7 @@ public class BaseListAdapter extends RecyclerView.Adapter<BaseListAdapter.BaseLi
     holder.setView(this, getFragment().getModelList().get(position));
   }
 
-  public boolean isDownloaded(BaseFragmentListModel model) {
+  public boolean isDownloaded(Media model) {
     return true;
   }
 
@@ -64,10 +64,10 @@ public class BaseListAdapter extends RecyclerView.Adapter<BaseListAdapter.BaseLi
       mDownloadButton = (Button) itemView.findViewById(R.id.recycler_card_view_download_button);
     }
 
-    void setView(BaseListAdapter adapter, BaseFragmentListModel baseFragmentListModel) {
-      mName.setText(baseFragmentListModel.name);
-      mDescription.setText(baseFragmentListModel.description);
-      adapter.getFragment().getDownloadService().requestIntoImageView(adapter.getFragment().getContext(), mPreview, baseFragmentListModel.getPreviewRequest());
+    void setView(MediaListAdapter adapter, Media media) {
+      mName.setText(media.getName());
+      mDescription.setText(media.getDescription());
+      adapter.getFragment().getDownloadService().requestIntoImageView(adapter.getFragment().getContext(), mPreview, media.getPreviewRequest());
     }
 
     public Button getDownloadButton() {

@@ -7,9 +7,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.BaseListAdapter;
-import cl.uc.saludestudiantiluc.common.BaseListFragment;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import cl.uc.saludestudiantiluc.common.MediaListAdapter;
+import cl.uc.saludestudiantiluc.common.MediaListFragment;
+import cl.uc.saludestudiantiluc.common.models.Media;
 import cl.uc.saludestudiantiluc.imageries.models.Imagery;
 import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import cl.uc.saludestudiantiluc.services.download.FilesListener;
@@ -19,10 +19,10 @@ import cl.uc.saludestudiantiluc.services.download.FilesRequest;
  * Created by camilo on 14-09-16.
  */
 
-class ImageriesListAdapter extends BaseListAdapter {
+class ImageriesListAdapter extends MediaListAdapter {
 
-  ImageriesListAdapter(BaseListFragment baseListFragment) {
-    super(baseListFragment);
+  ImageriesListAdapter(MediaListFragment mediaListFragment) {
+    super(mediaListFragment);
   }
 
   @Override
@@ -51,7 +51,7 @@ class ImageriesListAdapter extends BaseListAdapter {
           filesRequest.addFilesListener(new FilesListener() {
             @Override
             public void onFilesReady(ArrayList<File> files) {
-              getFragment().notifyMessage(imagery.name + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
+              getFragment().notifyMessage(imagery.getName() + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
 
@@ -68,7 +68,7 @@ class ImageriesListAdapter extends BaseListAdapter {
   }
 
   @Override
-  public boolean isDownloaded(BaseFragmentListModel model) {
+  public boolean isDownloaded(Media model) {
     Imagery imagery = (Imagery) model;
     if (imagery != null) {
       return DownloadService.containsFiles(getFragment().getContext(), imagery.getFilesRequest());

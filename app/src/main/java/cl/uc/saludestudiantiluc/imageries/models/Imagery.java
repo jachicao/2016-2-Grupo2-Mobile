@@ -3,23 +3,42 @@ package cl.uc.saludestudiantiluc.imageries.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import com.google.gson.annotations.SerializedName;
+
+import cl.uc.saludestudiantiluc.common.models.Media;
 import cl.uc.saludestudiantiluc.services.download.FileRequest;
-import cl.uc.saludestudiantiluc.imageries.api.ImageryApi;
 import cl.uc.saludestudiantiluc.services.download.FilesRequest;
 
 /**
  * Created by camilo on 15-09-16.
  */
-public class Imagery extends BaseFragmentListModel implements Parcelable {
 
-  public String sound = "";
-  public String video = "";
+public class Imagery extends Media implements Parcelable {
+
+  private static final String IMAGERY_PREVIEW_CACHE_PATH = "/imagery/previews/";
+
+  private static final String IMAGERY_SOUNDS_CACHE_PATH = "/imagery/sounds/";
+
+  private static final String IMAGERY_VIDEOS_CACHE_PATH = "/imagery/sounds/";
+
+  @SerializedName("sound_file_file_name")
+  private String mSoundFileName = "";
+
+  @SerializedName("sound_url")
+  private String mSoundUrl = "";
+
+  @SerializedName("video_file_file_name")
+  private String mVideoFileName = "";
+
+  @SerializedName("video_url")
+  private String mVideoUrl = "";
 
   protected Imagery(Parcel in) {
     super(in);
-    sound = in.readString();
-    video = in.readString();
+    mSoundFileName = in.readString();
+    mSoundUrl = in.readString();
+    mVideoFileName = in.readString();
+    mVideoUrl = in.readString();
   }
 
   public static final Creator<Imagery> CREATOR = new Creator<Imagery>() {
@@ -42,17 +61,26 @@ public class Imagery extends BaseFragmentListModel implements Parcelable {
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
-    dest.writeString(sound);
-    dest.writeString(video);
+    dest.writeString(mSoundFileName);
+    dest.writeString(mSoundUrl);
+    dest.writeString(mVideoFileName);
+    dest.writeString(mVideoUrl);
   }
 
   public FileRequest getSoundRequest() {
-    return new FileRequest(ImageryApi.BASE_URL, sound);
+    return new FileRequest(mSoundUrl, IMAGERY_SOUNDS_CACHE_PATH + mSoundFileName);
   }
 
   public FileRequest getVideoRequest() {
-    return new FileRequest(ImageryApi.BASE_URL, video);
+    return new FileRequest("http://especial2.ing.puc.cl/assets/lake2-53fb801a3600c8f4e1c1ff0965e320efde3f2b22222dc11857b989fdc5440a77.mp4", IMAGERY_VIDEOS_CACHE_PATH + "lake2.mp4");
+    //return new FileRequest(mVideoUrl, IMAGERY_VIDEOS_CACHE_PATH + mVideoFileName);
   }
+
+  @Override
+  public FileRequest getPreviewRequest() {
+    return new FileRequest(mPreviewUrl, IMAGERY_PREVIEW_CACHE_PATH + mPreviewName);
+  }
+
 
   public FilesRequest getFilesRequest() {
     FilesRequest filesRequest = new FilesRequest();

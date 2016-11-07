@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.ambiences.models.Ambience;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
-import cl.uc.saludestudiantiluc.common.BaseListAdapter;
-import cl.uc.saludestudiantiluc.common.BaseListFragment;
+import cl.uc.saludestudiantiluc.common.models.Media;
+import cl.uc.saludestudiantiluc.common.MediaListAdapter;
+import cl.uc.saludestudiantiluc.common.MediaListFragment;
 import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import cl.uc.saludestudiantiluc.services.download.FilesListener;
 import cl.uc.saludestudiantiluc.services.download.FilesRequest;
@@ -19,10 +19,10 @@ import cl.uc.saludestudiantiluc.services.download.FilesRequest;
  * Created by jchicao on 10/20/16.
  */
 
-class AmbiencesListAdapter extends BaseListAdapter {
+class AmbiencesListAdapter extends MediaListAdapter {
 
-  AmbiencesListAdapter(BaseListFragment baseListFragment) {
-    super(baseListFragment);
+  AmbiencesListAdapter(MediaListFragment mediaListFragment) {
+    super(mediaListFragment);
   }
 
   @Override
@@ -51,7 +51,7 @@ class AmbiencesListAdapter extends BaseListAdapter {
           filesRequest.addFilesListener(new FilesListener() {
             @Override
             public void onFilesReady(ArrayList<File> files) {
-              getFragment().notifyMessage(ambience.name + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
+              getFragment().notifyMessage(ambience.getName() + " " + getFragment().getContext().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
 
@@ -68,9 +68,9 @@ class AmbiencesListAdapter extends BaseListAdapter {
   }
 
   @Override
-  public boolean isDownloaded(BaseFragmentListModel model) {
+  public boolean isDownloaded(Media model) {
     Ambience ambience = (Ambience) model;
-    if(ambience != null) {
+    if (ambience != null) {
       return DownloadService.containsFiles(getFragment().getContext(), ambience.getFilesRequest());
     }
     return false;
