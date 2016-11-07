@@ -17,8 +17,10 @@ import android.widget.TextView;
 import cl.uc.saludestudiantiluc.ambiences.AmbiencesListFragment;
 import cl.uc.saludestudiantiluc.auth.AuthActivity;
 import cl.uc.saludestudiantiluc.calendar.CalendarActivity;
+import cl.uc.saludestudiantiluc.calendar.ScheduleActivity;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 
+import cl.uc.saludestudiantiluc.exerciseplans.ExercisePlanMenu;
 import cl.uc.saludestudiantiluc.imageries.ImageriesListFragment;
 
 
@@ -113,11 +115,17 @@ public class MainActivity extends BaseActivity {
           case R.id.drawer_evaluations:
             startActivity(HomeEvaluation.getIntent(MainActivity.this));
             break;
+          case R.id.drawer_exercise_plan:
+            startActivity(ExercisePlanMenu.getIntent(MainActivity.this));
+            break;
           case R.id.drawer_profile:
             startActivity(ProfileActivity.getIntent(MainActivity.this));
             break;
           case R.id.drawer_request_appointment:
             startActivity(CalendarActivity.getIntent(MainActivity.this));
+            break;
+          case R.id.drawer_check_appointment:
+            startActivity(ScheduleActivity.getIntent(MainActivity.this));
             break;
           case R.id.drawer_logout:
             getUserRepository().logOut();

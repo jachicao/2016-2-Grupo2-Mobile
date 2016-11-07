@@ -1,10 +1,12 @@
 package cl.uc.saludestudiantiluc.calendar;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +16,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
-
 import cl.uc.saludestudiantiluc.MainActivity;
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
@@ -32,8 +36,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static android.R.attr.data;
 
 public class ScheduleActivity extends BaseActivity {
 
@@ -44,23 +46,25 @@ public class ScheduleActivity extends BaseActivity {
 
   private ArrayList<Schedule> mSchedule;
 
-  private String mDialogDate;
-  private String mDialogProfessional;
-  private String mDialogService;
-  private String mDialogCampus;
+  private CalendarApi mApiInstance;
+
+  private String mSource;
 
   private boolean mLoaded;
   private boolean mIsDialogShown;
 
+  private Schedule mDialogSchedule;
+  private int mCardLayout;
+
   private static final String SERVICE_SELECTION = "Service";
   private static final String CAMPUS_SELECTION = "Campus";
   private static final String SAVE_REQUESTED = "Requested";
+  private static final String SAVE_SELECTED_SCHEDULE = "Selected schedule";
   private static final String SAVE_SCHEDULE_LIST = "Schedule list";
   private static final String SAVE_DIALOG_STATE = "Dialog state";
-  private static final String SAVE_DIALOG_DATE = "Dialog date";
-  private static final String SAVE_DIALOG_PROFESSIONAL = "Dialog professional";
-  private static final String SAVE_DIALOG_SERVICE = "Dialog service";
-  private static final String SAVE_DIALOG_CAMPUS = "Dialog campus";
+  private static final String SOURCE = "Source";
+  private static final String AVAILABLE_HOURS = "Available hours";
+  private static final String USER_HOURS = "User hours";
 
 
   @Override
@@ -78,8 +82,18 @@ public class ScheduleActivity extends BaseActivity {
         onBackPressed();
       }
     });
+    Glide
+        .with(this)
+        .load(R.drawable.main_background)
+        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+        .centerCrop()
+        .into((ImageView) findViewById(R.id.main_background_image));
 
-    loadMainBackground();
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(CalendarApi.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build();
+    mApiInstance = retrofit.create(CalendarApi.class);
 
     mLoaded = false;
     mIsDialogShown = false;
@@ -87,33 +101,37 @@ public class ScheduleActivity extends BaseActivity {
     String service;
     String campus;
     if (extras != null) {
-      service = extras.getString(SERVICE_SELECTION);
-      campus = extras.getString(CAMPUS_SELECTION);
+      mSource = extras.getString(SOURCE);
+      if (mSource.equals(AVAILABLE_HOURS)) {
+        service = extras.getString(SERVICE_SELECTION);
+        campus = extras.getString(CAMPUS_SELECTION);
+      } else {
+        service = null;
+        campus = null;
+      }
+
     } else {
+      mSource = null;
       service = null;
       campus = null;
     }
     if (savedInstanceState != null) {
       mLoaded = savedInstanceState.getBoolean(SAVE_REQUESTED);
       mSchedule = savedInstanceState.getParcelableArrayList(SAVE_SCHEDULE_LIST);
+      mDialogSchedule = savedInstanceState.getParcelable(SAVE_SELECTED_SCHEDULE);
       mIsDialogShown = savedInstanceState.getBoolean(SAVE_DIALOG_STATE);
-      mDialogDate = savedInstanceState.getString(SAVE_DIALOG_DATE);
-      mDialogProfessional = savedInstanceState.getString(SAVE_DIALOG_PROFESSIONAL);
-      mDialogService = savedInstanceState.getString(SAVE_DIALOG_SERVICE);
-      mDialogCampus = savedInstanceState.getString(SAVE_DIALOG_CAMPUS);
     }
     mListView = new ListView(this);
     mLinearLayout = (LinearLayout) findViewById(R.id.hourContainer);
     mInflater = (LayoutInflater) this
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     if (!mLoaded) {
-      Retrofit retrofit = new Retrofit.Builder()
-          .baseUrl(CalendarApi.BASE_URL)
-          .addConverterFactory(GsonConverterFactory.create())
-          .build();
-
-      CalendarApi apiInstance = retrofit.create(CalendarApi.class);
-      Call<List<Schedule>> callInstance = apiInstance.getAvailableHours(service, campus);
+      Call<List<Schedule>> callInstance;
+      if (mSource.equals(AVAILABLE_HOURS)) {
+        callInstance = mApiInstance.getAvailableHours(service, campus);
+      } else {
+        callInstance = mApiInstance.getUserHours();
+      }
       callInstance.enqueue(new Callback<List<Schedule>>() {
         @Override
         public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {
@@ -135,7 +153,11 @@ public class ScheduleActivity extends BaseActivity {
       if (mSchedule != null) {
         loadListAdapter();
         if (mIsDialogShown) {
-          showConfirmationDialog();
+          if (mSource.equals(AVAILABLE_HOURS)) {
+            showConfirmationDialog(mDialogSchedule.getId());
+          } else {
+            showCancelDialog(mDialogSchedule.getId());
+          }
         }
       } else {
         loadEmptyMessage();
@@ -147,20 +169,41 @@ public class ScheduleActivity extends BaseActivity {
   public void onSaveInstanceState(Bundle savedInstanceState) {
     savedInstanceState.putBoolean(SAVE_REQUESTED, mLoaded);
     savedInstanceState.putParcelableArrayList(SAVE_SCHEDULE_LIST, mSchedule);
+    savedInstanceState.putParcelable(SAVE_SELECTED_SCHEDULE, mDialogSchedule);
     savedInstanceState.putBoolean(SAVE_DIALOG_STATE, mIsDialogShown);
-    savedInstanceState.putString(SAVE_DIALOG_DATE, mDialogDate);
-    savedInstanceState.putString(SAVE_DIALOG_PROFESSIONAL, mDialogProfessional);
-    savedInstanceState.putString(SAVE_DIALOG_SERVICE, mDialogService);
-    savedInstanceState.putString(SAVE_DIALOG_CAMPUS, mDialogCampus);
     super.onSaveInstanceState(savedInstanceState);
+  }
+
+  public static Intent getIntent(Activity activity) {
+    return new Intent(activity, ScheduleActivity.class).putExtra(SOURCE, USER_HOURS);
   }
 
   public void loadHours() {
     mLoaded = true;
     if (mSchedule != null) {
       if (mSchedule.size() > 0) {
-        mDialogCampus = mSchedule.get(0).getCampus();
-        mDialogService = mSchedule.get(0).getService();
+        Collections.sort(mSchedule, new Comparator<Schedule>() {
+          SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+          @Override
+          public int compare(Schedule o1, Schedule o2) {
+            Date date1;
+            Date date2;
+            int nComp = o1.getProfessional().compareTo(o2.getProfessional());
+            if (nComp != 0) {
+              return nComp;
+            } else {
+              try {
+                date1 = dateFormat.parse(o1.getTimestamp());
+                date2 = dateFormat.parse(o2.getTimestamp());
+                return date1.compareTo(date2);
+              } catch (ParseException e) {
+                e.printStackTrace();
+              }
+              return 0;
+            }
+          }
+        });
+
         loadListAdapter();
       } else {
         loadEmptyMessage();
@@ -193,11 +236,19 @@ public class ScheduleActivity extends BaseActivity {
   public void loadEmptyMessage() {
     View circleView = findViewById(R.id.progressBarLayout);
     mLinearLayout.removeView(circleView);
-    mInflater.inflate(
+    View v = mInflater.inflate(
         R.layout.empty_list_message, mLinearLayout);
+    TextView t = (TextView) v.findViewById(R.id.cardMessage);
+    if (mSource.equals(AVAILABLE_HOURS)) {
+      t.setText(getResources().getString(R.string.empty_message));
+    } else {
+      t.setText(getResources().getString(R.string.empty_schedule));
+    }
+
+
   }
 
-  public void showConfirmationDialog() {
+  public void showConfirmationDialog(final int eventId) {
     mIsDialogShown = true;
     final Dialog dialog = new Dialog(ScheduleActivity.this);
     dialog.setContentView(R.layout.activity_confirmation);
@@ -208,12 +259,10 @@ public class ScheduleActivity extends BaseActivity {
     TextView professional = (TextView) dialog.findViewById(R.id.confirmation_professional);
     TextView service = (TextView) dialog.findViewById(R.id.confirmation_service);
     TextView campus = (TextView) dialog.findViewById(R.id.confirmation_campus);
-
-    String dateText = this.getString(R.string.date_start) + mDialogDate;
-    String professionalText = this.getString(R.string.professional_start) + mDialogProfessional;
-    String serviceText = this.getString(R.string.service_start) + mDialogService;
-    String campusText = this.getString(R.string.campus_start) + mDialogCampus;
-
+    String dateText = this.getString(R.string.date_start) + mDialogSchedule.getTimestamp();
+    String professionalText = this.getString(R.string.professional_start) + mDialogSchedule.getProfessional();
+    String serviceText = this.getString(R.string.service_start) + mDialogSchedule.getActivity();
+    String campusText = this.getString(R.string.campus_start) + mDialogSchedule.getCampus();
     date.setText(dateText);
     professional.setText(professionalText);
     service.setText(serviceText);
@@ -229,11 +278,35 @@ public class ScheduleActivity extends BaseActivity {
     reserve.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        mIsDialogShown = false;
-        dialog.dismiss();
-        Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        Call<BookingResponse> callInstance;
+        callInstance = mApiInstance.booking(eventId);
+        callInstance.enqueue(new Callback<BookingResponse>() {
+          @Override
+          public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
+            if (response.isSuccessful()) {
+              Gson gson = new GsonBuilder().create();
+              String json = gson.toJson(response.body());
+              BookingResponse bookingResponse = gson.fromJson(json, new TypeToken<BookingResponse>() {
+              }.getType());
+              System.out.println(bookingResponse.getAvailability());
+            }
+            mIsDialogShown = false;
+            dialog.dismiss();
+            Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+          }
+
+          @Override
+          public void onFailure(Call<BookingResponse> call, Throwable t) {
+            mIsDialogShown = false;
+            dialog.dismiss();
+            Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+          }
+        });
+
       }
     });
     cancel.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +314,59 @@ public class ScheduleActivity extends BaseActivity {
       public void onClick(View v) {
         mIsDialogShown = false;
         dialog.dismiss();
+      }
+    });
+  }
+
+  public void showCancelDialog(final int eventId) {
+    mIsDialogShown = true;
+    AlertDialog dialog = new AlertDialog.Builder(this)
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setTitle("Cancelación de hora")
+        .setCancelable(false)
+        .setMessage("¿Está seguro que desea cancelar su hora?")
+        .setPositiveButton("Sí", new DialogInterface.OnClickListener()
+        {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            Call<CancelResponse> callInstance;
+            callInstance = mApiInstance.cancel(eventId);
+            callInstance.enqueue(new Callback<CancelResponse>() {
+              @Override
+              public void onResponse(Call<CancelResponse> call, Response<CancelResponse> response) {
+                if (response.isSuccessful()) {
+                  Gson gson = new GsonBuilder().create();
+                  String json = gson.toJson(response.body());
+                  CancelResponse cancelResponse = gson.fromJson(json, new TypeToken<CancelResponse>() {
+                  }.getType());
+                  System.out.println(cancelResponse.getCanceled());
+                }
+                mIsDialogShown = false;
+                finish();
+                Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+              }
+
+              @Override
+              public void onFailure(Call<CancelResponse> call, Throwable t) {
+                mIsDialogShown = false;
+                finish();
+                Intent intent = new Intent(ScheduleActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+              }
+            });
+            //finish();
+          }
+
+        })
+        .setNegativeButton("No", null)
+        .show();
+    dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+      @Override
+      public void onCancel(DialogInterface dialog) {
+        mIsDialogShown = false;
       }
     });
   }
@@ -274,25 +400,47 @@ public class ScheduleActivity extends BaseActivity {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
       if (convertView == null) {
         LayoutInflater inflater = (LayoutInflater) mContext
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        int cardLayout;
+        if (mSource.equals(AVAILABLE_HOURS)) {
+          cardLayout = R.layout.schedule_list_elem;
+        } else {
+          cardLayout = R.layout.schedule_reserved_hours;
+        }
         convertView = (View) inflater.inflate(
-            R.layout.schedule_list_elem, null);
+            cardLayout, null);
       }
 
       final TextView date = (TextView) convertView.findViewById(R.id.dateText);
       final TextView professional = (TextView) convertView.findViewById(R.id.profText);
+      final TextView location = (TextView) convertView.findViewById(R.id.locationText);
       Button reserve = (Button) convertView.findViewById(R.id.appointmentButton);
+      if (mSource.equals(AVAILABLE_HOURS)) {
+        reserve.setText(getResources().getString(R.string.reserve_button));
+        reserve.setTextColor(getResources().getColor(R.color.cyan_700));
+      } else {
+        reserve.setText(getResources().getString(R.string.cancel_button));
+        final TextView service = (TextView) convertView.findViewById(R.id.serviceText);
+        final TextView campus = (TextView) convertView.findViewById(R.id.campusText);
+        service.setText(mSchedule.get(position).getActivity());
+        campus.setText(mSchedule.get(position).getCampus());
+        reserve.setTextColor(getResources().getColor(R.color.red_700));
+      }
       date.setText(mSchedule.get(position).getTimestamp());
       professional.setText(mSchedule.get(position).getProfessional());
+      location.setText(mSchedule.get(position).getLocation());
       reserve.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          mDialogDate = date.getText().toString();
-          mDialogProfessional = professional.getText().toString();
-          showConfirmationDialog();
+          mDialogSchedule = mSchedule.get(position);
+          if (mSource.equals(AVAILABLE_HOURS)) {
+            showConfirmationDialog(mDialogSchedule.getId());
+          } else {
+            showCancelDialog(mDialogSchedule.getId());
+          }
         }
       });
       return convertView;

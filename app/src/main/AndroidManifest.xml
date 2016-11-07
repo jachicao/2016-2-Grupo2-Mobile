@@ -48,6 +48,8 @@
         </activity>
         <activity android:name=".calendar.ConfirmationActivity">
         </activity>
+        <activity android:name=".exerciseplans.ExercisePlanMenu">
+        </activity>
         <activity android:name=".evaluations.HomeEvaluation">
         </activity>
         <activity

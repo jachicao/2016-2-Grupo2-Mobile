@@ -21,6 +21,7 @@
     <string name="main_menu_ambience">Naturaleza</string>
     <string name="main_menu_imaginary">Imaginerías</string>
     <string name="main_menu_evaluations">Evaluaciones</string>
+    <string name="main_menu_exercise_plans">Planes de ejercicios</string>
 
     <string name="drawer_home">Inicio</string>
     <string name="drawer_profile">Perfil</string>
@@ -29,6 +30,7 @@
     <string name="drawer_logout">Cerrar sesión</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar menu</string>
+    <string name="drawer_check_appointment">Consultar reservas</string>
 
     <!-- Auth -->
     <string name="auth_shared_preferences">Auth</string>
@@ -145,6 +147,7 @@
 
     <string name="empty_message">No existen horas disponibles que cumplan con los parámetros de búsqueda
     </string>
+    <string name="empty_schedule">No tienes horas reservadas</string>
 
     <!-- Calendar Titles -->
     <string name="service_select">Reservar hora</string>
@@ -161,6 +164,7 @@
     <string name="campus_start">Campus:\u0020</string>
     <string name="service_start">Servicio:\u0020</string>
     <string name="booking_confirmation">Confirmación de hora</string>
+    <string name="location_start">Lugar:\u0020</string>
 
 
     <string name="title_activity_base_evaluation">BaseEvaluationActivity</string>

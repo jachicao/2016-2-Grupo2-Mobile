@@ -3,7 +3,10 @@ package cl.uc.saludestudiantiluc.calendar;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -16,8 +19,15 @@ public interface CalendarApi {
   @GET("horarios/filter")
   Call<List<Schedule>> getAvailableHours(@Query("activity") String activity, @Query("campus") String campus);
 
-  @GET("horarios")
-  Call<List<Schedule>> getHours();
+  @GET("agenda")
+  Call<List<Schedule>> getUserHours();
 
+  @FormUrlEncoded
+  @POST("appoint")
+  Call<BookingResponse> booking(@Field("id") int id);
+
+  @FormUrlEncoded
+  @POST("cancel")
+  Call<CancelResponse> cancel(@Field("id") int id);
 
 }

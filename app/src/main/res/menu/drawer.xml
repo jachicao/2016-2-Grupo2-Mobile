@@ -29,8 +29,12 @@
               android:checked="false"
               android:icon="@drawable/ic_audiotrack_black_24dp"
               android:title="@string/main_menu_ambience" />
-
               android:title="@string/main_menu_ambient_sounds" />
+        <item android:id="@+id/drawer_exercise_plan"
+              android:checkable="true"
+              android:checked="false"
+              android:icon="@drawable/ic_settings_system_daydream_black_24dp"
+              android:title="@string/main_menu_exercises" />
         <item android:id="@+id/drawer_evaluations"
               android:checkable="true"
               android:checked="false"
@@ -47,6 +51,11 @@
           android:checkable="true"
           android:title="@string/drawer_request_appointment"
           android:icon="@drawable/ic_event_black_24dp"/>
+    <item android:id="@+id/drawer_check_appointment"
+          android:checked="false"
+          android:checkable="true"
+          android:title="@string/drawer_check_appointment"
+          android:icon="@drawable/ic_view_agenda_black_24dp"/>
     <item android:id="@+id/drawer_profile"
           android:checked="false"
           android:checkable="true"
