@@ -61,6 +61,8 @@ public class GuidedBreathingActivity extends BaseActivity {
 
     mInhaleScaleX = ((float) mBalloonMaxWidth) / mBalloonWidth;
     mInhaleScaleY = ((float) mBalloonMaxHeight) / mBalloonHeight;
+
+    loadMainBackground();
   }
 
   @Override
