@@ -66,7 +66,9 @@ class SequencesListAdapter extends MediaListAdapter {
 
             @Override
             public void onProgressUpdate(long percentage) {
-              downloadButton.setText(getFragment().getString(R.string.downloading) + " " + percentage + "%");
+              if (getFragment() != null) {
+                downloadButton.setText(getFragment().getString(R.string.downloading) + " " + percentage + "%");
+              }
             }
           });
           getFragment().getDownloadService().requestFiles(getFragment().getContext(), filesRequest);
