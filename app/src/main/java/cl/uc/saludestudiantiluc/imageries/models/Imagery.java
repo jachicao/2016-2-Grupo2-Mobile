@@ -72,8 +72,7 @@ public class Imagery extends Media implements Parcelable {
   }
 
   public FileRequest getVideoRequest() {
-    return new FileRequest("http://especial2.ing.puc.cl/assets/lake2-53fb801a3600c8f4e1c1ff0965e320efde3f2b22222dc11857b989fdc5440a77.mp4", IMAGERY_VIDEOS_CACHE_PATH + "lake2.mp4");
-    //return new FileRequest(mVideoUrl, IMAGERY_VIDEOS_CACHE_PATH + mVideoFileName);
+    return new FileRequest(mVideoUrl, IMAGERY_VIDEOS_CACHE_PATH + mVideoFileName);
   }
 
   @Override
