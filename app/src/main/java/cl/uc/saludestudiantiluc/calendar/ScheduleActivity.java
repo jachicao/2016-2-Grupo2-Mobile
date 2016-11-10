@@ -129,13 +129,17 @@ public class ScheduleActivity extends BaseActivity {
     mInflater = (LayoutInflater) this
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     if (!mLoaded) {
+      mUserRepository = getUserRepository();
       Call<List<Schedule>> callInstance;
       if (mSource.equals(AVAILABLE_HOURS)) {
-        callInstance = mApiInstance.getAvailableHours(service, campus);
+        callInstance = mApiInstance.getAvailableHours(service, campus,
+            mUserRepository.getUserEmail(), mUserRepository.getUserPassword(),
+            mUserRepository.getUserAccessTokenClient(), mUserRepository.getUserAccessToken(),
+            mUserRepository.getUid());
       } else {
-        callInstance = mApiInstance.getUserHours();
+        callInstance = mApiInstance.getUserHours(mUserRepository.getUserEmail());
       }
-      mUserRepository = getUserRepository();
+
       callInstance.enqueue(new Callback<List<Schedule>>() {
         @Override
         public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {
@@ -288,7 +292,7 @@ public class ScheduleActivity extends BaseActivity {
       @Override
       public void onClick(View v) {
         Call<BookingResponse> callInstance;
-        callInstance = mApiInstance.booking(eventId);
+        callInstance = mApiInstance.booking(eventId, mUserRepository.getUserEmail());
         callInstance.enqueue(new Callback<BookingResponse>() {
           @Override
           public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
