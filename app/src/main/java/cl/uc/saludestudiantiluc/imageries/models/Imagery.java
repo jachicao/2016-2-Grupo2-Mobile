@@ -80,7 +80,7 @@ public class Imagery extends Media implements Parcelable {
     return new FileRequest(mPreviewUrl, IMAGERY_PREVIEW_CACHE_PATH + mPreviewName);
   }
 
-
+  @Override
   public FilesRequest getFilesRequest() {
     FilesRequest filesRequest = new FilesRequest();
     filesRequest.addRequest(getVideoRequest());

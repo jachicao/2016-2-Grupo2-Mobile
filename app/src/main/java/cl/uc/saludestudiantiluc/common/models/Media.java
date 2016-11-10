@@ -1,11 +1,14 @@
 package cl.uc.saludestudiantiluc.common.models;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import cl.uc.saludestudiantiluc.services.download.FileRequest;
+import cl.uc.saludestudiantiluc.services.download.FilesRequest;
 
 /**
  * Created by jchicao on 10/20/16.
@@ -62,7 +65,6 @@ public class Media implements Parcelable {
     dest.writeString(mDescription);
     dest.writeString(mPreviewName);
     dest.writeString(mPreviewUrl);
-
   }
 
   public FileRequest getPreviewRequest() {
@@ -71,6 +73,14 @@ public class Media implements Parcelable {
 
   public int getId() {
     return mId;
+  }
+
+  public FilesRequest getFilesRequest() {
+    return new FilesRequest();
+  }
+
+  public boolean isDownloaded(Context context) {
+    return DownloadService.containsFiles(context, getFilesRequest());
   }
 
   public String getName() {

@@ -57,7 +57,7 @@ public class Sequence extends Media implements Parcelable {
     return new FileRequest(mPreviewUrl, SEQUENCE_PREVIEW_CACHE_PATH + mPreviewName);
   }
 
-
+  @Override
   public FilesRequest getFilesRequest() {
     FilesRequest filesRequest = new FilesRequest();
     for (SequencesImage image : mImages) {

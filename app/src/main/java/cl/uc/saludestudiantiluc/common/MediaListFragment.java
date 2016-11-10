@@ -20,18 +20,17 @@ import cl.uc.saludestudiantiluc.common.models.Media;
 
 public class MediaListFragment extends BaseFragment {
 
-  private View mThisView;
   private MediaListAdapter mAdapter;
 
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    mThisView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
-    RecyclerView recyclerView = (RecyclerView) mThisView.findViewById(R.id.fragment_recycler_view);
+    View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+    RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_recycler_view);
     recyclerView.setHasFixedSize(true);
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     recyclerView.setAdapter(mAdapter);
-    return mThisView;
+    return view;
   }
 
   public void setAdapter(MediaListAdapter adapter) {

@@ -1,11 +1,13 @@
 package cl.uc.saludestudiantiluc.ambiences.models;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import cl.uc.saludestudiantiluc.common.models.Media;
+import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import cl.uc.saludestudiantiluc.services.download.FileRequest;
 import cl.uc.saludestudiantiluc.services.download.FilesRequest;
 
@@ -77,6 +79,7 @@ public class Ambience extends Media implements Parcelable {
     return new FileRequest(mVideoUrl, AMBIENCE_VIDEOS_CACHE_PATH + mVideoFileName);
   }
 
+  @Override
   public FilesRequest getFilesRequest() {
     FilesRequest filesRequest = new FilesRequest();
     filesRequest.addRequest(getVideoRequest());

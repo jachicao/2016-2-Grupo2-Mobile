@@ -33,6 +33,7 @@ public class AmbiencesListFragment extends MediaListFragment {
   public static Fragment newInstance() {
     return new AmbiencesListFragment();
   }
+
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
