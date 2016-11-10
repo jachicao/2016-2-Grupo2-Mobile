@@ -1,6 +1,7 @@
 package cl.uc.saludestudiantiluc.exerciseplans;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.R;
+import cl.uc.saludestudiantiluc.calendar.CalendarActivity;
+import cl.uc.saludestudiantiluc.calendar.CalendarApi;
 
 /**
  * Created by camilo on 06-11-16.
@@ -19,9 +22,11 @@ import cl.uc.saludestudiantiluc.R;
 
 public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<ExerciseParentViewHolder, ExerciseChildViewHolder> {
   private LayoutInflater mInflater;
+  private Context mContext;
 
   public ExerciseExpandableAdapter(Context context, List<ParentObject> parentItemList) {
     super(context, parentItemList);
+    mContext = context;
     mInflater = LayoutInflater.from(context);
   }
 
@@ -51,6 +56,16 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
     exerciseChildViewHolder.getImageButton().setClickable(exerciseChild.isSolved());
     if (!exerciseChild.isSolved()) {
       exerciseChildViewHolder.getCardView().setCardBackgroundColor(Color.GRAY);
+    } else {
+      exerciseChildViewHolder.getCardView().setCardBackgroundColor(Color.WHITE);
+      exerciseChildViewHolder.getImageButton().setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          Intent intent = new Intent(mContext, CalendarActivity.class);
+          mContext.startActivity(intent);
+
+        }
+      });
     }
   }
 }

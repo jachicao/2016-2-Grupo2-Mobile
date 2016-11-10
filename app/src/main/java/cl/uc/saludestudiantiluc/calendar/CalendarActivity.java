@@ -81,15 +81,13 @@ public class CalendarActivity extends BaseActivity {
       public void onClick(View v) {
         if (mButton.isEnabled() && mServiceSelected && mCampusSelected) {
           Intent intent = new Intent(CalendarActivity.this, ScheduleActivity.class);
-          intent.putExtra(SERVICE_SELECTION, mServiceSpinner.getSelectedItem().toString());
-          intent.putExtra(CAMPUS_SELECTION, mCampusSpinner.getSelectedItem().toString());
+          intent.putExtra(SERVICE_SELECTION, mServiceSpinner.getSelectedItemPosition());
+          intent.putExtra(CAMPUS_SELECTION, mCampusSpinner.getSelectedItemPosition());
           intent.putExtra(SOURCE, AVAILABLE_HOURS);
           startActivity(intent);
         }
-
       }
     });
-
   }
 
   public static Intent getIntent(Activity activity) {

@@ -34,7 +34,7 @@
               android:checkable="true"
               android:checked="false"
               android:icon="@drawable/ic_settings_system_daydream_black_24dp"
-              android:title="@string/main_menu_exercises" />
+              android:title="@string/main_menu_exercise_plans" />
         <item android:id="@+id/drawer_evaluations"
               android:checkable="true"
               android:checked="false"

@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import cl.uc.saludestudiantiluc.MainActivity;
 import cl.uc.saludestudiantiluc.R;
+import cl.uc.saludestudiantiluc.auth.data.UserRepository;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,6 +67,8 @@ public class ScheduleActivity extends BaseActivity {
   private static final String AVAILABLE_HOURS = "Available hours";
   private static final String USER_HOURS = "User hours";
 
+  private UserRepository mUserRepository;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -98,22 +101,22 @@ public class ScheduleActivity extends BaseActivity {
     mLoaded = false;
     mIsDialogShown = false;
     Bundle extras = getIntent().getExtras();
-    String service;
-    String campus;
+    int service;
+    int campus;
     if (extras != null) {
       mSource = extras.getString(SOURCE);
       if (mSource.equals(AVAILABLE_HOURS)) {
-        service = extras.getString(SERVICE_SELECTION);
-        campus = extras.getString(CAMPUS_SELECTION);
+        service = extras.getInt(SERVICE_SELECTION);
+        campus = extras.getInt(CAMPUS_SELECTION);
       } else {
-        service = null;
-        campus = null;
+        service = -1;
+        campus = -1;
       }
 
     } else {
       mSource = null;
-      service = null;
-      campus = null;
+      service = -1;
+      campus = -1;
     }
     if (savedInstanceState != null) {
       mLoaded = savedInstanceState.getBoolean(SAVE_REQUESTED);
@@ -132,12 +135,14 @@ public class ScheduleActivity extends BaseActivity {
       } else {
         callInstance = mApiInstance.getUserHours();
       }
+      mUserRepository = getUserRepository();
       callInstance.enqueue(new Callback<List<Schedule>>() {
         @Override
         public void onResponse(Call<List<Schedule>> call, Response<List<Schedule>> response) {
           if (response.isSuccessful()) {
+            List<Schedule> scheduleList = response.body();
             Gson gson = new GsonBuilder().create();
-            String json = gson.toJson(response.body());
+            String json = gson.toJson(scheduleList);
             mSchedule = gson.fromJson(json, new TypeToken<List<Schedule>>() {
             }.getType());
           }
@@ -151,13 +156,17 @@ public class ScheduleActivity extends BaseActivity {
       });
     } else {
       if (mSchedule != null) {
-        loadListAdapter();
-        if (mIsDialogShown) {
-          if (mSource.equals(AVAILABLE_HOURS)) {
-            showConfirmationDialog(mDialogSchedule.getId());
-          } else {
-            showCancelDialog(mDialogSchedule.getId());
+        if (mSchedule.size() > 0) {
+          loadListAdapter();
+          if (mIsDialogShown) {
+            if (mSource.equals(AVAILABLE_HOURS)) {
+              showConfirmationDialog(mDialogSchedule.getId());
+            } else {
+              showCancelDialog(mDialogSchedule.getId());
+            }
           }
+        } else {
+          loadEmptyMessage();
         }
       } else {
         loadEmptyMessage();
@@ -188,9 +197,10 @@ public class ScheduleActivity extends BaseActivity {
           public int compare(Schedule o1, Schedule o2) {
             Date date1;
             Date date2;
-            int nComp = o1.getProfessional().compareTo(o2.getProfessional());
-            if (nComp != 0) {
-              return nComp;
+            if (o1.getProfessional() > o2.getProfessional()) {
+              return 1;
+            } else if (o1.getProfessional() > o2.getProfessional()) {
+              return 0;
             } else {
               try {
                 date1 = dateFormat.parse(o1.getTimestamp());
@@ -245,7 +255,6 @@ public class ScheduleActivity extends BaseActivity {
       t.setText(getResources().getString(R.string.empty_schedule));
     }
 
-
   }
 
   public void showConfirmationDialog(final int eventId) {
@@ -261,7 +270,7 @@ public class ScheduleActivity extends BaseActivity {
     TextView campus = (TextView) dialog.findViewById(R.id.confirmation_campus);
     String dateText = this.getString(R.string.date_start) + mDialogSchedule.getTimestamp();
     String professionalText = this.getString(R.string.professional_start) + mDialogSchedule.getProfessional();
-    String serviceText = this.getString(R.string.service_start) + mDialogSchedule.getActivity();
+    String serviceText = this.getString(R.string.service_start) + mDialogSchedule.getEvent_type();
     String campusText = this.getString(R.string.campus_start) + mDialogSchedule.getCampus();
     date.setText(dateText);
     professional.setText(professionalText);
@@ -425,12 +434,23 @@ public class ScheduleActivity extends BaseActivity {
         reserve.setText(getResources().getString(R.string.cancel_button));
         final TextView service = (TextView) convertView.findViewById(R.id.serviceText);
         final TextView campus = (TextView) convertView.findViewById(R.id.campusText);
-        service.setText(mSchedule.get(position).getActivity());
+        service.setText(mSchedule.get(position).getEvent_type());
         campus.setText(mSchedule.get(position).getCampus());
         reserve.setTextColor(getResources().getColor(R.color.red_700));
       }
-      date.setText(mSchedule.get(position).getTimestamp());
-      professional.setText(mSchedule.get(position).getProfessional());
+      int p1 = mSchedule.get(position).getTimestamp().indexOf(':');
+      int ind = mSchedule.get(position).getTimestamp().indexOf(':', p1+1);
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:mm");
+      Date d;
+      try {
+        d = dateFormat.parse(mSchedule.get(position).getTimestamp().replace("T", " ").substring(0, ind));
+        dateFormat.applyPattern("dd-MM-yyyy H:mm");
+      } catch (ParseException e) {
+        d = new Date();
+        e.printStackTrace();
+      }
+      date.setText(dateFormat.format(d));
+      professional.setText(String.valueOf(mSchedule.get(position).getProfessional()));
       location.setText(mSchedule.get(position).getLocation());
       reserve.setOnClickListener(new View.OnClickListener() {
         @Override

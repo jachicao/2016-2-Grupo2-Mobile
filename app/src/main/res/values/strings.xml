@@ -120,14 +120,14 @@
     <string name="evaluetion_results">Resultados de evaluación</string>
 
 
-
     <string name="profile">Perfil</string>
 
     <!-- User calendar -->
     <string-array name="service_array">
         <item>Consejería</item>
-        <item>Talleres grupales</item>
+        <item>Apoyo Grupal</item>
         <item>Taller de Mindfulness</item>
+        <item>Taller de Yoga</item>
     </string-array>
 
     <string-array name="professionals_array">
@@ -138,9 +138,10 @@
 
     <string-array name="campus_array">
         <item>San Joaquín</item>
+        <item>Lo Contador</item>
         <item>Casa Central</item>
         <item>Campus Oriente</item>
-        <item>Lo Contador</item>
+        <item>Villarrica</item>
     </string-array>
 
     <string name="selector">Selecciona un campo válido</string>
