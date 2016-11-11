@@ -25,6 +25,9 @@ android {
         dev {
             buildConfigField 'String', 'HOST', '"http://especial2.ing.puc.cl/"'
         }
+        prod {
+            buildConfigField 'String', 'HOST', '"http://ec2-54-191-202-201.us-west-2.compute.amazonaws.com/"'
+        }
     }
 }
 
