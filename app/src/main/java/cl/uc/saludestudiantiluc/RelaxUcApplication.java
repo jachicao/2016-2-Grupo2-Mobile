@@ -21,6 +21,12 @@ import cl.uc.saludestudiantiluc.auth.data.UserLocalDataRepository;
 import cl.uc.saludestudiantiluc.auth.data.UserRepository;
 import cl.uc.saludestudiantiluc.auth.models.LoginResponse;
 import cl.uc.saludestudiantiluc.common.RetrofitServiceFactory;
+import cl.uc.saludestudiantiluc.exerciseplans.api.ExerciseSoundApi;
+import cl.uc.saludestudiantiluc.exerciseplans.data.ExerciseSoundDataRepository;
+import cl.uc.saludestudiantiluc.exerciseplans.data.ExerciseSoundLocalDataStore;
+import cl.uc.saludestudiantiluc.exerciseplans.data.ExerciseSoundRemoteDataStore;
+import cl.uc.saludestudiantiluc.exerciseplans.data.ExerciseSoundRepository;
+import cl.uc.saludestudiantiluc.exerciseplans.models.ExerciseSound;
 import cl.uc.saludestudiantiluc.imageries.api.ImageryApi;
 import cl.uc.saludestudiantiluc.imageries.data.ImageryDataRepository;
 import cl.uc.saludestudiantiluc.imageries.data.ImageryLocalDataStore;
@@ -54,6 +60,7 @@ public class RelaxUcApplication extends Application {
   private SequencesRepository mSequencesRepository;
   private ImageryRepository mImageryRepository;
   private AmbiencesRepository mAmbiencesRepository;
+  private ExerciseSoundRepository mExerciseSoundRepository;
   private OkHttpClient mOkHttpClient;
   private JobManager mJobManager;
 
@@ -69,6 +76,7 @@ public class RelaxUcApplication extends Application {
     mSequencesRepository = createSequencesRepository();
     mImageryRepository = createSoundsRepository();
     mAmbiencesRepository = createAmbiencesRepository();
+    mExerciseSoundRepository = createExerciseSoundsRepository();
     mJobManager = new JobManager(new Configuration.Builder(this).build());
     Log.d("APP", "on create");
   }
@@ -94,6 +102,7 @@ public class RelaxUcApplication extends Application {
     mSequencesRepository = createSequencesRepository();
     mImageryRepository = createSoundsRepository();
     mAmbiencesRepository = createAmbiencesRepository();
+    mExerciseSoundRepository = createExerciseSoundsRepository();
   }
 
   public UserRepository getUserRepository() {
@@ -112,6 +121,9 @@ public class RelaxUcApplication extends Application {
     return mAmbiencesRepository;
   }
 
+  public ExerciseSoundRepository getExerciseSoundRepository() {
+    return mExerciseSoundRepository;
+  }
 
   private SequencesRepository createSequencesRepository() {
     SequencesLocalDataStore localDataStore = new SequencesLocalDataStore(this, mGson);
@@ -135,6 +147,14 @@ public class RelaxUcApplication extends Application {
         AmbienceApi.BASE_URL, mGson, mOkHttpClient);
     AmbiencesRemoteDataStore remoteDataStore = new AmbiencesRemoteDataStore(api);
     return new AmbiencesDataRepository(localDataStore, remoteDataStore);
+  }
+
+  private ExerciseSoundRepository createExerciseSoundsRepository() {
+    ExerciseSoundLocalDataStore localDataStore = new ExerciseSoundLocalDataStore(this, mGson);
+    ExerciseSoundApi api = RetrofitServiceFactory.createRetrofitService(ExerciseSoundApi.class,
+        ExerciseSoundApi.BASE_URL, mGson, mOkHttpClient);
+    ExerciseSoundRemoteDataStore remoteDataStore = new ExerciseSoundRemoteDataStore(api);
+    return new ExerciseSoundDataRepository(localDataStore, remoteDataStore);
   }
 
   public OkHttpClient getOkHttpClient() {

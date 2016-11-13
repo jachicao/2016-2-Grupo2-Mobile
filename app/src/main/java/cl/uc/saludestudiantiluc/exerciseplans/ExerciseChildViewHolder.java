@@ -17,6 +17,7 @@ import cl.uc.saludestudiantiluc.R;
 public class ExerciseChildViewHolder extends ChildViewHolder{
   private TextView mText;
   private ImageButton mImageButton;
+  private ImageButton mDownloadButton;
   private CardView mCardView;
 
   public ExerciseChildViewHolder(View itemView) {
@@ -36,5 +37,9 @@ public class ExerciseChildViewHolder extends ChildViewHolder{
 
   public CardView getCardView() {
     return mCardView;
+  }
+
+  public ImageButton getDownloadButton() {
+    return mDownloadButton;
   }
 }

@@ -95,7 +95,7 @@ public class AmbiencesListFragment extends BaseListFragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setAdapter(new AmbiencesListAdapter(this));
+    setAdapter(new AmbiencesListAdapter(this));//////////////////////
   }
 
   public List<Ambience> getDetailedList() {

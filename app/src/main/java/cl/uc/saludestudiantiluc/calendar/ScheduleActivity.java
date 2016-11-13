@@ -258,7 +258,6 @@ public class ScheduleActivity extends BaseActivity {
     } else {
       t.setText(getResources().getString(R.string.empty_schedule));
     }
-
   }
 
   public void showConfirmationDialog(final int eventId) {

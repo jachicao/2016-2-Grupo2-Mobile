@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
 
 import cl.uc.saludestudiantiluc.R;
+import cl.uc.saludestudiantiluc.exerciseplans.models.ExercisePlan;
 
 /**
  * Created by camilo on 06-11-16.
