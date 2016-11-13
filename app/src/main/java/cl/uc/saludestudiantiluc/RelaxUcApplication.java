@@ -16,6 +16,7 @@ import cl.uc.saludestudiantiluc.ambiences.data.AmbiencesDataRepository;
 import cl.uc.saludestudiantiluc.ambiences.data.AmbiencesLocalDataStore;
 import cl.uc.saludestudiantiluc.ambiences.data.AmbiencesRemoteDataStore;
 import cl.uc.saludestudiantiluc.ambiences.data.AmbiencesRepository;
+import cl.uc.saludestudiantiluc.auth.api.UserAuthApi;
 import cl.uc.saludestudiantiluc.auth.data.UserLocalDataRepository;
 import cl.uc.saludestudiantiluc.auth.data.UserRepository;
 import cl.uc.saludestudiantiluc.common.RetrofitServiceFactory;
@@ -53,6 +54,7 @@ public class RelaxUcApplication extends Application {
   private OkHttpClient mOkHttpClient;
   private JobManager mJobManager;
   private StatisticApi mStatisticApiService;
+  private UserAuthApi mAuthApiService;
 
   @Override
   public void onCreate() {
@@ -74,32 +76,40 @@ public class RelaxUcApplication extends Application {
    */
 
   private void setupOkHttpClient() {
-    mOkHttpClient = new OkHttpClient().newBuilder()
-        .addInterceptor(new Interceptor() {
-          @Override
-          public Response intercept(Chain chain) throws IOException {
-            // TODO(lukas): we should check the host here!.
-            Request request = chain.request().newBuilder()
-                .header("access-token", mUserRepository.getUserAccessToken())
-                .header("client", mUserRepository.getUserAccessTokenClient())
-                .header("uid", mUserRepository.getUid())
-                .build();
-            return chain.proceed(request);
-          }
-        })
-        .addInterceptor(new Interceptor() {
-          @Override
-          public Response intercept(Chain chain) throws IOException {
-            Response response = chain.proceed(chain.request());
-            int code = response.code();
-            if (code == 401) {
-              LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(INTERCEPTOR_LOG_OUT));
-            }
-            return response;
-          }
-        })
-        .build();
+    OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
 
+    if (getUserRepository().isUserLoggedIn()) {
+
+      builder.addInterceptor(new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+          // TODO(lukas): we should check the host here!.
+          Request request = chain.request().newBuilder()
+              .header("access-token", mUserRepository.getUserAccessToken())
+              .header("client", mUserRepository.getUserAccessTokenClient())
+              .header("uid", mUserRepository.getUid())
+              .build();
+          return chain.proceed(request);
+        }
+      });
+      builder.addInterceptor(new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+          Response response = chain.proceed(chain.request());
+          int code = response.code();
+          Log.e(TAG, "CODE: " + code);
+          if (code == 401) {
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(INTERCEPTOR_LOG_OUT));
+          }
+          return response;
+        }
+      });
+      Log.e(TAG, "interceptor");
+    }
+
+    mOkHttpClient = builder.build();
+
+    mAuthApiService = RetrofitServiceFactory.createRetrofitService(UserAuthApi.class, UserAuthApi.BASE_URL, mGson, mOkHttpClient);
     mSequencesRepository = createSequencesRepository();
     mImageryRepository = createSoundsRepository();
     mAmbiencesRepository = createAmbiencesRepository();
@@ -162,6 +172,10 @@ public class RelaxUcApplication extends Application {
 
   public StatisticApi getStatisticApiService() {
     return mStatisticApiService;
+  }
+
+  public UserAuthApi getAuthApiService() {
+    return mAuthApiService;
   }
 
   public Gson getGson() {
