@@ -110,6 +110,7 @@ public class RelaxUcApplication extends Application {
     mOkHttpClient = builder.build();
 
     mAuthApiService = RetrofitServiceFactory.createRetrofitService(UserAuthApi.class, UserAuthApi.BASE_URL, mGson, mOkHttpClient);
+
     mSequencesRepository = createSequencesRepository();
     mImageryRepository = createSoundsRepository();
     mAmbiencesRepository = createAmbiencesRepository();

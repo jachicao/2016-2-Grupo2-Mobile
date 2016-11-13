@@ -101,6 +101,11 @@ public class AuthActivity extends BaseActivity {
     mProgressBar = (ProgressBar) findViewById(R.id.auth_progress_bar);
     mProgressBar.setVisibility(View.GONE);
 
+    mRetrofitInstance = new Retrofit.Builder()
+        .baseUrl(UserAuthApi.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build();
+
     setNewFragment(AUTH_TYPE_OPTIONS);
   }
 
