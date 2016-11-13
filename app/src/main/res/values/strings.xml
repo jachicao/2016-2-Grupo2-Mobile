@@ -58,6 +58,8 @@
     <string name="sequences_cancel_confirmation">"¿Estás seguro/a que quieres cancelar el ejercicio?"</string>
     <string name="sequences_cancel_confirmation_cancel">"Si"</string>
     <string name="sequences_cancel_confirmation_revert">"No"</string>
+    <string name="sequences_help_description">Descripción</string>
+    <string name="sequences_help_close">Cerrar</string>
 
     <!--Sounds -->
     <string name="saved_sound_state">Sound state</string>

@@ -161,17 +161,14 @@ public class RegisterFragment extends AuthFragment {
           mAttemptingToRegister = false;
           getAuthActivity().getProgressBar().setVisibility(View.GONE);
           if (response.isSuccessful()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getAuthActivity());
-            builder.setMessage(getString(R.string.auth_confirmation_email))
+            new AlertDialog.Builder(getAuthActivity()).setMessage(getString(R.string.auth_confirmation_email))
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.auth_confirmation_ok), new DialogInterface.OnClickListener() {
                   @Override
                   public void onClick(DialogInterface dialog, int which) {
                     getAuthActivity().setNewFragment(AuthActivity.AUTH_TYPE_OPTIONS);
                   }
-                });
-            AlertDialog alert = builder.create();
-            alert.show();
+                }).create().show();
           } else {
             Converter<ResponseBody, ErrorRegisterResponse> errorConverter =
                 getAuthActivity().getRetrofitInstance().responseBodyConverter(ErrorRegisterResponse.class, new Annotation[0]);

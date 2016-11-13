@@ -5,10 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cl.uc.saludestudiantiluc.sequences.api.SequencesApi;
 import cl.uc.saludestudiantiluc.services.download.FileRequest;
 
 /**
@@ -61,5 +57,9 @@ public class SequencesImage implements Parcelable {
 
   public int getIndex() {
     return mOrder - 1;
+  }
+
+  public String getDescription() {
+    return mImage != null ? mImage.getDescription() : null;
   }
 }
