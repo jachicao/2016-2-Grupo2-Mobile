@@ -42,8 +42,9 @@
     <string name="auth_register_age">Edad</string>
     <string name="auth_register_career">Carrera</string>
     <string name="auth_register_year">Año</string>
-    <string name="auth_register_type_error">Tipo es requerido</string>
+    <string name="auth_register_academic_type_error">Tipo es requerido</string>
     <string name="auth_register_sex_error">Género es requerido</string>
+    <string name="auth_register_career_error">Escuela es requerida</string>
     <string name="auth_error_invalid_email">El correo debe ser UC.</string>
     <string name="auth_error_invalid_password">La contraseña es muy corta</string>
     <string name="auth_error_incorrect_password">La contraseña es incorrecta</string>
@@ -162,7 +163,7 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
 
-    <string-array name="auth_register_type_array">
+    <string-array name="auth_register_academic_type_array">
         <item>Selecciona tipo</item>
         <item>Estudiante</item>
         <item>Funcionario</item>
@@ -172,6 +173,52 @@
         <item>Selecciona género</item>
         <item>Masculino</item>
         <item>Femenino</item>
+    </string-array>
+
+    <string-array name="auth_register_career_array">
+        <item>Selecciona tu escuela</item>
+        <item>Acad Inter de Filosofía</item>
+        <item>Actividades Universitarias</item>
+        <item>Actuación</item>
+        <item>Agronomía e Ingeniería Forestal</item>
+        <item>Arquitectura</item>
+        <item>Arte</item>
+        <item>Astrofísica</item>
+        <item>CARA</item>
+        <item>Ciencia Política</item>
+        <item>Ciencias Biológicas</item>
+        <item>Ciencias de la Salud</item>
+        <item>Colegio Programas Doctorales</item>
+        <item>Comunicaciones</item>
+        <item>College</item>
+        <item>Construcción Civil</item>
+        <item>Deportes</item>
+        <item>Derecho</item>
+        <item>Diseño</item>
+        <item>Educación</item>
+        <item>Enfermería</item>
+        <item>Escuela de Gobierno</item>
+        <item>Estudios Urbanos</item>
+        <item>Estética</item>
+        <item>Filosofía</item>
+        <item>Física</item>
+        <item>Geografía</item>
+        <item>Historia</item>
+        <item>Ingeniería</item>
+        <item>Ingeniería Biológica y Médica</item>
+        <item>Ingeniería Comercial</item>
+        <item>Letras</item>
+        <item>Matemática</item>
+        <item>Medicina</item>
+        <item>Música</item>
+        <item>Odontología</item>
+        <item>Psicología</item>
+        <item>Química</item>
+        <item>Sociología</item>
+        <item>Teología</item>
+        <item>Trabajo Social</item>
+        <item>Villarica</item>
+        <item>Otra</item>
     </string-array>
 
 </resources>

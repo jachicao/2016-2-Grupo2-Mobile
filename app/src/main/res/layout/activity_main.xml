@@ -20,6 +20,12 @@
             android:layout_height="match_parent"
             android:id="@+id/main_background_image"
             android:scaleType="centerCrop"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/main_activity_fade"
+            android:background="@color/fade"
+            />
 
         <include
             android:id="@+id/toolbar"
@@ -29,7 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/fragment_container"
-            android:layout_marginTop="@dimen/actionbar_height" />
+            android:layout_marginTop="@dimen/actionbar_height"
+            />
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

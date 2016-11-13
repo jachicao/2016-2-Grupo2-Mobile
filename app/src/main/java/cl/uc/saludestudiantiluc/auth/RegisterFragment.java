@@ -3,7 +3,6 @@ package cl.uc.saludestudiantiluc.auth;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -14,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -46,9 +43,9 @@ public class RegisterFragment extends AuthFragment {
   private TextInputEditText mPasswordEditText;
   private TextInputEditText mPasswordConfirmEditText;
   private TextInputEditText mAgeEditText;
-  private Spinner mTypeSpinner;
+  private Spinner mAcademicType;
   private Spinner mSexSpinner;
-  private TextInputEditText mCareerEditText;
+  private Spinner mCareerSpinner;
   private TextInputEditText mYearEditText;
 
   @Nullable
@@ -61,20 +58,23 @@ public class RegisterFragment extends AuthFragment {
         R.id.auth_register_password_confirmation);
     mAgeEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_age);
 
-    mTypeSpinner = (Spinner) mThisView.findViewById(R.id.auth_register_type);
+    mAcademicType = (Spinner) mThisView.findViewById(R.id.auth_register_academic_type);
     ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(getContext(),
-        R.array.auth_register_type_array, android.R.layout.simple_spinner_item);
+        R.array.auth_register_academic_type_array, android.R.layout.simple_spinner_item);
     typeAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-    mTypeSpinner.setAdapter(typeAdapter);
+    mAcademicType.setAdapter(typeAdapter);
 
+    mCareerSpinner = (Spinner) mThisView.findViewById(R.id.auth_register_career);
+    ArrayAdapter<CharSequence> careerAdapter = ArrayAdapter.createFromResource(getContext(),
+        R.array.auth_register_career_array, android.R.layout.simple_spinner_item);
+    careerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+    mCareerSpinner.setAdapter(careerAdapter);
 
     mSexSpinner = (Spinner) mThisView.findViewById(R.id.auth_register_sex);
     ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(getContext(),
         R.array.auth_register_sex_array, android.R.layout.simple_spinner_item);
     sexAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
     mSexSpinner.setAdapter(sexAdapter);
-
-    mCareerEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_career);
 
     mYearEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_year);
 
@@ -120,12 +120,12 @@ public class RegisterFragment extends AuthFragment {
 
       int age = Integer.parseInt(ageString);
 
-      if (mTypeSpinner.getSelectedItemPosition() == 0) {
-        getAuthActivity().showToastMessage(getString(R.string.auth_register_type_error));
+      if (mAcademicType.getSelectedItemPosition() == 0) {
+        getAuthActivity().showToastMessage(getString(R.string.auth_register_academic_type_error));
         return;
       }
 
-      String type = mTypeSpinner.getSelectedItem().toString();
+      String type = mAcademicType.getSelectedItem().toString();
 
       if (mSexSpinner.getSelectedItemPosition() == 0) {
         getAuthActivity().showToastMessage(getString(R.string.auth_register_sex_error));
@@ -134,12 +134,12 @@ public class RegisterFragment extends AuthFragment {
 
       String sex = mSexSpinner.getSelectedItem().toString();
 
-      String career = mCareerEditText.getText().toString();
-      if (TextUtils.isEmpty(career)) {
-        mCareerEditText.setError(getString(R.string.auth_error_field_required));
-        mCareerEditText.requestFocus();
+      if (mCareerSpinner.getSelectedItemPosition() == 0) {
+        getAuthActivity().showToastMessage(getString(R.string.auth_register_career_error));
         return;
       }
+
+      String career = mCareerSpinner.getSelectedItem().toString();
 
       String yearString = mYearEditText.getText().toString();
       if (TextUtils.isEmpty(yearString)) {

@@ -22,9 +22,9 @@ public interface UserAuthApi {
                                   @Field("password") String password,
                                   @Field("password_confirm") String password_confirm,
                                   @Field("age") Integer age,
-                                  @Field("type") String type,
+                                  @Field("academic_type") String academic_type,
                                   @Field("sex") String sex,
-                                  @Field("program") String career,
+                                  @Field("school") String career,
                                   @Field("year") Integer year
                                   );
 

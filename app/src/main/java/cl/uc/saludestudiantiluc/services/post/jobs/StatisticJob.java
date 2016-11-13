@@ -77,7 +77,7 @@ public class StatisticJob extends Job {
     if (!statisticResponse.isSuccessful()) {
       throw new Exception("Unsuccessful");
     }
-    Log.v(TAG, "Success: " + statisticResponse.body().success);
+    Log.v(TAG, "Log sent - Type: " + mType +  " - Id: " + mId + " - Success: " + statisticResponse.body().success);
     if (statisticResponse.body().success) {
       Intent intent = new Intent(PostService.POST_SERVICE_INTENT_FILTER);
       intent.putExtra(STATISTIC_JOB, true);

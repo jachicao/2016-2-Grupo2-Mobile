@@ -40,7 +40,6 @@ public class PostService {
           return;
         }
         String action = intent.getAction();
-        Log.v(TAG, "Action - " + action);
         switch (action) {
           case POST_SERVICE_INTENT_FILTER:
             if (intent.getBooleanExtra(StatisticJob.STATISTIC_JOB, false)) {
