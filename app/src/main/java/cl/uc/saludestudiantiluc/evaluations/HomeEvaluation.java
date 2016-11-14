@@ -28,26 +28,6 @@ public class HomeEvaluation extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home_evaluation);
-    /*Button eval1= (Button) findViewById(R.id.button_evaluation_one);
-    eval1.setOnClickListener(new View.OnClickListener(){
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(v.getContext(), BaseEvaluationActivity.class);
-        intent.putExtra(TEST_TYPE, 1);
-        startActivity(intent);
-      }
-    });
-
-    Button eval2= (Button) findViewById(R.id.button_evaluation_two);
-    eval2.setOnClickListener(new View.OnClickListener(){
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(v.getContext(), BaseEvaluationActivity.class);
-        intent.putExtra(TEST_TYPE, 2);
-        startActivity(intent);
-      }
-    });
-    */
 
     TextView stressEvaluation = (TextView) findViewById(R.id.stressEvaluation);
     stressEvaluation.setText(getResources().getString(R.string.stress_evaluetion));
@@ -77,7 +57,7 @@ public class HomeEvaluation extends BaseActivity {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(v.getContext(), BaseEvaluationActivity.class);
-        intent.putExtra(TEST_TYPE, 2);
+        intent.putExtra(TEST_TYPE, 3);
         startActivity(intent);
       }
     });

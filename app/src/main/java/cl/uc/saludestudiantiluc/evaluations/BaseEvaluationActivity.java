@@ -14,12 +14,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -37,6 +40,7 @@ import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.evaluations.data.evaluationModel;
 import cl.uc.saludestudiantiluc.evaluations.data.generateEvaluation;
+import me.relex.circleindicator.CircleIndicator;
 
 public class BaseEvaluationActivity extends BaseActivity {
 
@@ -72,13 +76,10 @@ public class BaseEvaluationActivity extends BaseActivity {
     setContentView(R.layout.activity_base_evaluation);
     TextView questionTitle = (TextView) findViewById(R.id.title_question) ;
 
-
-
     Intent intent = getIntent();
     mEvaluationType = intent.getIntExtra(HomeEvaluation.TEST_TYPE, 0) ;
 
     //setToolBar
-
     String[] types_array = getResources().getStringArray(R.array.evaluetions_types);
 
     if (getSupportActionBar() != null) {
@@ -86,7 +87,6 @@ public class BaseEvaluationActivity extends BaseActivity {
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
       getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
-
     getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -116,7 +116,6 @@ public class BaseEvaluationActivity extends BaseActivity {
       file = getResources().openRawResource(R.raw.ts);
     }
 
-
     String str = geval.getStringFromJson(file);
     mEvaluation = geval.getEvaluation(str);
     String evaluationName = mEvaluation.evaluationName;
@@ -129,12 +128,12 @@ public class BaseEvaluationActivity extends BaseActivity {
     // Create the adapter that will return a fragment for each of the three
     // primary sections of the activity.
     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), mQuantity, questions);
-
-
     mButtonFloat = (FloatingActionButton) findViewById(R.id.fab);
 
     mButtonFloat.setVisibility(View.INVISIBLE);
 
+    CircleIndicator indicator =
+        (CircleIndicator) findViewById(R.id.evaluation_circle_indicator);
     // Set up the ViewPager with the sections adapter.
     mViewPager = (ViewPager) findViewById(R.id.container);
     mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -152,6 +151,8 @@ public class BaseEvaluationActivity extends BaseActivity {
       }
     });
 
+    indicator.setViewPager(mViewPager);
+
     //Set the questionTitle
     questionTitle.setText(evaluationName);
     questionTitle.setTextSize(20);
@@ -162,22 +163,15 @@ public class BaseEvaluationActivity extends BaseActivity {
     send.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-
         sendScore(view);
       }
     });
 
   }
 
-
-
-
-
   public void setResults(int i, String result) {
     mResults[i] = result;
   }
-
-
 
   public boolean areAllSelected() {
     for (int i = 0; i < mQuantity; i++) {
@@ -198,21 +192,15 @@ public class BaseEvaluationActivity extends BaseActivity {
     return number;
   }
 
-
   public void sendScore(View view) {
 
     if (areAllSelected()) {
-
-      Snackbar.make(view, "En breve podrá ver su resultado", Snackbar.LENGTH_LONG)
-          .setAction("Action", null).show();
       showResults();
     } else {
       mViewPager.setCurrentItem(getNotSelected() );
       Snackbar.make(view, "Debe responder todas las preguntas ", Snackbar.LENGTH_LONG)
           .setAction("Action", null).show();
     }
-
-
   }
 
   public void showResults() {
@@ -229,34 +217,77 @@ public class BaseEvaluationActivity extends BaseActivity {
 
   public int calculateScore() {
     int score = 0;
-    for ( int i = 0; i < mResults.length ; i++) {
+    if(mEvaluationType == 3){
+      int i = 0;
+      double realTime = Double.parseDouble(mResults[0]);
+      double idealTime = Double.parseDouble(mResults[1]);
 
-      if (mEvaluationType == 1) { // If evaluation is for stress recomenation
-        if ( i == 3 || i == 4 || i == 5 || i == 6 || i == 8 || i == 9 || i == 12 ) {
-          score += 4 - (Integer.parseInt(mResults[i]) - 1);
-        } else {
-          score += Integer.parseInt(mResults[i]) - 1;
+      if((realTime - idealTime) > 1.5 || (realTime - idealTime) < -1.5 ){
+        score += 1;
+      } else {
+        score += 0;
+      }
+
+      int sleepingPerception = Integer.parseInt(mResults[2]);
+      if(sleepingPerception == 1){
+        score += 0;
+      } else {
+        score += 1;
+      }
+
+      int delay = Integer.parseInt(mResults[3]);
+      if(delay == 3){
+        score += 1;
+      } else {
+        score += 0;
+      }
+
+      int timesWapeUp = Integer.parseInt(mResults[4]);
+      int timeToSleep = Integer.parseInt(mResults[5]);
+      if((timesWapeUp == 4) || (timesWapeUp == 3 && timeToSleep == 4) || (timesWapeUp == 2 &&
+          timeToSleep == 4 )){
+        score += 1;
+      } else {
+        score += 0;
+      }
+
+      int awake = Integer.parseInt(mResults[6]);
+      if(awake <= 2){
+        score += 1;
+      } else {
+        score += 0;
+      }
+
+      int symptom = Integer.parseInt(mResults[7]);
+      if(symptom >= 2){
+        score += 1;
+      } else {
+        score += 0;
+      }
+
+    } else {
+      for (int i = 0; i < mResults.length; i++) {
+
+        if (mEvaluationType == 1) { // If evaluation is for stress recomenation
+          if (i == 3 || i == 4 || i == 5 || i == 6 || i == 8 || i == 9 || i == 12) {
+            score += 4 - (Integer.parseInt(mResults[i]) - 1);
+          } else {
+            score += Integer.parseInt(mResults[i]) - 1;
+          }
         }
-      }
 
-      if (mEvaluationType == 2) {
-        score += Integer.parseInt((mResults[i])) - 1;
-      }
+        if (mEvaluationType == 2) {
+          score += Integer.parseInt((mResults[i])) - 1;
+        }
 
+      }
     }
-
     return score;
   }
-
-
-
-
-
 
   public static Intent getIntent(Activity activity) {
     return new Intent(activity, BaseEvaluationActivity.class);
   }
-
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -275,8 +306,6 @@ public class BaseEvaluationActivity extends BaseActivity {
 
     return super.onOptionsItemSelected(item);
   }
-
-
 
 
   /**
@@ -378,7 +407,6 @@ public class BaseEvaluationActivity extends BaseActivity {
       PlaceholderFragment fragment = new PlaceholderFragment();
       Bundle args = new Bundle();
 
-
       args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 
       args.putString(ARG_QUESTION, question);
@@ -386,17 +414,40 @@ public class BaseEvaluationActivity extends BaseActivity {
       return fragment;
     }
 
-
     public PlaceholderFragment() {
     }
 
-
     public String getSelection() {
-      RadioGroup radiogroup = (RadioGroup) this.getView().findViewById(R.id.radioGroupOptions);
-      int selectedId = radiogroup.getCheckedRadioButtonId();
-      RadioButton radiobutton = (RadioButton) getView().findViewById(selectedId);
-      String tag = radiobutton.getTag().toString();
-      return tag;
+      if (((BaseEvaluationActivity) getActivity()).mEvaluationType == 3){
+        if(mQuestionNumber > 2){
+          RadioGroup radiogroup = (RadioGroup) this.getView().findViewById(R.id.radioGroupOptions);
+          int selectedId = radiogroup.getCheckedRadioButtonId();
+          RadioButton radiobutton = (RadioButton) getView().findViewById(selectedId);
+          if(selectedId>=0) {
+            String tag = radiobutton.getTag().toString();
+            return tag;
+          } else{
+            return "";
+          }
+
+        }
+        else {
+          EditText totalHours = (EditText) getView().findViewById(R.id.totalHours);
+          String total = totalHours.getEditableText().toString();
+          return total;
+
+        }
+      } else {
+        RadioGroup radiogroup = (RadioGroup) this.getView().findViewById(R.id.radioGroupOptions);
+        int selectedId = radiogroup.getCheckedRadioButtonId();
+        RadioButton radiobutton = (RadioButton) getView().findViewById(selectedId);
+        String tag = null;
+        if(radiobutton != null) {
+          tag = radiobutton.getTag().toString();
+
+        }
+        return tag;
+      }
     }
 
 
@@ -416,13 +467,29 @@ public class BaseEvaluationActivity extends BaseActivity {
           }
         });
 
-      setUi(rootView);
+      EditText editText = (EditText) rootView.findViewById(R.id.totalHours);
+      editText.addTextChangedListener(new TextWatcher(){
+        public void afterTextChanged(Editable s) {
+          ((BaseEvaluationActivity) getActivity()).setResults(mQuestionNumber-1, getSelection());
+        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+        public void onTextChanged(CharSequence s, int start, int before, int count){}
+      });
+
+      setUi(rootView, mQuestionNumber);
 
       return rootView;
     }
 
-    public void setUi(View rootView) {
+    public void setUi(View rootView, int questionNumber) {
+      EditText totalHours = (EditText) rootView.findViewById(R.id.totalHours);
+      totalHours.setVisibility(View.INVISIBLE);
+     totalHours.setHeight(0);
       if (((BaseEvaluationActivity) getActivity()).mEvaluationType == 2) {
+
+        View total = rootView.findViewById(R.id.totalHours);
+        ((ViewGroup) total.getParent()).removeView(total);
+
         RadioButton radioButton5 = (RadioButton) rootView.findViewById(R.id.radioButton5);
         radioButton5.setVisibility(View.INVISIBLE);
 
@@ -439,7 +506,8 @@ public class BaseEvaluationActivity extends BaseActivity {
         radioButton4.setText(getResources().getString(R.string.answer_T2_d));
 
       } else if (((BaseEvaluationActivity) getActivity()).mEvaluationType == 1) {
-
+        View total = rootView.findViewById(R.id.totalHours);
+        ((ViewGroup) total.getParent()).removeView(total);
 
         RadioButton radioButton1 = (RadioButton) rootView.findViewById(R.id.radioButton);
         radioButton1.setText(getResources().getString(R.string.answer_T1_a));
@@ -457,10 +525,100 @@ public class BaseEvaluationActivity extends BaseActivity {
         radioButton5.setText(getResources().getString(R.string.answer_T1_e));
 
 
+      } else if (((BaseEvaluationActivity) getActivity()).mEvaluationType == 3) {
+
+        if(questionNumber == 1 || questionNumber==2) {
+          totalHours.setHeight(230);
+
+          RadioButton radioButton1 = (RadioButton) rootView.findViewById(R.id.radioButton);
+          radioButton1.setVisibility(View.INVISIBLE);
+
+          RadioButton radioButton2 = (RadioButton) rootView.findViewById(R.id.radioButton2);
+          radioButton2.setVisibility(View.INVISIBLE);
+
+          RadioButton radioButton3 = (RadioButton) rootView.findViewById(R.id.radioButton3);
+          radioButton3.setVisibility(View.INVISIBLE);
+
+          RadioButton radioButton4 = (RadioButton) rootView.findViewById(R.id.radioButton4);
+          radioButton4.setVisibility(View.INVISIBLE);
+
+          RadioButton radioButton5 = (RadioButton) rootView.findViewById(R.id.radioButton5);
+          radioButton5.setVisibility(View.INVISIBLE);
+
+          totalHours.setVisibility(View.VISIBLE);
+        } else if(mQuestionNumber != 5 && mQuestionNumber != 6){
+          String option1 = "";
+          String option2 = "";
+          String option3 = "";
+          if(mQuestionNumber == 3){
+            option1 = "Bueno";
+            option2 = "Regular";
+            option3 = "Malo";
+          } else if(mQuestionNumber == 4){
+            option1 = "Menos de 5 minutos";
+            option2 = "entre 5 y 30 minutos";
+            option3 = "Más de 30 minutos";
+          } else if(mQuestionNumber == 7){
+            option1 = "Cansado(a)";
+            option2 = "Más o menos";
+            option3 = "Descansado(a)";
+          } else if(mQuestionNumber == 8){
+            option1 = "Ninguno";
+            option2 = "Solo uno";
+            option3 = "Dos o más";
+          }
+
+
+          RadioButton radioButton1 = (RadioButton) rootView.findViewById(R.id.radioButton);
+          radioButton1.setText(option1);
+
+          RadioButton radioButton2 = (RadioButton) rootView.findViewById(R.id.radioButton2);
+          radioButton2.setText(option2);
+
+          RadioButton radioButton3 = (RadioButton) rootView.findViewById(R.id.radioButton3);
+          radioButton3.setText(option3);
+
+          RadioButton radioButton4 = (RadioButton) rootView.findViewById(R.id.radioButton4);
+          radioButton4.setVisibility(View.INVISIBLE);
+
+          RadioButton radioButton5 = (RadioButton) rootView.findViewById(R.id.radioButton5);
+          radioButton5.setVisibility(View.INVISIBLE);
+
+        } else if(mQuestionNumber == 5 || mQuestionNumber == 6){
+
+          String option1 = "Ninguna vez";
+          String option2 = "Una vez";
+          String option3 = "Dos veces";
+          String option4 = " Tres o más veces";
+
+          if(mQuestionNumber == 6){
+            option1 = "No despierto";
+            option2 = "Menos de 5 minutos";
+            option3 = "entre 5 y 30 minutos";
+            option4 = "Más de 30 minutos";
+          }
+
+
+
+          RadioButton radioButton1 = (RadioButton) rootView.findViewById(R.id.radioButton);
+          radioButton1.setText(option1);
+
+          RadioButton radioButton2 = (RadioButton) rootView.findViewById(R.id.radioButton2);
+          radioButton2.setText(option2);
+
+          RadioButton radioButton3 = (RadioButton) rootView.findViewById(R.id.radioButton3);
+          radioButton3.setText(option3);
+
+          RadioButton radioButton4 = (RadioButton) rootView.findViewById(R.id.radioButton4);
+          radioButton4.setText(option4);
+
+          RadioButton radioButton5 = (RadioButton) rootView.findViewById(R.id.radioButton5);
+          radioButton5.setVisibility(View.INVISIBLE);
+
+        }
+
+
       }
-
-
-
     }
   }
 }
