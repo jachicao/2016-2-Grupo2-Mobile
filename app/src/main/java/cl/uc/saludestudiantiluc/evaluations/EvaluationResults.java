@@ -1,14 +1,21 @@
 package cl.uc.saludestudiantiluc.evaluations;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
@@ -21,6 +28,8 @@ public class EvaluationResults extends BaseActivity {
     setContentView(R.layout.activity_evaluation_results);
 
     //setToolBar
+
+
 
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle(R.string.evaluetion_results);
@@ -54,7 +63,48 @@ public class EvaluationResults extends BaseActivity {
     TextView textview = (TextView) findViewById(R.id.total_score_results);
     textview.setText("" + getRecomendation(score, type, role));
 
+    saveResult(score, role, type);
+  }
 
+  public String read() {
+    String text = "";
+    try
+    {
+      BufferedReader fin =
+          new BufferedReader(
+              new InputStreamReader(
+                  openFileInput("results.txt")));
+
+      String texto = fin.readLine();
+      text += texto;
+      fin.close();
+    }
+    catch (Exception ex)
+    {
+      Log.e("Ficheros", "Error al leer fichero desde recurso raw");
+    }
+    return text;
+
+  }
+
+  public void saveResult(int score, int role, int type) {
+    try
+    {
+
+
+      OutputStreamWriter fout=
+          new OutputStreamWriter(
+              openFileOutput("results.txt", Context.MODE_PRIVATE));
+
+      fout.write("" + score + "|" + role + "|" + type +"\n");
+      fout.close();
+
+
+    }
+    catch (Exception ex)
+    {
+      Log.e("Ficheros", "Error al leer fichero desde recurso raw");
+    }
   }
 
 
