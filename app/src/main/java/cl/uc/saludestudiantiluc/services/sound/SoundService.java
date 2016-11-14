@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
@@ -324,8 +325,14 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
     Intent clickIntent = new Intent(ACTION).putExtra(ACTION_CLICK, true);
 
     NotificationCompat.Builder notifyBuilder
-        = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_headset_black_24dp);
+        = new NotificationCompat.Builder(this);
 
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      notifyBuilder.setSmallIcon(R.drawable.ic_headset_black_24dp);
+    } else {
+      notifyBuilder.setSmallIcon(R.drawable.ic_headset_white_24dp);
+    }
+    
     notifyBuilder
         .setContentIntent(
             PendingIntent.getBroadcast(this, 0, clickIntent, 0));
