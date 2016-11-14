@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_home_evaluation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cl.uc.saludestudiantiluc.evaluations.HomeEvaluation">
 
-    <ImageView
-        android:id="@+id/main_background_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <include layout="@layout/main_background_image"/>
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
-
 
     <LinearLayout
         android:orientation="vertical"

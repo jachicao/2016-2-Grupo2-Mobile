@@ -7,10 +7,7 @@
     android:layout_height="match_parent"
     tools:context="cl.uc.saludestudiantiluc.profile.ProfileActivity">
 
-    <ImageView
-        android:id="@+id/main_background_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <include layout="@layout/main_background_image"/>
 
     <include
         android:id="@+id/toolbar"

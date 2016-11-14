@@ -15,17 +15,8 @@
         android:layout_height="match_parent"
         android:id="@+id/coordinator_layout"
         >
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/main_background_image"
-            android:scaleType="centerCrop"/>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/main_activity_fade"
-            android:background="@color/fade"
-            />
+
+        <include layout="@layout/main_background_image"/>
 
         <include
             android:id="@+id/toolbar"

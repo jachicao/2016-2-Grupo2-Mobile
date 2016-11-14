@@ -26,7 +26,7 @@ public class PostService {
 
   public static final String POST_SERVICE_INTENT_FILTER = "PostJobIntentFilter";
   private static final String TAG = PostService.class.getSimpleName();
-  private static final String HASH_SET_FORMAT = "%d - %s";
+  private static final String HASH_SET_FORMAT = "%1$d - %s";
 
   private BroadcastReceiver mBroadcastReceiver;
   private LocalBroadcastManager mLocalBroadcastManager;

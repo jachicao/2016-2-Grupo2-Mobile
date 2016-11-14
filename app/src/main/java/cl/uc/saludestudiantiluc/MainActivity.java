@@ -114,9 +114,11 @@ public class MainActivity extends BaseActivity {
           case R.id.drawer_evaluations:
             startActivity(HomeEvaluation.getIntent(MainActivity.this));
             break;
+          /*
           case R.id.drawer_profile:
             startActivity(ProfileActivity.getIntent(MainActivity.this));
             break;
+           */
           case R.id.drawer_request_appointment:
             startActivity(CalendarActivity.getIntent(MainActivity.this));
             break;

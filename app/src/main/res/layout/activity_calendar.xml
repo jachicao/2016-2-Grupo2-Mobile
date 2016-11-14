@@ -10,10 +10,7 @@
     tools:context="cl.uc.saludestudiantiluc.calendar.CalendarActivity"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/main_background_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <include layout="@layout/main_background_image"/>
 
     <include
         android:id="@+id/toolbar"
