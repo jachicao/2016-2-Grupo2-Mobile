@@ -78,6 +78,8 @@ public class LoginFragment extends AuthFragment {
     if (mAttemptingToLogin) {
       return;
     }
+    mEmailEditText.setError(null);
+    mPasswordEditText.setError(null);
     if (getAuthActivity().isEmailAndPasswordCorrect(mEmailEditText, mPasswordEditText)) {
 
       String email = mEmailEditText.getText().toString();

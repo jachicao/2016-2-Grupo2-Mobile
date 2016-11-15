@@ -132,9 +132,6 @@ public class AuthActivity extends BaseActivity {
   }
 
   public boolean isEmailAndPasswordCorrect(TextInputEditText emailEditText, TextInputEditText passwordEditText) {
-    emailEditText.setError(null);
-    passwordEditText.setError(null);
-
     String email = emailEditText.getText().toString();
     if (TextUtils.isEmpty(email)) {
       emailEditText.setError(getString(R.string.auth_error_field_required));
@@ -160,9 +157,7 @@ public class AuthActivity extends BaseActivity {
   }
 
   public boolean isPasswordConfirmationCorrect(TextInputEditText passwordEditText, TextInputEditText confirmPasswordEditText) {
-    confirmPasswordEditText.setError(null);
     String passwordConfirmation = confirmPasswordEditText.getText().toString();
-
     if (TextUtils.isEmpty(passwordConfirmation)) {
       confirmPasswordEditText.setError(getString(R.string.auth_error_field_required));
       confirmPasswordEditText.requestFocus();

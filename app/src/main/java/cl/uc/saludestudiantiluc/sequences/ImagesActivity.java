@@ -5,9 +5,15 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.View;
+
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.sequences.models.Sequence;
+import cl.uc.saludestudiantiluc.sequences.models.SequencesImage;
+import cl.uc.saludestudiantiluc.utils.TouchDetector;
+import cl.uc.saludestudiantiluc.utils.TouchListener;
 import me.relex.circleindicator.CircleIndicator;
 
 public class ImagesActivity extends BaseActivity {
@@ -16,25 +22,83 @@ public class ImagesActivity extends BaseActivity {
   private PagerAdapter mPagerAdapter;
 
   private Sequence mSequence;
+  private int mCurrentPosition;
+  private View mHelpview;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.sequences_viewpager);
+    loadMainBackground();
+    mHelpview = findViewById(R.id.sequences_view_pager_help);
+    mHelpview.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        String description = getCurrentImage().getDescription();
+        if (description != null && !TextUtils.isEmpty(description)) {
+          new AlertDialog.Builder(ImagesActivity.this)
+              .setMessage(description)
+              //.setTitle(getContext().getString(R.string.sequences_help_description))
+              .setCancelable(false)
+              .setPositiveButton(getString(R.string.sequences_help_close), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+              }).create().show();
+        }
+      }
+    });
+
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle(R.string.sequences);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+    }
+
+    getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        onBackPressed();
+      }
+    });
+
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
       mSequence = extras.getParcelable(SequencesListFragment.SEQUENCE_EXTRAS);
       if (mSequence != null) {
-        mPager = (ViewPager) findViewById(R.id.sequences_view_pager);
-        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.sequences_view_pager_circle_indicator);
+        mCurrentPosition = 0;
+        mPager
+            = (ViewPager) findViewById(R.id.sequences_view_pager);
+        CircleIndicator indicator
+            = (CircleIndicator) findViewById(R.id.sequences_view_pager_circle_indicator);
         mPagerAdapter = new ImagesFragmentPagerAdapter(getSupportFragmentManager(), mSequence);
         mPager.setAdapter(mPagerAdapter);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+          @Override
+          public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+          }
+
+          @Override
+          public void onPageSelected(int position) {
+            mCurrentPosition = position;
+            onNewPage();
+          }
+
+          @Override
+          public void onPageScrollStateChanged(int state) {
+
+          }
+        });
         indicator.setViewPager(mPager);
+        onNewPage();
         enableImmersiveMode();
         getPostService().sendStatistic(this, mSequence);
       }
     }
   }
+
 
   @Override
   public void onBackPressed() {
@@ -62,6 +126,19 @@ public class ImagesActivity extends BaseActivity {
       }
     } else {
       super.onBackPressed();
+    }
+  }
+
+  private SequencesImage getCurrentImage() {
+    return mSequence.getImages().get(mCurrentPosition);
+  }
+
+  private void onNewPage() {
+    String description = getCurrentImage().getDescription();
+    if (description != null && !TextUtils.isEmpty(description)) {
+      mHelpview.setVisibility(View.VISIBLE);
+    } else {
+      mHelpview.setVisibility(View.GONE);
     }
   }
 

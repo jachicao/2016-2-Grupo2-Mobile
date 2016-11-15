@@ -111,6 +111,12 @@ public class RegisterFragment extends AuthFragment {
     if (mAttemptingToRegister) {
       return;
     }
+    mEmailEditText.setError(null);
+    mPasswordEditText.setError(null);
+    mPasswordConfirmEditText.setError(null);
+    mRutEditText.setError(null);
+    mAgeEditText.setError(null);
+    mYearEditText.setError(null);
     if (getAuthActivity().isEmailAndPasswordCorrect(mEmailEditText, mPasswordEditText) && getAuthActivity().isPasswordConfirmationCorrect(mPasswordEditText, mPasswordConfirmEditText)) {
       String email = mEmailEditText.getText().toString();
       String password = mPasswordEditText.getText().toString();
