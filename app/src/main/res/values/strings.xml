@@ -39,12 +39,14 @@
     <string name="auth_login_remember_me">Recuerdame</string>
     <string name="auth_register">Registrar</string>
     <string name="auth_register_password_confirmation">Confirma la contraseña</string>
+    <string name="auth_register_rut">Rut</string>
     <string name="auth_register_age">Edad</string>
     <string name="auth_register_career">Carrera</string>
     <string name="auth_register_year">Año</string>
     <string name="auth_register_academic_type_error">Tipo es requerido</string>
     <string name="auth_register_sex_error">Género es requerido</string>
     <string name="auth_register_career_error">Escuela es requerida</string>
+    <string name="auth_register_rut_error">Rut es inválido</string>
     <string name="auth_error_invalid_email">El correo debe ser UC.</string>
     <string name="auth_error_invalid_password">La contraseña es muy corta</string>
     <string name="auth_error_incorrect_password">La contraseña es incorrecta</string>

@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
@@ -42,6 +44,7 @@ public class RegisterFragment extends AuthFragment {
   private TextInputEditText mEmailEditText;
   private TextInputEditText mPasswordEditText;
   private TextInputEditText mPasswordConfirmEditText;
+  private TextInputEditText mRutEditText;
   private TextInputEditText mAgeEditText;
   private Spinner mAcademicType;
   private Spinner mSexSpinner;
@@ -56,6 +59,7 @@ public class RegisterFragment extends AuthFragment {
     mPasswordEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_password);
     mPasswordConfirmEditText = (TextInputEditText) mThisView.findViewById(
         R.id.auth_register_password_confirmation);
+    mRutEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_rut);
     mAgeEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_age);
 
     mAcademicType = (Spinner) mThisView.findViewById(R.id.auth_register_academic_type);
@@ -110,6 +114,19 @@ public class RegisterFragment extends AuthFragment {
     if (getAuthActivity().isEmailAndPasswordCorrect(mEmailEditText, mPasswordEditText) && getAuthActivity().isPasswordConfirmationCorrect(mPasswordEditText, mPasswordConfirmEditText)) {
       String email = mEmailEditText.getText().toString();
       String password = mPasswordEditText.getText().toString();
+
+      String rut = mRutEditText.getText().toString();
+      if (TextUtils.isEmpty(rut)) {
+        mRutEditText.setError(getString(R.string.auth_error_field_required));
+        mRutEditText.requestFocus();
+        return;
+      }
+      if (!getAuthActivity().isRutValid(rut)) {
+        mRutEditText.setError(getString(R.string.auth_register_rut_error));
+        mRutEditText.requestFocus();
+        return;
+      }
+
       String ageString = mAgeEditText.getText().toString();
 
       if (TextUtils.isEmpty(ageString)) {
@@ -153,7 +170,7 @@ public class RegisterFragment extends AuthFragment {
       mThisView.setVisibility(View.INVISIBLE);
       getAuthActivity().getProgressBar().setVisibility(View.VISIBLE);
 
-      Call<RegisterResponse> callInstance = getAuthActivity().getApiInstance().register(email, password, password, age, type, sex, career, year);
+      Call<RegisterResponse> callInstance = getAuthActivity().getApiInstance().register(email, password, password, rut, age, type, sex, career, year);
       mAttemptingToRegister = true;
       callInstance.enqueue(new Callback<RegisterResponse>() {
         @Override
