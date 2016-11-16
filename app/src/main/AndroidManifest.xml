@@ -12,7 +12,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:largeHeap="true"
+        >
         <meta-data
             android:name="cl.uc.saludestudiantiluc.utils.GlideConfiguration"
             android:value="GlideModule"/>
