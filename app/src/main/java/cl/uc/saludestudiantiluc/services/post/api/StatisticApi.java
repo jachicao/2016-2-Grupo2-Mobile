@@ -14,10 +14,10 @@ public interface StatisticApi {
 
   String BASE_URL = BuildConfig.HOST + "/api/v1/logs/";
 
-  @POST("long_audio")
+  @POST("nature")
   Call<Statistic> sendAmbienceLog(@Query("id") int id);
 
-  @POST("nature")
+  @POST("long_audio")
   Call<Statistic> sendImageryLog(@Query("id") int id);
 
   @POST("infographics")

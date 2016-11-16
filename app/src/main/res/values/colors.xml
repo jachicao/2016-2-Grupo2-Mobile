@@ -297,4 +297,6 @@
     <color name="accent">@color/pink_A200</color>
 
     <color name="black_overlay">#61000000</color>
+
+    <color name="fade">#30000000</color>
 </resources>

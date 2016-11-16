@@ -6,11 +6,8 @@
     tools:context="cl.uc.saludestudiantiluc.auth.AuthActivity"
     android:id="@+id/coordinator_layout"
     >
-    <ImageView
-    android:id="@+id/main_background_image"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        />
+
+    <include layout="@layout/main_background_image"/>
 
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"

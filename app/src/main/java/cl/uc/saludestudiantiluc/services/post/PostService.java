@@ -26,7 +26,7 @@ public class PostService {
 
   public static final String POST_SERVICE_INTENT_FILTER = "PostJobIntentFilter";
   private static final String TAG = PostService.class.getSimpleName();
-  private static final String HASH_SET_FORMAT = "%d - %s";
+  private static final String HASH_SET_FORMAT = "%1$d - %s";
 
   private BroadcastReceiver mBroadcastReceiver;
   private LocalBroadcastManager mLocalBroadcastManager;
@@ -40,7 +40,6 @@ public class PostService {
           return;
         }
         String action = intent.getAction();
-        Log.v(TAG, "Action - " + action);
         switch (action) {
           case POST_SERVICE_INTENT_FILTER:
             if (intent.getBooleanExtra(StatisticJob.STATISTIC_JOB, false)) {

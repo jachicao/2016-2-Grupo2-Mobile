@@ -36,7 +36,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
   @Override
   public MediaListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.fragment_recycler_card_view, parent, false);
+        .inflate(R.layout.media_recycler_card_view, parent, false);
     return new MediaListHolder(view);
   }
 

@@ -76,10 +76,12 @@ public class MainActivity extends BaseActivity {
         R.layout.navigation_drawer_header);
 
     // Set user information
-    TextView userNameTextView = (TextView) header.findViewById(R.id.header_name);
     TextView userEmailTextView = (TextView) header.findViewById(R.id.header_email);
-    userEmailTextView.setText(getUserRepository().getUserName());
-    userNameTextView.setText(getUserRepository().getUserEmail());
+    userEmailTextView.setText(getUserRepository().getUserEmail());
+    /*
+    TextView userNameTextView = (TextView) header.findViewById(R.id.header_name);
+    userNameTextView.setText(getUserRepository().getUserName());
+    */
 
     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) header.getLayoutParams();
     params.height = navDrawerHeaderHeight;
@@ -116,9 +118,6 @@ public class MainActivity extends BaseActivity {
             break;
           case R.id.drawer_exercise_plan:
             changeFragment(ExercisePlanMenu.newInstance());
-            break;
-          case R.id.drawer_profile:
-            startActivity(ProfileActivity.getIntent(MainActivity.this));
             break;
           case R.id.drawer_request_appointment:
             startActivity(CalendarActivity.getIntent(MainActivity.this));

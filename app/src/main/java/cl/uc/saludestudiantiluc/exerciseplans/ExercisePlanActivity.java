@@ -134,7 +134,7 @@ public class ExercisePlanActivity extends SoundServiceActivity {
   }
 
   @Override
-  protected void onPause() {
+  protected void onDestroy() {
     super.onPause();
     mHandler.removeCallbacks(mRunnable);
   }

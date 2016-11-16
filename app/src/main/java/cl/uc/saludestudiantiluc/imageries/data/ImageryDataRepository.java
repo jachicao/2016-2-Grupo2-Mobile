@@ -1,7 +1,5 @@
 package cl.uc.saludestudiantiluc.imageries.data;
 
-import android.util.Log;
-
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.imageries.models.Imagery;

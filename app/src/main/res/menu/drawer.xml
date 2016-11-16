@@ -56,11 +56,7 @@
           android:checkable="true"
           android:title="@string/drawer_check_appointment"
           android:icon="@drawable/ic_view_agenda_black_24dp"/>
-    <item android:id="@+id/drawer_profile"
-          android:checked="false"
-          android:checkable="true"
-          android:title="@string/drawer_profile"
-          android:icon="@drawable/ic_account_circle_black_24dp"/>
+
     <item android:id="@+id/drawer_settings"
           android:icon="@drawable/ic_settings_black_24dp"
           android:checked="false"

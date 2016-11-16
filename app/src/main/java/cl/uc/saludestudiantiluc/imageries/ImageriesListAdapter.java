@@ -1,19 +1,10 @@
 package cl.uc.saludestudiantiluc.imageries;
 
 import android.view.View;
-import android.widget.Button;
 
-import java.io.File;
-import java.util.ArrayList;
-
-import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.MediaListAdapter;
 import cl.uc.saludestudiantiluc.common.MediaListFragment;
-import cl.uc.saludestudiantiluc.common.models.Media;
 import cl.uc.saludestudiantiluc.imageries.models.Imagery;
-import cl.uc.saludestudiantiluc.services.download.DownloadService;
-import cl.uc.saludestudiantiluc.services.download.FilesListener;
-import cl.uc.saludestudiantiluc.services.download.FilesRequest;
 
 /**
  * Created by camilo on 14-09-16.

@@ -25,7 +25,7 @@ public class MediaListFragment extends BaseFragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
+    View view = inflater.inflate(R.layout.media_recycler_view, container, false);
     RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_recycler_view);
     recyclerView.setHasFixedSize(true);
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

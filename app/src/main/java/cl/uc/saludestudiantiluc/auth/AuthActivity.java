@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -17,6 +18,10 @@ import cl.uc.saludestudiantiluc.MainActivity;
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.auth.api.UserAuthApi;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -37,7 +42,6 @@ public class AuthActivity extends BaseActivity {
 
   public static final boolean AUTO_FILL_DATA = true;
   private Retrofit mRetrofitInstance;
-  private UserAuthApi mApiInstance;
   private int mLastType = -1;
 
   private ProgressBar mProgressBar;
@@ -78,7 +82,7 @@ public class AuthActivity extends BaseActivity {
   }
 
   public UserAuthApi getApiInstance() {
-    return mApiInstance;
+    return getRelaxUcApplication().getAuthApiService();
   }
 
   @Override
@@ -88,23 +92,37 @@ public class AuthActivity extends BaseActivity {
 
     // If the user is logged in, go to main activity. If he is not, then show the auth fragment.
     if (getUserRepository().isUserLoggedIn()) {
-      onUserLoggedIn();
+      userLoggedIn();
       return;
     }
 
     loadMainBackground();
+
+    mProgressBar = (ProgressBar) findViewById(R.id.auth_progress_bar);
+    mProgressBar.setVisibility(View.GONE);
 
     mRetrofitInstance = new Retrofit.Builder()
         .baseUrl(UserAuthApi.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build();
 
-    mApiInstance = mRetrofitInstance.create(UserAuthApi.class);
-
-    mProgressBar = (ProgressBar) findViewById(R.id.auth_progress_bar);
-    mProgressBar.setVisibility(View.GONE);
-
     setNewFragment(AUTH_TYPE_OPTIONS);
+  }
+
+  public void userLoggedIn() {
+    getApiInstance().validateToken().enqueue(new Callback<ResponseBody>() {
+      @Override
+      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+      }
+
+      @Override
+      public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+      }
+    });
+    startActivity(MainActivity.getIntent(this));
+    finish();
   }
 
   public void onUserLoggedIn() {
@@ -114,9 +132,6 @@ public class AuthActivity extends BaseActivity {
   }
 
   public boolean isEmailAndPasswordCorrect(TextInputEditText emailEditText, TextInputEditText passwordEditText) {
-    emailEditText.setError(null);
-    passwordEditText.setError(null);
-
     String email = emailEditText.getText().toString();
     if (TextUtils.isEmpty(email)) {
       emailEditText.setError(getString(R.string.auth_error_field_required));
@@ -142,9 +157,7 @@ public class AuthActivity extends BaseActivity {
   }
 
   public boolean isPasswordConfirmationCorrect(TextInputEditText passwordEditText, TextInputEditText confirmPasswordEditText) {
-    confirmPasswordEditText.setError(null);
     String passwordConfirmation = confirmPasswordEditText.getText().toString();
-
     if (TextUtils.isEmpty(passwordConfirmation)) {
       confirmPasswordEditText.setError(getString(R.string.auth_error_field_required));
       confirmPasswordEditText.requestFocus();
@@ -169,6 +182,30 @@ public class AuthActivity extends BaseActivity {
 
   private boolean isPasswordValid(String password) {
     return password.length() > 4;
+  }
+
+  public boolean isRutValid(String rut) {
+    try {
+      rut = rut.toUpperCase();
+      rut = rut.replace(".", "");
+      rut = rut.replace("-", "");
+      int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+
+      char dv = rut.charAt(rut.length() - 1);
+
+      int m = 0;
+      int s = 1;
+      for (; rutAux != 0; rutAux /= 10) {
+        s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+      }
+      if (dv == (char) (s != 0 ? s + 47 : 75)) {
+        return true;
+      }
+
+    } catch (java.lang.NumberFormatException e) {
+      return false;
+    }
+    return false;
   }
 
   @Override
