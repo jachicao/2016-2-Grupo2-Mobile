@@ -20,11 +20,18 @@ public interface UserAuthApi {
   @POST("auth")
   Call<RegisterResponse> register(@Field("email") String email,
                                   @Field("password") String password,
-                                  @Field("password_confirmation") String password_confirmation);
+                                  @Field("password_confirm") String password_confirm,
+                                  @Field("age") Integer age,
+                                  @Field("type") String type,
+                                  @Field("sex") String sex,
+                                  @Field("program") String career,
+                                  @Field("year") Integer year
+                                  );
 
   @FormUrlEncoded
   @POST("auth/sign_in")
   Call<LoginResponse> logIn(@Field("email") String email,
-                            @Field("password") String password);
+                            @Field("password") String password
+                            );
 
 }

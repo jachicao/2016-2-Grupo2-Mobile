@@ -18,6 +18,6 @@ public class AmbiencesRemoteDataStore implements AmbiencesDataStore {
 
   @Override
   public Observable<List<Ambience>> getAmbiences() {
-    return mApi.getAmbientals();
+    return mApi.getAmbiences();
   }
 }

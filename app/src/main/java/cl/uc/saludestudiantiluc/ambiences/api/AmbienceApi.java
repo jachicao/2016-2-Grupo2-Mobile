@@ -12,8 +12,8 @@ import rx.Observable;
  */
 
 public interface AmbienceApi {
-  String BASE_URL = BuildConfig.HOST + "/api/v1/";
+  String BASE_URL = BuildConfig.HOST + "/api/v1/content/";
 
   @GET("nature")
-  Observable<List<Ambience>> getAmbientals();
+  Observable<List<Ambience>> getAmbiences();
 }

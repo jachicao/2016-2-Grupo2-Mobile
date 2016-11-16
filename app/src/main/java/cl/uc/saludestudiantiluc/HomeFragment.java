@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import cl.uc.saludestudiantiluc.common.BaseFragment;
+import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
 
 /**
  * Created by lukas on 9/27/16.
@@ -31,6 +32,7 @@ public class HomeFragment extends BaseFragment {
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
+        startActivity(SquareBreathingActivity.getIntent(getActivity()));
       }
     });
     //fab.getBackground().setColorFilter(getResources().getColor(android.R.color.white), PorterDuff.Mode.SRC_ATOP);

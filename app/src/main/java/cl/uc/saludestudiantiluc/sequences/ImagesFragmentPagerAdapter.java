@@ -20,8 +20,8 @@ class ImagesFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
   @Override
   public Fragment getItem(int position) {
-    for(SequencesImage image : mSequence.images) {
-      if (image.index == position) {
+    for (SequencesImage image : mSequence.getImages()) {
+      if (image.getIndex() == position) {
         return ImageFragment.newInstance(image);
       }
     }
@@ -31,6 +31,6 @@ class ImagesFragmentPagerAdapter extends FragmentStatePagerAdapter {
   @Override
   public int getCount() {
 
-    return mSequence != null ? mSequence.images.size() : 1;
+    return mSequence != null ? mSequence.getImages().size() : 1;
   }
 }

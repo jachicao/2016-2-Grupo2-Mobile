@@ -5,9 +5,12 @@ package cl.uc.saludestudiantiluc.auth.models;
  */
 
 public class RegisterResponse {
+
   public HeaderResponse header;
-  //body
-  public String status;
-  public DataResponse data;
+
+  public String status = "";
+
+  public DataResponse data = new DataResponse();
+
 }
 

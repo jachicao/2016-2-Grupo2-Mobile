@@ -12,8 +12,8 @@ import java.util.List;
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.ambiences.data.AmbiencesRepository;
 import cl.uc.saludestudiantiluc.ambiences.models.Ambience;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
-import cl.uc.saludestudiantiluc.common.BaseListFragment;
+import cl.uc.saludestudiantiluc.common.models.Media;
+import cl.uc.saludestudiantiluc.common.MediaListFragment;
 import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,7 +22,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Created by jchicao on 10/20/16.
  */
 
-public class AmbiencesListFragment extends BaseListFragment {
+public class AmbiencesListFragment extends MediaListFragment {
 
   public static final String TAG = AmbiencesListFragment.class.getSimpleName();
   public static final String AMBIENCE_EXTRAS_LIST = "AmbienceList";
@@ -33,6 +33,7 @@ public class AmbiencesListFragment extends BaseListFragment {
   public static Fragment newInstance() {
     return new AmbiencesListFragment();
   }
+
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
@@ -78,7 +79,7 @@ public class AmbiencesListFragment extends BaseListFragment {
         downloadedList.add(amb);
       }
     }
-    if (downloadedList.size() > 0) {
+      if (downloadedList.size() > 0) {
       if (index > -1 && downloadedList.contains(ambience)) {
         Intent intent = new Intent(getActivity(), AmbienceActivity.class);
         intent.putExtra(AMBIENCE_EXTRAS_INDEX, index);
@@ -95,7 +96,7 @@ public class AmbiencesListFragment extends BaseListFragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setAdapter(new AmbiencesListAdapter(this));//////////////////////
+    setAdapter(new AmbiencesListAdapter(this));
   }
 
   public List<Ambience> getDetailedList() {
@@ -103,7 +104,7 @@ public class AmbiencesListFragment extends BaseListFragment {
   }
 
   @Override
-  public List<BaseFragmentListModel> getModelList() {
-    return new ArrayList<BaseFragmentListModel>(getDetailedList());
+  public List<Media> getModelList() {
+    return new ArrayList<Media>(getDetailedList());
   }
 }

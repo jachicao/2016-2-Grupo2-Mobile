@@ -11,8 +11,8 @@ import java.util.List;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
-import cl.uc.saludestudiantiluc.common.BaseListFragment;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import cl.uc.saludestudiantiluc.common.MediaListFragment;
+import cl.uc.saludestudiantiluc.common.models.Media;
 import cl.uc.saludestudiantiluc.imageries.models.Imagery;
 import cl.uc.saludestudiantiluc.imageries.data.ImageryRepository;
 import cl.uc.saludestudiantiluc.services.download.DownloadService;
@@ -20,7 +20,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class ImageriesListFragment extends BaseListFragment {
+public class ImageriesListFragment extends MediaListFragment {
 
   public static final String IMAGERIES_EXTRAS_LIST = "AmbienceList";
   public static final String IMAGERIES_EXTRAS_INDEX = "AmbienceIndex";
@@ -77,8 +77,8 @@ public class ImageriesListFragment extends BaseListFragment {
   }
 
   @Override
-  public List<BaseFragmentListModel> getModelList() {
-    return new ArrayList<BaseFragmentListModel>(getDetailedList());
+  public List<Media> getModelList() {
+    return new ArrayList<Media>(getDetailedList());
   }
 
   public void loadActivity(Imagery imagery) {

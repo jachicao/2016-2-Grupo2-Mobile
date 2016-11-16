@@ -1,13 +1,10 @@
 package cl.uc.saludestudiantiluc.sequences;
 
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
-
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.sequences.models.Sequence;
@@ -18,20 +15,23 @@ public class ImagesActivity extends BaseActivity {
   private ViewPager mPager;
   private PagerAdapter mPagerAdapter;
 
+  private Sequence mSequence;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.sequences_viewpager);
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
-      Sequence sequence = extras.getParcelable(SequencesListFragment.SEQUENCE_EXTRAS);
-      if (sequence != null) {
+      mSequence = extras.getParcelable(SequencesListFragment.SEQUENCE_EXTRAS);
+      if (mSequence != null) {
         mPager = (ViewPager) findViewById(R.id.sequences_view_pager);
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.sequences_view_pager_circle_indicator);
-        mPagerAdapter = new ImagesFragmentPagerAdapter(getSupportFragmentManager(), sequence);
+        mPagerAdapter = new ImagesFragmentPagerAdapter(getSupportFragmentManager(), mSequence);
         mPager.setAdapter(mPagerAdapter);
         indicator.setViewPager(mPager);
         enableImmersiveMode();
+        getPostService().sendStatistic(this, mSequence);
       }
     }
   }
@@ -63,5 +63,9 @@ public class ImagesActivity extends BaseActivity {
     } else {
       super.onBackPressed();
     }
+  }
+
+  public Sequence getSequence() {
+    return mSequence;
   }
 }

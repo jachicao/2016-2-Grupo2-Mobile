@@ -66,7 +66,7 @@ public class AmbienceViewPagerFragment extends Fragment {
           }
         }
       });
-      mVideoPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+      mVideoPlayer.addOnPreparedListener(new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
           getThisActivity().addVideoMediaPlayer(mIndex, mp);
@@ -76,6 +76,7 @@ public class AmbienceViewPagerFragment extends Fragment {
     }
     return mThisView;
   }
+
   @Override
   public void onDestroyView() {
     if (mVideoPlayer != null) {

@@ -1,0 +1,43 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/auth_card_view_width"
+    android:layout_height="wrap_content"
+    app:cardElevation="@dimen/card_view_elevation"
+    app:cardUseCompatPadding="true"
+    android:layout_gravity="center"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/card_view_text_margin_top_bottom_increased"
+        android:layout_marginLeft="@dimen/card_view_text_margin_left_right"
+        android:layout_marginRight="@dimen/card_view_text_margin_left_right"
+        android:layout_marginTop="@dimen/card_view_text_margin_top_bottom_increased"
+        android:orientation="vertical"
+        >
+        <Button
+            android:id="@+id/auth_login_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/auth_card_view_bottom_margin_left_right"
+            android:layout_marginRight="@dimen/auth_card_view_bottom_margin_left_right"
+            android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
+            android:text="@string/auth_login"
+            android:textStyle="bold"
+            />
+
+        <Button
+            android:id="@+id/auth_register_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/auth_card_view_bottom_margin_left_right"
+            android:layout_marginRight="@dimen/auth_card_view_bottom_margin_left_right"
+            android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
+            android:text="@string/auth_register"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

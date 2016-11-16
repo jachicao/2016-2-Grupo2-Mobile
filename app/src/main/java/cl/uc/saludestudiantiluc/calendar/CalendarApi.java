@@ -39,6 +39,6 @@ public interface CalendarApi {
 
   @FormUrlEncoded
   @POST("cancel_book")
-  Call<CancelResponse> cancel(@Field("id-event") int id_event);
+  Call<CancelResponse> cancel(@Field("id-event") int id_event, @Header("email") String email);
 
 }

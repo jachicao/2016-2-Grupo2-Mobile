@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import cl.uc.saludestudiantiluc.common.MediaListAdapter;
+import cl.uc.saludestudiantiluc.common.MediaListFragment;
 import cl.uc.saludestudiantiluc.exerciseplans.models.ExercisePlan;
 import cl.uc.saludestudiantiluc.exerciseplans.models.ExerciseSound;
+import cl.uc.saludestudiantiluc.exerciseplans.models.ExerciseSoundData;
 import cl.uc.saludestudiantiluc.services.download.DownloadService;
 import cl.uc.saludestudiantiluc.services.download.FilesListener;
 import cl.uc.saludestudiantiluc.services.download.FilesRequest;
@@ -30,12 +32,14 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
   private LayoutInflater mInflater;
   private Context mContext;
   private ExercisePlanMenu mMenu;
+  private MediaListAdapter mAdapter;
 
   public ExerciseExpandableAdapter(Context context, List<ParentObject> parentItemList, ExercisePlanMenu baseListFragment) {
     super(context, parentItemList);
     mContext = context;
     mInflater = LayoutInflater.from(context);
     mMenu = baseListFragment;
+    mAdapter = new MediaListAdapter(mMenu);
   }
 
   @Override
@@ -59,12 +63,14 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
   @Override
   public void onBindChildViewHolder(ExerciseChildViewHolder exerciseChildViewHolder, int position, Object o) {
     ExerciseChild exerciseChild = (ExerciseChild) o;
-    exerciseChildViewHolder.getText().setText(exerciseChild.getTitle().toString());
-    exerciseChildViewHolder.getImageButton().setClickable(exerciseChild.isSolved());
+    exerciseChildViewHolder.getText().setText(((ExerciseChild) o).getSoundData().getName());
+    exerciseChildViewHolder.getImageButton().setClickable(exerciseChild.isUnlocked());
 
-    final ExerciseSound exerciseSound =  getMenu().getDetailedList().get(position);
+    //final ExerciseSound exerciseSound =  getMenu().getDetailedList().get(position).getExercises().get(position);
 
-    if (!exerciseChild.isSolved()) {
+    final ExerciseSoundData exerciseSound = ((ExerciseChild) o).getSoundData();
+
+    if (!exerciseChild.isUnlocked()) {
       exerciseChildViewHolder.getCardView().setCardBackgroundColor(Color.GRAY);
     } else {
       exerciseChildViewHolder.getCardView().setCardBackgroundColor(Color.WHITE);
@@ -72,12 +78,11 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
         @Override
         public void onClick(View v) {
           getMenu().loadActivity(exerciseSound);
-
         }
       });
     }
     final ImageButton downloadButton = exerciseChildViewHolder.getDownloadButton();
-    if (isDownloaded(exerciseSound)) {
+    if (isDownloaded(mContext, exerciseSound)) {
       downloadButton.setVisibility(View.GONE);
     } else {
       final boolean[] clicked = { false };
@@ -92,7 +97,8 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
           filesRequest.addFilesListener(new FilesListener() {
             @Override
             public void onFilesReady(ArrayList<File> files) {
-              getMenu().notifyMessage(exerciseSound.name + " " + getMenu().getString(R.string.downloaded).toLowerCase());
+              MediaListFragment fragment = mAdapter.getFragment();
+              //fragment.notifyMessage(exerciseSound.getAudioName() + " " + getMenu().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
 
@@ -101,19 +107,15 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
               //downloadButton.setText(getFragment().getString(R.string.downloading) + " " + percentage + "%");
             }
           });
-          getMenu().getDownloadService().requestFiles(getMenu(), filesRequest);
+          getMenu().getDownloadService().requestFiles(mContext, filesRequest);
           clicked[0] = true;
         }
       });
     }
   }
 
-  public boolean isDownloaded(BaseFragmentListModel model) {
-    ExerciseSound exerciseSound = (ExerciseSound) model;
-    if(exerciseSound != null) {
-      return DownloadService.containsFiles(getMenu(), exerciseSound.getFilesRequest());
-    }
-    return false;
+  public boolean isDownloaded(Context context, ExerciseSoundData ex) {
+    return DownloadService.containsFiles(context, ex.getFilesRequest());
   }
 
   public ExercisePlanMenu getMenu() {

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,11 @@ import java.util.List;
 
 public class ExercisePlan implements ParentObject, Parcelable {
 
+  private int id;
   private List<Object> mChildrenList;
+  private ArrayList<ExerciseSound> sound_sequences;
   private String name;
   private String description;
-  private List<ExerciseSound> sound_sequences;
 
   public ExercisePlan(String s, List<Object> list){
     name = s;
@@ -45,11 +47,12 @@ public class ExercisePlan implements ParentObject, Parcelable {
     return name;
   }
 
-  public List<ExerciseSound> getExercises() {
+  public ArrayList<ExerciseSound> getExercises() {
     return sound_sequences;
   }
 
   protected ExercisePlan(Parcel in) {
+    this.id = in.readInt();
     this.name = in.readString();
     this.description = in.readString();
     this.sound_sequences = new ArrayList<>();
@@ -68,6 +71,7 @@ public class ExercisePlan implements ParentObject, Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
+    dest.writeInt(this.id);
     dest.writeString(this.name);
     dest.writeString(this.description);
     dest.writeTypedList(this.sound_sequences);

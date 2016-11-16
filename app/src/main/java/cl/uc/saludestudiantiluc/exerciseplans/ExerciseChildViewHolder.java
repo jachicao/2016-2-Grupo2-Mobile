@@ -25,6 +25,7 @@ public class ExerciseChildViewHolder extends ChildViewHolder{
     mText = (TextView) itemView.findViewById(R.id.child_list_item_crime_date_text_view);
     mImageButton = (ImageButton) itemView.findViewById(R.id.playExerciseButton);
     mCardView = (CardView) itemView.findViewById(R.id.exercise_cardview);
+    mDownloadButton = (ImageButton) itemView.findViewById(R.id.downloadExerciseButton);
   }
 
   public TextView getText() {

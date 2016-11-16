@@ -130,6 +130,10 @@ public class ScheduleActivity extends BaseActivity {
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     if (!mLoaded) {
       mUserRepository = getUserRepository();
+      String a = mUserRepository.getUserAccessToken();
+      String b = mUserRepository.getUserAccessTokenClient();
+      String d = mUserRepository.getUserPassword();
+      String c = "jiji";
       Call<List<Schedule>> callInstance;
       if (mSource.equals(AVAILABLE_HOURS)) {
         callInstance = mApiInstance.getAvailableHours(service, campus,
@@ -342,7 +346,7 @@ public class ScheduleActivity extends BaseActivity {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             Call<CancelResponse> callInstance;
-            callInstance = mApiInstance.cancel(eventId);
+            callInstance = mApiInstance.cancel(eventId, mUserRepository.getUserEmail());
             callInstance.enqueue(new Callback<CancelResponse>() {
               @Override
               public void onResponse(Call<CancelResponse> call, Response<CancelResponse> response) {

@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jchicao on 9/25/16.
+ * Created by jchicao on 11/5/16.
  */
 
 public class ErrorResponse {
-  public List<String> full_messages = new ArrayList<>();
+
+  public List<String> errors = new ArrayList<>();
 }

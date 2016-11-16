@@ -2,24 +2,27 @@ package cl.uc.saludestudiantiluc.exerciseplans;
 
 import java.util.Date;
 
+import cl.uc.saludestudiantiluc.exerciseplans.models.ExerciseSoundData;
+
 /**
  * Created by camilo on 06-11-16.
  */
 
 public class ExerciseChild {
-  private String mTitle;
-  private boolean mSolved;
+  private boolean mUnlocked;
+  private ExerciseSoundData mSoundData;
 
-  public ExerciseChild(String title, boolean solved) {
-    mTitle = title;
-    mSolved = solved;
+  public ExerciseChild(boolean solved, ExerciseSoundData soundData) {
+    mUnlocked = solved;
+    mSoundData = soundData;
   }
 
-  public String getTitle() {
-    return mTitle;
+
+  public boolean isUnlocked() {
+    return mUnlocked;
   }
 
-  public boolean isSolved() {
-    return mSolved;
+  public ExerciseSoundData getSoundData() {
+    return mSoundData;
   }
 }

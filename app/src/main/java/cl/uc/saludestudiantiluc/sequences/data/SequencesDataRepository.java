@@ -36,14 +36,6 @@ public class SequencesDataRepository implements SequencesRepository {
         })
         .subscribeOn(Schedulers.io());
     Observable<List<Sequence>> remoteSequences = mRemoteDataStore.getSequences()
-        .onErrorReturn(new Func1<Throwable, List<Sequence>>() {
-          @Override
-          public List<Sequence> call(Throwable throwable) {
-            Log.e(SequencesDataRepository.class.getSimpleName(),
-                "Error while fetching data. Swallowing the exception.", throwable);
-            return null;
-          }
-        })
         .filter(new Func1<List<Sequence>, Boolean>() {
           @Override
           public Boolean call(List<Sequence> sequences) {

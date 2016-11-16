@@ -28,7 +28,7 @@
             android:stopWithTask="false">
         </service>
 
-        <activity android:name=".auth.AuthActivity">
+        <activity android:name=".auth.AuthActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -5,8 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import cl.uc.saludestudiantiluc.ambiences.models.Ambience;
-import cl.uc.saludestudiantiluc.common.models.BaseFragmentListModel;
+import cl.uc.saludestudiantiluc.common.models.Media;
 import cl.uc.saludestudiantiluc.services.download.FileRequest;
 import cl.uc.saludestudiantiluc.services.download.FilesRequest;
 
@@ -14,28 +13,20 @@ import cl.uc.saludestudiantiluc.services.download.FilesRequest;
  * Created by camilo on 10-11-16.
  */
 
-public class ExerciseSound extends BaseFragmentListModel implements Parcelable {
-  private static final String EXERCISE_SOUNDS_CACHE_PATH = "/exercise_plan/sounds/";
+public class ExerciseSound implements Parcelable {
 
-  private static final String EXERCISE_VIDEO_CACHE_PATH = "/exercise_plan/videos/";
+  private int program_id;
+  private int order;
 
-  @SerializedName("video_file_file_name")
-  private String mVideoFileName;
+  @SerializedName("sound")
+  private ExerciseSoundData mExerciseSoundData;
 
-  @SerializedName("audio_file_file_name")
-  private String mAudioFileName;
-
-  @SerializedName("video_url")
-  private String mVideoUrl;
-
-
-  @SerializedName("audio_url")
-  private String mAudioUrl;
 
   protected ExerciseSound(Parcel in) {
-    super(in);
-    mVideoFileName = in.readString();
-    mAudioFileName = in.readString();
+    program_id = in.readInt();
+    order = in.readInt();
+    mExerciseSoundData = in.readParcelable(getClass().getClassLoader());
+
   }
 
   public static final Parcelable.Creator<ExerciseSound> CREATOR = new Parcelable.Creator<ExerciseSound>() {
@@ -57,23 +48,19 @@ public class ExerciseSound extends BaseFragmentListModel implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    super.writeToParcel(dest, flags);
-    dest.writeString(mVideoFileName);
-    dest.writeString(mAudioFileName);
+    dest.writeInt(program_id);
+    dest.writeInt(order);
+    dest.writeParcelable(mExerciseSoundData, flags);
   }
 
-  public FileRequest getSoundRequest() {
-    return new FileRequest(mAudioUrl, EXERCISE_SOUNDS_CACHE_PATH + mAudioFileName);
+  public int getProgram_id() {
+    return program_id;
   }
 
-  public FileRequest getVideoRequest() {
-    return new FileRequest(mVideoUrl, EXERCISE_VIDEO_CACHE_PATH + mVideoFileName);
+  public int getOrder() { return order; }
+
+  public ExerciseSoundData getExerciseSoundData() {
+    return mExerciseSoundData;
   }
 
-  public FilesRequest getFilesRequest() {
-    FilesRequest filesRequest = new FilesRequest();
-    filesRequest.addRequest(getVideoRequest());
-    filesRequest.addRequest(getSoundRequest());
-    return filesRequest;
-  }
 }

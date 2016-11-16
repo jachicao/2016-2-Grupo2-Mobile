@@ -148,9 +148,11 @@ public class DownloadService {
     RelaxUcApplication relaxUcApplication = (RelaxUcApplication) context.getApplicationContext();
     if (relaxUcApplication != null) {
       JobManager jobManager = relaxUcApplication.getJobManager();
-      if (!mFileRequests.containsKey(path)) {
+      String url = fileRequest.getUrl();
+      String filePath = getFileDir(context, fileRequest).getAbsolutePath();
+      if (!mFileRequests.containsKey(path) && url != null && filePath != null) {
         mFileRequests.put(path, fileRequest);
-        jobManager.addJobInBackground(new DownloadJob(fileRequest.getUrl(), getFileDir(context, fileRequest).getAbsolutePath()));
+        jobManager.addJobInBackground(new DownloadJob(url, filePath));
       }
     }
   }

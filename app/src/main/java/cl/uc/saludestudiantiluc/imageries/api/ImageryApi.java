@@ -12,7 +12,7 @@ import rx.Observable;
  */
 public interface ImageryApi {
 
-  String BASE_URL = BuildConfig.HOST + "/api/v1/";
+  String BASE_URL = BuildConfig.HOST + "/api/v1/content/";
 
   @GET("imagineries")
   Observable<List<Imagery>> getImagerySoundList();
