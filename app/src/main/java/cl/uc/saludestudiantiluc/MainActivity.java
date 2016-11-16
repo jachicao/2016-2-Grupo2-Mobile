@@ -2,7 +2,10 @@ package cl.uc.saludestudiantiluc;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -25,6 +28,9 @@ import cl.uc.saludestudiantiluc.evaluations.HomeEvaluation;
 
 import cl.uc.saludestudiantiluc.profile.ProfileActivity;
 import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
+import cl.uc.saludestudiantiluc.settings.SettingsActivity;
+import cl.uc.saludestudiantiluc.sos.SosReceiver;
+import cl.uc.saludestudiantiluc.sos.SosService;
 import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
 import cl.uc.saludestudiantiluc.utils.ViewUtils;
 
@@ -34,8 +40,13 @@ public class MainActivity extends BaseActivity {
 
   private static final double NAV_DRAWER_HEADER_HEIGHT_RATIO = 9.0 / 16.0;
 
+  private boolean mSos;
+
+  Intent mSosIntent;
+
   private NavigationView mNavigationView;
   private DrawerLayout mDrawerLayout;
+  SharedPreferences.OnSharedPreferenceChangeListener listener;
 
   private int mCurrentFragment;
 
@@ -43,12 +54,45 @@ public class MainActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    mSos = false;
     mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
     loadMainBackground();
     setupNavigationDrawer();
+    setupSettings();
     changeFragment(HomeFragment.newInstance());
     mCurrentFragment = R.id.drawer_home;
+  }
+
+  private void setupSettings(){
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+    listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+      public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        // Implementation
+        String a = key;
+        if (key.equals("notification")) {
+
+          if (!mSos) {
+            mSos = true;
+            mSosIntent = new Intent(MainActivity.this , SosService.class);
+            startService(mSosIntent);
+
+          } else {
+            mSos = false;
+            stopService(mSosIntent);
+          }
+
+        } else {
+        }
+
+      }
+    };
+
+    sharedPref.registerOnSharedPreferenceChangeListener(listener);
+
+
   }
 
   private void changeFragment(@NonNull Fragment fragment) {
@@ -121,6 +165,9 @@ public class MainActivity extends BaseActivity {
            */
           case R.id.drawer_request_appointment:
             startActivity(CalendarActivity.getIntent(MainActivity.this));
+            break;
+          case R.id.drawer_settings:
+            startActivity(SettingsActivity.getIntent(MainActivity.this));
             break;
           case R.id.drawer_logout:
             logOut();

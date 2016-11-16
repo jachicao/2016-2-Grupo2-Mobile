@@ -111,10 +111,120 @@
         <item>@string/sleeping_evaluetion</item>
     </string-array>
     <string name="evaluetion_results">Resultados de evaluación</string>
+    <string name="stress_1_student">Has podido afrontar y adaptarte a situaciones demandantes en el
+    último mes. , Identifica lo que te ha ayudado hasta ahora para mantener niveles
+    bajos de estrés y así poder seguir utilizando esos recursos cada vez que los
+    necesites. Para que tu nivel no aumente, te recomendamos organizar tus tiempos
+    acorde a tus demandas, priorizar tareas y equilibrar tu estilo de vida con
+    actividades que posibiliten tu recreación y descanso. Existen diferentes
+    actividades realizadas por nuestro programa que te pueden interesar, como lo son
+    los talleres de Mindfulness, consejerías de ansiedad y talleres grupales
+    “manejando mi ansiedad”. Recuerda que puedes solicitar tu hora online.</string>
+    <string name="stress_2_student">En el último mes,  puedes percibir que tu nivel de estrés se ha
+    mantenido estable en el tiempo llevándote a sentir irritabilidad, cansancio,
+    problemas para dormir, dolores de cabeza, entre otros. Es importante que puedas
+    generar cambios para que tu nivel de percepción de estrés disminuya. Revisa las
+    demandas que sean modificables y que estén bajo tu control, y asegúrate de
+    complementar tus actividades con tiempo de descanso y recreación. Si sientes que
+    esto se te dificulta, te recomendamos solicitar una hora de consejería de ansiedad
+     o informarte de los servicios que ofrece la universidad. </string>
+    <string name="stress_3_student">En el último mes la intensidad de tus síntomas ha logrado interferir
+    en algunas áreas de tu vida.  Puedes estar mostrándote irritable, estar teniendo
+    insomnio, pesadillas, sintiendo tensión muscular, agotamiento, ansiedad, falta de
+    concentración y atención, dificultades para pensar, además de una disminución en
+    tus defensas inmunitarias. Mantenerte en este estado puede perjudicarte aún más si
+     las condiciones de tu entorno no se modifican. Te recomendamos solicitar una
+    opinión profesional dentro del corto plazo para evaluar tu situación. Acércate a
+    la Unidad de Apoyo Psicológico ubicada en el 3er piso del Hall Universitario en
+    campus San Joaquín o ingresa a http://apoyo.saludestudiantil.uc.cl/ para pedir una hora.</string>
+    <string name="stress_1_functionary">Has podido afrontar y adaptarte a situaciones demandantes en el último
+     mes. , Identifica lo que te ha ayudado hasta ahora para mantener niveles bajos de
+     estrés y así poder seguir utilizando esos recursos cada vez que los necesites.
+    Para que tu nivel no aumente, te recomendamos organizar tus tiempos acorde a las
+    demandas, priorizar tareas y equilibrar tu estilo de vida con actividades que
+    posibiliten tu recreación y descanso. Existen diferentes actividades realizadas
+    por nuestro programa que te pueden interesar, como lo son los talleres de yoga
+    para funcionarios ofrecidos de manera semanal.  Recuerda que puedes reservar tu cupo online. </string>
+    <string name="stress_2_functionary">En el último mes, puedes percibir que tu nivel de estrés se ha
+    mantenido estable en el tiempo llevándote a sentir irritabilidad, cansancio,
+    problemas para dormir, dolores de cabeza, entre otros. Es importante que puedas
+    generar cambios para que tu nivel de percepción de estrés disminuya. Revisa las
+    demandas que sean modificables y que estén bajo tu control, y asegúrate de
+    complementar tus actividades con tiempo de descanso y recreación. Si tienes dudas
+    en relación a este tema, contáctanos a ansiedad@uc.cl</string>
+    <string name="stress_3_functionary">En el último mes la intensidad de tus síntomas ha logrado interferir
+    en algunas áreas de tu vida.  Puedes estar mostrándote irritable, estar teniendo
+    insomnio, pesadillas, sintiendo tensión muscular, agotamiento, ansiedad, falta de
+    concentración y atención, dificultades para pensar, además de una disminución en
+    tus defensas inmunitarias. Mantenerte en este estado puede perjudicarte aún más si
+     las condiciones de tu entorno no se modifican. Te recomendamos solicitar una
+    opinión profesional dentro del corto plazo para evaluar tu situación. Si tienes
+    alguna duda en relación a tu resultado, escríbenos a ansiedad@uc.cl</string>
 
+    <string name="anxiety_1_student">Tus resultados indican que tienes pocos o ningún síntoma de ansiedad.
+     Si bien eso puede ser beneficioso para ti, debes entender que la ansiedad es una
+     emoción que te permite activarte, y que presentar bajos niveles puede generar
+    conductas pasivas y falta de motivación. Si tienes dudas acerca de tu resultado o
+     acerca de la ansiedad, escríbenos a ansiedad@uc.cl. </string>
+    <string name="anxiety_2_student">Tus resultados indican que presentas síntomas moderados de ansiedad.
+    Según tus respuestas, estos síntomas pueden estar afectando tu diario vivir y
+    generándote dificultades en una o más áreas de tu vida.  Te recomendamos hablar
+    con un profesional para ver qué puedes hacer para que tus síntomas disminuyan. Es
+     importante que sepas que presentar síntomas moderados de ansiedad no equivale a
+    tener un trastorno de ansiedad. Puedes solicitar una consejería individual de
+    ansiedad o participar de los talleres "Manejando mi ansiedad" a cargo de un
+    psicólogo perteneciente al Programa para el Manejo de la Ansiedad y el buen
+    dormir. Para mayor información, escríbenos a ansiedad@uc.cl </string>
+    <string name="anxiety_3_student">Tus resultados indican que estás teniendo sintomatología severa de
+    ansiedad. Tus respuestas señalan que durante las últimas semanas, la ansiedad ha
+    logrado interferir en gran medida en tu diario vivir. Te recomendamos consultar
+    en la Unidad de Apoyo Psicológico ubicada en el 3er piso del Hall Universitario
+    del campus San Joaquín para solicitar una hora con un profesional que te puede
+    orientar con lo que estás sintiendo. Presentar síntomas severos de ansiedad no
+    equivale a tener un trastorno de ansiedad. Para mayor información, puedes
+    escribirnos a ansiedad@uc.cl o visitar el sitio http://apoyo.saludestudiantil.uc.cl/</string>
+    <string name="anxiety_1_functionary">Tus resultados indican que tienes pocos o ningún síntoma de ansiedad.
+     Si bien eso puede ser beneficioso para ti, debes entender que la ansiedad es una
+     emoción que te permite activarte, y que presentar bajos niveles puede generar
+    conductas pasivas y falta de motivación. Si tienes dudas acerca de tu resultado o
+     acerca de la ansiedad, escríbenos a ansiedad@uc.cl. </string>
+    <string name="anxiety_2_functionary">Tus resultados indican que presentas síntomas moderados de ansiedad.
+    Según tus respuestas, estos síntomas pueden estar afectando tu diario vivir y
+    generándote dificultades en una o más áreas de tu vida.  Te recomendamos hablar
+    con un profesional para ver qué puedes hacer para que tus síntomas disminuyan. Es
+     importante que sepas que presentar síntomas moderados de ansiedad no equivale a
+    tener un trastorno de ansiedad. Para mayor información, escríbenos a ansiedad@uc.cl</string>
+    <string name="anxiety_3_functionary">Tus resultados indican que estás teniendo sintomatología severa de
+    ansiedad. Tus respuestas señalan que durante las últimas semanas, la ansiedad ha
+    logrado interferir en gran medida en tu diario vivir. Te recomendamos consultar a
+     un profesional que te pueda orientar con lo que estás sintiendo. Presentar
+    síntomas severos de ansiedad no equivale a tener un trastorno de ansiedad. Para
+    mayor información, puedes escribirnos a ansiedad@uc.cl</string>
+
+    <string name="sleeping_1">¡Felicitaciones! Tu calidad de sueño no se ha visto interferida en el
+     último tiempo, lo que te permite tener un sueño reparador. Identifica las
+    estrategias que te estén favoreciendo tu buen dormir, para que puedas saber qué
+    hacer a la hora de necesitarlo. Si te interesa saber más de este tema, escríbenos
+     a ansiedad@uc.cl </string>
+    <string name="sleeping_2">Tu calidad de sueño se ha visto moderadamente interferida, por lo que
+     te recomendamos algunas estrategias para favorecer el buen dormir, como
+    practicar ejercicios de relajación de RelaxUC, disminuir el consumo de sustancias
+     activantes durante el día, bajar la luminosidad de tu entorno antes de dormir,
+    anotar tus preocupaciones estando acostado, entre otras. Si necesitas mayor
+    información puedes escribirnos a ansiedad@uc.cl</string>
+    <string name="sleeping_3_student">Tu calidad de sueño se ha visto altamente interferida, implicando
+    costos en una o más áreas de tu vida. Te recomendamos que puedas trabajar en
+    estrategias que te posibiliten un buen dormir, solicitando una hora en las
+    consejerías de sueño. Recuerda que puedes tomar tu hora online. </string>
+    <string name="sleeping_3_functionary">Tu calidad de sueño se ha visto altamente interferida, implicando
+    costos en una o más áreas de tu vida. Te recomendamos puedas contactar a un
+    profesional, para que puedas trabajar en estrategias que te posibiliten un buen
+    dormir. Si necesitas mayor información, escríbenos a ansiedad@uc.cl</string>
 
 
     <string name="profile">Perfil</string>
+
+    <string name="notification_preference">Mostrar notificación SOS</string>
 
     <!-- User calendar -->
     <string-array name="service_array">
@@ -220,5 +330,9 @@
         <item>Villarica</item>
         <item>Otra</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

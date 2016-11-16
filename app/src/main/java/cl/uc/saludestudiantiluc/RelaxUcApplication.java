@@ -1,8 +1,12 @@
 package cl.uc.saludestudiantiluc;
 
 import android.app.Application;
+
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+
+import android.preference.PreferenceManager;
+
 import android.util.Log;
 
 import com.birbit.android.jobqueue.JobManager;
@@ -66,6 +70,15 @@ public class RelaxUcApplication extends Application {
 
     // TODO(lukas): should add authenticator.
     setupOkHttpClient();
+
+
+    PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+
+    mUserRepository = new UserLocalDataRepository(this);
+    mSequencesRepository = createSequencesRepository();
+    mImageryRepository = createSoundsRepository();
+    mAmbiencesRepository = createAmbiencesRepository();
+    mJobManager = new JobManager(new Configuration.Builder(this).build());
 
     Log.d("APP", "on create");
   }

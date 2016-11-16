@@ -5,6 +5,7 @@
             android:layout_alignBottom="@+id/section_label"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal"
             tools:context="cl.uc.saludestudiantiluc.evaluations.BaseEvaluationActivity$PlaceholderFragment">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,10 +19,10 @@
             android:id="@+id/section_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="17dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:textSize="19sp"
+            android:textSize="15sp"
             android:textColor="@color/white"
             android:textAlignment="center" />
 
@@ -82,6 +83,20 @@
                 android:layout_marginTop="32dp"
                 android:id="@+id/radioButton5"/>
         </RadioGroup>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:id="@+id/totalHours"
+            android:ems="10"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:layout_below="@+id/section_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="26dp"/>
 
     </RelativeLayout>
 
