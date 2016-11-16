@@ -28,7 +28,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/recycler_card_view_preview"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/main_background"
                     />
                 <LinearLayout
                     android:layout_height="wrap_content"

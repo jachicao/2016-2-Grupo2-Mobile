@@ -1,5 +1,7 @@
 package cl.uc.saludestudiantiluc.ambiences.data;
 
+import android.util.Log;
+
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.ambiences.models.Ambience;
@@ -31,6 +33,14 @@ public class AmbiencesDataRepository implements AmbiencesRepository {
         })
         .subscribeOn(Schedulers.io());
     Observable<List<Ambience>> remote = mRemoteDataStore.getAmbiences()
+        .onErrorReturn(new Func1<Throwable, List<Ambience>>() {
+          @Override
+          public List<Ambience> call(Throwable throwable) {
+            Log.e(AmbiencesDataRepository.class.getSimpleName(),
+                "Error while fetching data. Swallowing the exception.", throwable);
+            return null;
+          }
+        })
         .filter(new Func1<List<Ambience>, Boolean>() {
           @Override
           public Boolean call(List<Ambience> ambiences) {

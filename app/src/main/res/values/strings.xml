@@ -41,11 +41,11 @@
     <string name="auth_register_password_confirmation">Confirma la contraseña</string>
     <string name="auth_register_rut">Rut</string>
     <string name="auth_register_age">Edad</string>
-    <string name="auth_register_career">Carrera</string>
+    <string name="auth_register_career">Unidad</string>
     <string name="auth_register_year">Año</string>
     <string name="auth_register_academic_type_error">Tipo es requerido</string>
     <string name="auth_register_sex_error">Género es requerido</string>
-    <string name="auth_register_career_error">Escuela es requerida</string>
+    <string name="auth_register_career_error">Unidad es requerida</string>
     <string name="auth_register_rut_error">Rut es inválido</string>
     <string name="auth_error_invalid_email">El correo debe ser UC.</string>
     <string name="auth_error_invalid_password">La contraseña es muy corta</string>
@@ -178,7 +178,7 @@
     </string-array>
 
     <string-array name="auth_register_career_array">
-        <item>Selecciona tu escuela</item>
+        <item>Selecciona tu unidad</item>
         <item>Acad Inter de Filosofía</item>
         <item>Actividades Universitarias</item>
         <item>Actuación</item>
@@ -186,7 +186,10 @@
         <item>Arquitectura</item>
         <item>Arte</item>
         <item>Astrofísica</item>
+        <item>Biblioteca</item>
         <item>CARA</item>
+        <item>CEDETI</item>
+        <item>Centro de Innovación</item>
         <item>Ciencia Política</item>
         <item>Ciencias Biológicas</item>
         <item>Ciencias de la Salud</item>
@@ -194,8 +197,13 @@
         <item>Comunicaciones</item>
         <item>College</item>
         <item>Construcción Civil</item>
+        <item>Crisol</item>
         <item>Deportes</item>
         <item>Derecho</item>
+        <item>Dictuc</item>
+        <item>DASE</item>
+        <item>DAE</item>
+        <item>DRSD</item>
         <item>Diseño</item>
         <item>Educación</item>
         <item>Enfermería</item>
@@ -211,11 +219,14 @@
         <item>Ingeniería Comercial</item>
         <item>Letras</item>
         <item>Matemática</item>
+        <item>Matrícula</item>
         <item>Medicina</item>
         <item>Música</item>
         <item>Odontología</item>
+        <item>PentaUC</item>
         <item>Psicología</item>
         <item>Química</item>
+        <item>Salud Estudiantil</item>
         <item>Sociología</item>
         <item>Teología</item>
         <item>Trabajo Social</item>

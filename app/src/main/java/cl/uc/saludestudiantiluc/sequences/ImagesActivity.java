@@ -67,7 +67,6 @@ public class ImagesActivity extends BaseActivity {
     if (extras != null) {
       mSequence = extras.getParcelable(SequencesListFragment.SEQUENCE_EXTRAS);
       if (mSequence != null) {
-        mCurrentPosition = 0;
         mPager
             = (ViewPager) findViewById(R.id.sequences_view_pager);
         CircleIndicator indicator
@@ -82,8 +81,7 @@ public class ImagesActivity extends BaseActivity {
 
           @Override
           public void onPageSelected(int position) {
-            mCurrentPosition = position;
-            onNewPage();
+            onNewPage(position);
           }
 
           @Override
@@ -92,7 +90,7 @@ public class ImagesActivity extends BaseActivity {
           }
         });
         indicator.setViewPager(mPager);
-        onNewPage();
+        onNewPage(0);
         enableImmersiveMode();
         getPostService().sendStatistic(this, mSequence);
       }
@@ -133,7 +131,8 @@ public class ImagesActivity extends BaseActivity {
     return mSequence.getImages().get(mCurrentPosition);
   }
 
-  private void onNewPage() {
+  private void onNewPage(int position) {
+    mCurrentPosition = position;
     String description = getCurrentImage().getDescription();
     if (description != null && !TextUtils.isEmpty(description)) {
       mHelpview.setVisibility(View.VISIBLE);
