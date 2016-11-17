@@ -15,11 +15,11 @@ public interface EvaluationApi {
   String BASE_URL = BuildConfig.HOST + "/api/v1/survey/";
 
   @POST("GAD7")
-  Call<Evaluation> sendGAD7(@Query("Score") int Score);
+  Call<Evaluation> sendGAD7(@Query("score") int score);
 
   @POST("stress")
-  Call<Evaluation> sendStress(@Query("Score") int Score);
+  Call<Evaluation> sendStress(@Query("score") int score);
 
   @POST("sleep")
-  Call<Evaluation> sendSleep(@Query("Score") int Score);
+  Call<Evaluation> sendSleep(@Query("score") int score);
 }

@@ -2,23 +2,12 @@ package cl.uc.saludestudiantiluc.evaluations;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import cl.uc.saludestudiantiluc.MainActivity;
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
-import cl.uc.saludestudiantiluc.profile.ProfileActivity;
+import cl.uc.saludestudiantiluc.evaluations.models.EvaluationModel;
 
 public class HomeEvaluation extends BaseActivity {
 
@@ -35,7 +24,7 @@ public class HomeEvaluation extends BaseActivity {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(v.getContext(), BaseEvaluationActivity.class);
-        intent.putExtra(TEST_TYPE, 1);
+        intent.putExtra(TEST_TYPE, EvaluationModel.EVALUATION_TYPE_STRESS);
         startActivity(intent);
       }
     });
@@ -46,7 +35,7 @@ public class HomeEvaluation extends BaseActivity {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(v.getContext(), BaseEvaluationActivity.class);
-        intent.putExtra(TEST_TYPE, 2);
+        intent.putExtra(TEST_TYPE, EvaluationModel.EVALUATION_TYPE_GAD7);
         startActivity(intent);
       }
     });
@@ -57,12 +46,10 @@ public class HomeEvaluation extends BaseActivity {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(v.getContext(), BaseEvaluationActivity.class);
-        intent.putExtra(TEST_TYPE, 3);
+        intent.putExtra(TEST_TYPE, EvaluationModel.EVALUATION_TYPE_SLEEP);
         startActivity(intent);
       }
     });
-
-
 
     //setToolBar
 
@@ -79,21 +66,8 @@ public class HomeEvaluation extends BaseActivity {
       }
     });
 
-
-
-
     //Set background
-    Glide
-        .with(this)
-        .load(R.drawable.main_background)
-        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-        .centerCrop()
-        .into((ImageView) findViewById(R.id.main_background_image));
-
-
-
-
-
+    loadMainBackground();
 
   }
 

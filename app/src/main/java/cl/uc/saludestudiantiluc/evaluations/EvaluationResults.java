@@ -2,18 +2,12 @@ package cl.uc.saludestudiantiluc.evaluations;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
@@ -28,9 +22,6 @@ public class EvaluationResults extends BaseActivity {
     setContentView(R.layout.activity_evaluation_results);
 
     //setToolBar
-
-
-
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle(R.string.evaluetion_results);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -45,12 +36,7 @@ public class EvaluationResults extends BaseActivity {
     });
 
     //Set background
-    Glide
-        .with(this)
-        .load(R.drawable.main_background)
-        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-        .centerCrop()
-        .into((ImageView) findViewById(R.id.main_background_image));
+    loadMainBackground();
 
     Intent intent = getIntent();
     int score = intent.getIntExtra(BaseEvaluationActivity.TOTAL_SCORE, 0);
@@ -60,6 +46,7 @@ public class EvaluationResults extends BaseActivity {
     TextView textview = (TextView) findViewById(R.id.total_score_results);
     textview.setText(""  + getRecomendation(score, type, role));
 
+    getPostService().sendEvaluation(this, score, type);
 
     saveResult(score, role, type);
   }

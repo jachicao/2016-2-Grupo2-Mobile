@@ -13,6 +13,7 @@ import cl.uc.saludestudiantiluc.services.post.api.EvaluationApi;
 import cl.uc.saludestudiantiluc.services.post.models.Evaluation;
 import retrofit2.Call;
 import retrofit2.Response;
+import cl.uc.saludestudiantiluc.evaluations.models.EvaluationModel;
 
 /**
  * Created by Junior on 16-11-2016.
@@ -20,17 +21,12 @@ import retrofit2.Response;
 
 public class EvaluationJob extends Job {
 
-  private static final String TAG = StatisticJob.class.getSimpleName();
-
-  public static final String EVALUATION_JOB_TYPE_GAD7 = "EvaluationJobTypeGAD7";
-  public static final String EVALUATION_JOB_TYPE_STRESS = "EvaluationJobTypeStress";
-  public static final String EVALUATION_JOB_TYPE_SLEEP = "EvaluationJobTypeSleep";
-
+  private static final String TAG = EvaluationJob.class.getSimpleName();
   private int mScore;
-  private String mType;
+  private int mType;
 
   // id == id del contenido ; Type = tipo de evaluation
-  public EvaluationJob(int score, String type) {
+  public EvaluationJob(int score, int type) {
     super(new Params(0).requireNetwork().persist());
     mScore = score;
     mType = type;
@@ -53,14 +49,14 @@ public class EvaluationJob extends Job {
     }
     Call<Evaluation> evaluationCall = null;
     switch (mType) {
-      case EVALUATION_JOB_TYPE_GAD7:
+      case EvaluationModel.EVALUATION_TYPE_GAD7:
         evaluationCall = evaluationApi.sendGAD7(mScore);
         break;
-      case EVALUATION_JOB_TYPE_STRESS:
+      case EvaluationModel.EVALUATION_TYPE_STRESS:
         evaluationCall = evaluationApi.sendStress(mScore);
         break;
-      case EVALUATION_JOB_TYPE_SLEEP:
-        evaluationCall = evaluationApi.sendStress(mScore);
+      case EvaluationModel.EVALUATION_TYPE_SLEEP:
+        evaluationCall = evaluationApi.sendSleep(mScore);
         break;
       default:
         break;
@@ -70,11 +66,13 @@ public class EvaluationJob extends Job {
     }
     Response<Evaluation> evaluationResponse = evaluationCall.execute();
     if (!evaluationResponse.isSuccessful()) {
-      throw new Exception("Unsuccessful");
+      Log.e(TAG, "unsuccessful");
+      //throw new Exception("Unsuccessful");
+      return;
     }
 
-    Log.v(TAG, "Evaluation sent - Type: " + mType +  " - Id: " + mScore + " - Success: " +
-        evaluationResponse.body().success);
+    Log.v(TAG, "EvaluationModel sent - Type: "
+        + mType +  " - Id: " + mScore + " - Success: " + evaluationResponse.body().success);
 
   }
 

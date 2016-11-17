@@ -34,11 +34,19 @@ public class PostService {
     sendStatistic(context, sequence, StatisticJob.STATISTIC_JOB_TYPE_SEQUENCE);
   }
 
-  private void sendStatistic(Context context, Media media, String type) {
+  private void sendStatistic(Context context, Media media, int type) {
     RelaxUcApplication relaxUcApplication = (RelaxUcApplication) context.getApplicationContext();
     if (relaxUcApplication != null) {
-    JobManager jobManager = relaxUcApplication.getJobManager();
-    jobManager.addJobInBackground(new StatisticJob(media.getId(), type));
+      JobManager jobManager = relaxUcApplication.getJobManager();
+      jobManager.addJobInBackground(new StatisticJob(media.getId(), type));
+    }
+  }
+
+  public void sendEvaluation(Context context, int score, int type) {
+    RelaxUcApplication relaxUcApplication = (RelaxUcApplication) context.getApplicationContext();
+    if (relaxUcApplication != null) {
+      JobManager jobManager = relaxUcApplication.getJobManager();
+      jobManager.addJobInBackground(new EvaluationJob(score, type));
     }
   }
 }

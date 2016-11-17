@@ -11,7 +11,6 @@ import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 
 import cl.uc.saludestudiantiluc.RelaxUcApplication;
-import cl.uc.saludestudiantiluc.services.post.PostService;
 import cl.uc.saludestudiantiluc.services.post.api.StatisticApi;
 import cl.uc.saludestudiantiluc.services.post.models.Statistic;
 import retrofit2.Call;
@@ -25,17 +24,14 @@ public class StatisticJob extends Job {
 
   private static final String TAG = StatisticJob.class.getSimpleName();
 
-  public static final String STATISTIC_JOB               = "StatisticJob";
-  public static final String STATISTIC_JOB_ID            = "StatisticJobId";
-  public static final String STATISTIC_JOB_TYPE          = "StatisticJobType";
-  public static final String STATISTIC_JOB_TYPE_IMAGERY  = "StatisticJobTypeImagery";
-  public static final String STATISTIC_JOB_TYPE_AMBIENCE = "StatisticJobTypeAmbience";
-  public static final String STATISTIC_JOB_TYPE_SEQUENCE = "StatisticJobTypeSequence";
+  public static final int STATISTIC_JOB_TYPE_IMAGERY  = 1;
+  public static final int STATISTIC_JOB_TYPE_AMBIENCE = 2;
+  public static final int STATISTIC_JOB_TYPE_SEQUENCE = 3;
 
   private int mId;
-  private String mType;
+  private int mType;
 
-  public StatisticJob(int id, String type) {
+  public StatisticJob(int id, int type) {
     super(new Params(0).requireNetwork().persist());
     mId = id;
     mType = type;
