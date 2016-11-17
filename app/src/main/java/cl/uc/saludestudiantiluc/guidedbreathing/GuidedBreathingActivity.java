@@ -21,11 +21,6 @@ public class GuidedBreathingActivity extends BaseActivity {
   private static final int INHALE_TIME_IN_MILLIS = 3000;
   private static final int EXHALE_TIME_IN_MILLIS = 6000;
 
-  private int mBalloonMaxWidth;
-  private int mBalloonWidth;
-  private int mBalloonMaxHeight;
-  private int mBalloonHeight;
-
   private float mInhaleScaleX;
   private float mInhaleScaleY;
 
@@ -54,13 +49,13 @@ public class GuidedBreathingActivity extends BaseActivity {
     mActionTextView = (TextView) findViewById(R.id.guided_breathing_action_text);
 
     final Resources resources = getResources();
-    mBalloonMaxWidth = resources.getDimensionPixelSize(R.dimen.balloon_max_width);
-    mBalloonMaxHeight = resources.getDimensionPixelSize(R.dimen.balloon_max_height);
-    mBalloonHeight = resources.getDimensionPixelSize(R.dimen.balloon_height);
-    mBalloonWidth = resources.getDimensionPixelSize(R.dimen.balloon_width);
+    int balloonMaxWidth = resources.getDimensionPixelSize(R.dimen.balloon_max_width);
+    int balloonMaxHeight = resources.getDimensionPixelSize(R.dimen.balloon_max_height);
+    int balloonHeight = resources.getDimensionPixelSize(R.dimen.balloon_height);
+    int balloonWidth = resources.getDimensionPixelSize(R.dimen.balloon_width);
 
-    mInhaleScaleX = ((float) mBalloonMaxWidth) / mBalloonWidth;
-    mInhaleScaleY = ((float) mBalloonMaxHeight) / mBalloonHeight;
+    mInhaleScaleX = ((float) balloonMaxWidth) / balloonWidth;
+    mInhaleScaleY = ((float) balloonMaxHeight) / balloonHeight;
 
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle(R.string.square_breathing);
