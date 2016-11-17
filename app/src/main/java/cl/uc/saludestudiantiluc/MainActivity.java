@@ -18,12 +18,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cl.uc.saludestudiantiluc.ambiences.AmbiencesListFragment;
+import cl.uc.saludestudiantiluc.breathingexcercises.BreathingExcercisesFragment;
 import cl.uc.saludestudiantiluc.calendar.CalendarActivity;
 import cl.uc.saludestudiantiluc.calendar.ScheduleActivity;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.evaluations.HomeEvaluation;
 import cl.uc.saludestudiantiluc.exerciseplans.ExercisePlanMenu;
-import cl.uc.saludestudiantiluc.guidedbreathing.GuidedBreathingActivity;
+import cl.uc.saludestudiantiluc.breathingexcercises.guidedbreathing.GuidedBreathingActivity;
 import cl.uc.saludestudiantiluc.imageries.ImageriesListFragment;
 import cl.uc.saludestudiantiluc.sequences.SequencesListFragment;
 
@@ -144,7 +145,7 @@ public class MainActivity extends BaseActivity {
             changeFragment(HomeFragment.newInstance());
             break;
           case R.id.drawer_excercises:
-            startActivity(GuidedBreathingActivity.getIntent(MainActivity.this));
+            changeFragment(BreathingExcercisesFragment.newInstance());
             break;
           case R.id.drawer_sequences:
             changeFragment(SequencesListFragment.newInstance());

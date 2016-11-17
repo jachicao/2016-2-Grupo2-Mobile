@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity">
+        tools:context=".breathingexcercises.squarebreathing.SquareBreathingActivity">
 
     <include layout="@layout/main_background_image"/>
 
@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingView
+    <cl.uc.saludestudiantiluc.breathingexcercises.squarebreathing.SquareBreathingView
         android:id="@+id/square_breathing_view"
         android:layout_gravity="center"
         android:layout_width="@dimen/square_breathing_view_size"

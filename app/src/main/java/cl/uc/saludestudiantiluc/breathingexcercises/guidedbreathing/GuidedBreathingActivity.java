@@ -1,4 +1,4 @@
-package cl.uc.saludestudiantiluc.guidedbreathing;
+package cl.uc.saludestudiantiluc.breathingexcercises.guidedbreathing;
 
 import android.animation.TimeInterpolator;
 import android.app.Activity;
@@ -8,7 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
@@ -23,6 +28,9 @@ public class GuidedBreathingActivity extends BaseActivity {
 
   private float mInhaleScaleX;
   private float mInhaleScaleY;
+
+  private int mBalloonHeight;
+  private int mBalloonWidth;
 
   private View mBalloonView;
   private TextView mActionTextView;
@@ -51,11 +59,11 @@ public class GuidedBreathingActivity extends BaseActivity {
     final Resources resources = getResources();
     int balloonMaxWidth = resources.getDimensionPixelSize(R.dimen.balloon_max_width);
     int balloonMaxHeight = resources.getDimensionPixelSize(R.dimen.balloon_max_height);
-    int balloonHeight = resources.getDimensionPixelSize(R.dimen.balloon_height);
-    int balloonWidth = resources.getDimensionPixelSize(R.dimen.balloon_width);
+    mBalloonHeight = resources.getDimensionPixelSize(R.dimen.balloon_height);
+    mBalloonWidth = resources.getDimensionPixelSize(R.dimen.balloon_width);
 
-    mInhaleScaleX = ((float) balloonMaxWidth) / balloonWidth;
-    mInhaleScaleY = ((float) balloonMaxHeight) / balloonHeight;
+    mInhaleScaleX = ((float) balloonMaxWidth) / mBalloonWidth;
+    mInhaleScaleY = ((float) balloonMaxHeight) / mBalloonHeight;
 
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle(R.string.square_breathing);
@@ -71,6 +79,16 @@ public class GuidedBreathingActivity extends BaseActivity {
     });
 
     loadMainBackground();
+  }
+
+  @Override
+  protected void loadMainBackground() {
+    Glide
+        .with(this)
+        .load(R.drawable.excercises_background)
+        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+        .centerCrop()
+        .into((ImageView) findViewById(R.id.main_background_image));
   }
 
   @Override

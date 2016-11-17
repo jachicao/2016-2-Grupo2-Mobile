@@ -1,4 +1,4 @@
-package cl.uc.saludestudiantiluc.squarebreathing;
+package cl.uc.saludestudiantiluc.breathingexcercises.squarebreathing;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
@@ -72,7 +72,7 @@ public class SquareBreathingView extends FrameLayout {
   public SquareBreathingView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
 
-    mHighlightColour = context.getResources().getColor(R.color.colorPrimary);
+    mHighlightColour = context.getResources().getColor(R.color.squareBreathingHighlight);
     mCircleColour = context.getResources().getColor(android.R.color.white);
 
     LayoutInflater.from(context).inflate(R.layout.exercise_square_breathing_view, this, true);

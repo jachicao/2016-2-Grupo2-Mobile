@@ -29,7 +29,7 @@
                     android:id="@+id/recycler_card_view_preview"
                     android:adjustViewBounds="true"
                     />
-                <LinearLayout
+                <FrameLayout
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_gravity="bottom"
@@ -47,7 +47,7 @@
                         android:layout_marginLeft="@dimen/card_view_text_margin"
                         android:layout_marginRight="@dimen/card_view_text_margin"
                         />
-                </LinearLayout>
+                </FrameLayout>
             </FrameLayout>
             <TextView
                 android:layout_width="wrap_content"

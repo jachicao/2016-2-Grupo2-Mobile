@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import cl.uc.saludestudiantiluc.common.BaseFragment;
-import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
+import cl.uc.saludestudiantiluc.breathingexcercises.squarebreathing.SquareBreathingActivity;
 
 /**
  * Created by lukas on 9/27/16.

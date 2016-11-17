@@ -23,7 +23,7 @@
 
         <activity android:name=".MainActivity"/>
         <activity android:name=".sequences.ImagesActivity"/>
-        <activity android:name=".squarebreathing.SquareBreathingActivity"/>
+        <activity android:name=".breathingexcercises.squarebreathing.SquareBreathingActivity"/>
 
         <service
             android:name=".services.sound.SoundService"
@@ -82,7 +82,7 @@
         </activity>
         <activity android:name=".exerciseplans.ExercisePlanActivity" />
         <activity
-            android:name=".guidedbreathing.GuidedBreathingActivity"
+            android:name=".breathingexcercises.guidedbreathing.GuidedBreathingActivity"
             android:label="@string/title_activity_guided_breathing"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">

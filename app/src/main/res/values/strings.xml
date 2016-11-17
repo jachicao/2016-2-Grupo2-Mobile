@@ -360,5 +360,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="guided_breathing_title">Respiración guiada</string>
+    <string name="square_breathing_title">Respiración cuadrada</string>
 
 </resources>
