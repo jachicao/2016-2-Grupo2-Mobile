@@ -18,6 +18,8 @@ public interface UserRepository {
 
   String getUserPassword();
 
+  String getAcademicType();
+
   boolean isUserLoggedIn();
 
   void storeUserEmail(String email);
@@ -29,6 +31,8 @@ public interface UserRepository {
   void storeAccessTokenClient(String accessTokenClient);
 
   void storeUid(String uid);
+
+  void storeAcademicType(String academicType);
 
   void logOut();
 

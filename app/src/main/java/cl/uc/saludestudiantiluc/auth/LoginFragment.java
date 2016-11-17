@@ -105,6 +105,7 @@ public class LoginFragment extends AuthFragment {
             getAuthActivity().getUserRepository().storeUid(uid);
             getAuthActivity().getUserRepository().storeUserEmail(loginResponse.getEmail());
             getAuthActivity().getUserRepository().storeUserName("TODO");
+            getAuthActivity().getUserRepository().storeAcademicType(loginResponse.getAcademicType());
             Log.d(TAG, loginResponse.getEmail());
             getAuthActivity().onUserLoggedIn();
           } else {

@@ -16,6 +16,7 @@ public class UserLocalDataRepository implements UserRepository {
   private static final String KEY_USER_ACCESS_TOKEN_CLIENT = "access_token_client";
   private static final String KEY_USER_UID = "uid";
   private static final String KEY_USER_PASSWORD = "password";
+  private static final String KEY_USER_ACADEMIC_TYPE = "academic_type";
 
   private final SharedPreferences mPrefs;
 
@@ -52,6 +53,11 @@ public class UserLocalDataRepository implements UserRepository {
   @Override
   public String getUserPassword() {
     return mPrefs.getString(KEY_USER_PASSWORD, "");
+  }
+
+  @Override
+  public String getAcademicType() {
+    return mPrefs.getString(KEY_USER_ACADEMIC_TYPE, "");
   }
 
   @Override
@@ -94,6 +100,13 @@ public class UserLocalDataRepository implements UserRepository {
     Log.d("repository uid", uid);
     mPrefs.edit()
         .putString(KEY_USER_UID, uid)
+        .apply();
+  }
+
+  @Override
+  public void storeAcademicType(String academicType) {
+    mPrefs.edit()
+        .putString(KEY_USER_ACADEMIC_TYPE, academicType)
         .apply();
   }
 

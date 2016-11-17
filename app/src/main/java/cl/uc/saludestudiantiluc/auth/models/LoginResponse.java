@@ -14,5 +14,9 @@ public class LoginResponse {
     return data.getEmail();
   }
 
+  public String getAcademicType() {
+    return data.getAcademicType();
+  }
+
   public DataResponse data;
 }
