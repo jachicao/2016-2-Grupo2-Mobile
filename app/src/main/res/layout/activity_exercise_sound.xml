@@ -26,10 +26,8 @@
                 app:srcCompat="@drawable/ic_pause_black_24dp"
                 android:id="@+id/playExerciseSoundButton"
                 android:layout_gravity="center_vertical|center"
-                android:background="@drawable/circle"
-                android:backgroundTint="#5FFAFAFA"
+                android:background="@drawable/circle_transparent"
                 android:tint="@color/white"
-                android:layout_weight="1"
                 android:layout_width="@dimen/button_height"
                 />
         </FrameLayout>
@@ -38,7 +36,6 @@
             android:id="@+id/pw_spinner"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_centerInParent="true"
             ProgressWheel:pwText=""
             ProgressWheel:pwTextColor="@color/white"
             ProgressWheel:pwTextSize="16sp"
@@ -60,10 +57,8 @@
                 app:srcCompat="@drawable/ic_stop_black_24dp"
                 android:id="@+id/stopExerciseSoundButton"
                 android:layout_gravity="center"
-                android:background="@drawable/circle"
-                android:backgroundTint="#5FFAFAFA"
-                android:tint="@color/white"
-                android:layout_weight="1"/>
+                android:background="@drawable/circle_transparent"
+                android:tint="@color/white"/>
         </FrameLayout>
 
     </LinearLayout>

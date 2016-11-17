@@ -22,12 +22,12 @@
     <string name="main_menu_ambience">Naturaleza</string>
     <string name="main_menu_imaginary">Imaginerías</string>
     <string name="main_menu_evaluations">Evaluaciones</string>
-    <string name="main_menu_exercise_plans">Planes de ejercicios</string>
+    <string name="main_menu_exercise_plans">Programas semanales</string>
 
     <string name="drawer_home">Inicio</string>
     <string name="drawer_profile">Perfil</string>
     <string name="drawer_settings">Ajustes</string>
-    <string name="drawer_request_appointment">Solicitar cita</string>
+    <string name="drawer_request_appointment">Reserva tu hora</string>
     <string name="drawer_logout">Cerrar sesión</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar menu</string>

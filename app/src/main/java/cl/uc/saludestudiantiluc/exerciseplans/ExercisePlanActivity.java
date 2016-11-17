@@ -134,6 +134,12 @@ public class ExercisePlanActivity extends SoundServiceActivity {
   }
 
   @Override
+  protected void onStop() {
+    super.onStop();
+    mHandler.removeCallbacks(mRunnable);
+  }
+
+  @Override
   protected void onDestroy() {
     super.onPause();
     mHandler.removeCallbacks(mRunnable);
@@ -148,17 +154,9 @@ public class ExercisePlanActivity extends SoundServiceActivity {
         mPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
       } else {
         mPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        getSoundService().pauseSound();
       }
       mHandler.postDelayed(mRunnable, 1000);
     }
-    //setNewSound();
   }
-
-  /*public void setNewSound() {
-    if (mSoundService != null) {
-
-      mSoundService.newSound(DownloadService.getStringDir(this, mExerciseSound.getSoundRequest()),
-          mExerciseSound.getName(), isImmersiveMode(), 0);
-    }
-  }*/
 }

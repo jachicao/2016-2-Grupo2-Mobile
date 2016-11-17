@@ -2,6 +2,7 @@ package cl.uc.saludestudiantiluc.exerciseplans;
 
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ import cl.uc.saludestudiantiluc.R;
 public class ExerciseChildViewHolder extends ChildViewHolder{
   private TextView mText;
   private ImageButton mImageButton;
-  private ImageButton mDownloadButton;
+  private Button mDownloadButton;
   private CardView mCardView;
 
   public ExerciseChildViewHolder(View itemView) {
@@ -25,7 +26,7 @@ public class ExerciseChildViewHolder extends ChildViewHolder{
     mText = (TextView) itemView.findViewById(R.id.child_list_item_crime_date_text_view);
     mImageButton = (ImageButton) itemView.findViewById(R.id.playExerciseButton);
     mCardView = (CardView) itemView.findViewById(R.id.exercise_cardview);
-    mDownloadButton = (ImageButton) itemView.findViewById(R.id.downloadExerciseButton);
+    mDownloadButton = (Button) itemView.findViewById(R.id.downloadExerciseButton);
   }
 
   public TextView getText() {
@@ -40,7 +41,7 @@ public class ExerciseChildViewHolder extends ChildViewHolder{
     return mCardView;
   }
 
-  public ImageButton getDownloadButton() {
+  public Button getDownloadButton() {
     return mDownloadButton;
   }
 }

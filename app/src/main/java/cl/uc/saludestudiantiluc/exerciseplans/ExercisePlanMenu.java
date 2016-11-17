@@ -124,7 +124,7 @@ public class ExercisePlanMenu extends MediaListFragment {
       mRecyclerView.setAdapter(mExerciseExpandableAdapter);
       mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     } else {
-
+      showSnackbarMessage(getString(R.string.unsuccessful_error));
     }
   }
 

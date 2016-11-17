@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
@@ -61,13 +62,10 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
   }
 
   @Override
-  public void onBindChildViewHolder(ExerciseChildViewHolder exerciseChildViewHolder, int position, Object o) {
+  public void onBindChildViewHolder(final ExerciseChildViewHolder exerciseChildViewHolder, int position, Object o) {
     ExerciseChild exerciseChild = (ExerciseChild) o;
     exerciseChildViewHolder.getText().setText(((ExerciseChild) o).getSoundData().getName());
     exerciseChildViewHolder.getImageButton().setClickable(exerciseChild.isUnlocked());
-
-    //final ExerciseSound exerciseSound =  getMenu().getDetailedList().get(position).getExercises().get(position);
-
     final ExerciseSoundData exerciseSound = ((ExerciseChild) o).getSoundData();
 
     if (!exerciseChild.isUnlocked()) {
@@ -81,10 +79,11 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
         }
       });
     }
-    final ImageButton downloadButton = exerciseChildViewHolder.getDownloadButton();
+    final Button downloadButton = exerciseChildViewHolder.getDownloadButton();
     if (isDownloaded(mContext, exerciseSound)) {
       downloadButton.setVisibility(View.GONE);
     } else {
+      exerciseChildViewHolder.getImageButton().setVisibility(View.GONE);
       final boolean[] clicked = { false };
       downloadButton.setVisibility(View.VISIBLE);
       downloadButton.setOnClickListener(new View.OnClickListener() {
@@ -98,13 +97,14 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
             @Override
             public void onFilesReady(ArrayList<File> files) {
               MediaListFragment fragment = mAdapter.getFragment();
-              //fragment.showSnackbarMessage(exerciseSound.getAudioName() + " " + getMenu().getString(R.string.downloaded).toLowerCase());
+              fragment.showSnackbarMessage(exerciseSound.getName() + " " + getMenu().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
+              exerciseChildViewHolder.getImageButton().setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onProgressUpdate(long percentage) {
-              //downloadButton.setText(getFragment().getString(R.string.downloading) + " " + percentage + "%");
+              downloadButton.setText(percentage + "%");
             }
           });
           getMenu().getDownloadService().requestFiles(mContext, filesRequest);
