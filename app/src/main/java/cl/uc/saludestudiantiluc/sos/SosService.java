@@ -12,14 +12,10 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
 
-import cl.uc.saludestudiantiluc.MainActivity;
 import cl.uc.saludestudiantiluc.R;
-import cl.uc.saludestudiantiluc.services.sound.SoundService;
-import cl.uc.saludestudiantiluc.squarebreathing.SquareBreathingActivity;
+import cl.uc.saludestudiantiluc.breathingexcercises.squarebreathing.SquareBreathingActivity;
 
 public class SosService extends Service {
 
