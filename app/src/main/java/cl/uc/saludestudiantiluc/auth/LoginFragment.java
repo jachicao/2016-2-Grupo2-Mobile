@@ -102,6 +102,7 @@ public class LoginFragment extends AuthFragment {
             getAuthActivity().getUserRepository().storeAccessTokenClient(accessTokenClient);
             getAuthActivity().getUserRepository().storeUid(uid);
             getAuthActivity().getUserRepository().storeUserEmail(loginResponse.getEmail());
+            getAuthActivity().getUserRepository().storeUserAcademicType("Estudiante");
             getAuthActivity().getUserRepository().storeUserName("TODO");
             Log.d(TAG, loginResponse.getEmail());
             getAuthActivity().onUserLoggedIn();

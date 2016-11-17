@@ -204,7 +204,20 @@ public class BaseEvaluationActivity extends BaseActivity {
     Intent intent = new Intent(this, EvaluationResults.class);
     intent.putExtra(TOTAL_SCORE, score);
     intent.putExtra(EVALUATION_TYPE, mEvaluationType);
-    intent.putExtra(USER_ROLE, 1);
+
+    String role = getUserRepository().getAcademicType();
+
+    String[] academicTypes = getResources().getStringArray(R.array
+        .auth_register_academic_type_array);
+    if (role.equals(academicTypes[1])){
+      intent.putExtra(USER_ROLE, 1);
+    } else if (role.equals(academicTypes[2])){
+      intent.putExtra(USER_ROLE, 2);
+    } else {
+      intent.putExtra(USER_ROLE, 1);
+    }
+
+
     startActivity(intent);
 
   }
@@ -331,54 +344,7 @@ public class BaseEvaluationActivity extends BaseActivity {
       return mQuantity;
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-      switch (position) {
-        case 0:
-          return "SECTION 1";
-        case 1:
-          return "SECTION 2";
-        case 2:
-          return "SECTION 3";
-        case 3:
-          return "SECTION 3";
-        case 4:
-          return "SECTION 4";
-        case 5:
-          return "SECTION 5";
-        case 6:
-          return "SECTION 6";
-        case 7:
-          return "SECTION 7";
-        case 8:
-          return "SECTION 8";
-        case 9:
-          return "SECTION 9";
-        case 10:
-          return "SECTION 10";
-        case 11:
-          return "SECTION 11";
-        case 12:
-          return "SECTION 12";
-        case 13:
-          return "SECTION 13";
-        case 14:
-          return "SECTION 14";
-        case 15:
-          return "SECTION 15";
-        case 16:
-          return "SECTION 16";
-        case 17:
-          return "SECTION 17";
-        case 18:
-          return "SECTION 18";
-        case 19:
-          return "SECTION 19";
-        case 20:
-          return "SECTION 20";
-      }
-      return null;
-    }
+
   }
 
   /**

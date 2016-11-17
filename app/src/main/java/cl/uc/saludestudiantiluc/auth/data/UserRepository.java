@@ -14,6 +14,8 @@ public interface UserRepository {
 
   String getUserAccessTokenClient();
 
+  String  getAcademicType();
+
   String getUid();
 
   String getUserPassword();
@@ -23,6 +25,8 @@ public interface UserRepository {
   void storeUserEmail(String email);
 
   void storeUserName(String name);
+
+  void storeUserAcademicType(String name);
 
   void storeAccessToken(String accessToken);
 
