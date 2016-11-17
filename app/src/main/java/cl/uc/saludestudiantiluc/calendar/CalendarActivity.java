@@ -53,12 +53,7 @@ public class CalendarActivity extends BaseActivity {
       }
     });
 
-    Glide
-        .with(this)
-        .load(R.drawable.main_background)
-        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-        .centerCrop()
-        .into((ImageView) findViewById(R.id.main_background_image));
+    loadMainBackground();
 
     mButton = (Button) findViewById(R.id.button);
     mServiceSpinner =  (Spinner) findViewById(R.id.spinner);

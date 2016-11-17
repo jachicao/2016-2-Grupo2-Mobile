@@ -1,18 +1,16 @@
-package cl.uc.saludestudiantiluc.calendar;
-
-import android.os.Build;
+package cl.uc.saludestudiantiluc.calendar.api;
 
 import java.util.List;
 
 import cl.uc.saludestudiantiluc.BuildConfig;
-import okhttp3.RequestBody;
+import cl.uc.saludestudiantiluc.calendar.models.BookingResponse;
+import cl.uc.saludestudiantiluc.calendar.models.CancelResponse;
+import cl.uc.saludestudiantiluc.calendar.models.Schedule;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -25,8 +23,7 @@ public interface CalendarApi {
 
   @GET("event_dates")
   Call<List<Schedule>> getAvailableHours(@Query("event_type") int activity, @Query("campus") int
-      campus, @Header("email") String email, @Header("password") String password, @Header("client")
-      String client, @Header("acces-token") String token, @Header("uid") String uid);
+      campus, @Header("email") String email);
 
 
   @GET("user_events")

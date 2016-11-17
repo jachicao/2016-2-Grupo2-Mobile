@@ -1,7 +1,9 @@
-package cl.uc.saludestudiantiluc.calendar;
+package cl.uc.saludestudiantiluc.calendar.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by camilo on 18-10-16.
@@ -9,11 +11,14 @@ import android.os.Parcelable;
 
 public class Schedule implements Parcelable {
   int id;
-  int host_id;
+  String host;
   String start_date;
   String event_type;
   String faculty;
   String location;
+  @SerializedName("user_booked")
+  private boolean booked;
+
 
   @Override
   public int describeContents() {
@@ -23,11 +28,16 @@ public class Schedule implements Parcelable {
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(this.id);
-    dest.writeInt(this.host_id);
+    dest.writeString(this.host);
     dest.writeString(this.start_date);
     dest.writeString(this.event_type);
     dest.writeString(this.faculty);
     dest.writeString(this.location);
+    if (booked) {
+      dest.writeInt(1);
+    } else {
+      dest.writeInt(0);
+    }
   }
 
   public Schedule() {
@@ -35,19 +45,24 @@ public class Schedule implements Parcelable {
 
   protected Schedule(Parcel in) {
     this.id = in.readInt();
-    this.host_id = in.readInt();
+    this.host = in.readString();
     this.start_date = in.readString();
     this.event_type = in.readString();
     this.faculty = in.readString();
     this.location = in.readString();
+    if (in.readInt() == 1) {
+      booked = true;
+    } else {
+      booked = false;
+    }
   }
 
   public String getTimestamp(){
     return start_date;
   }
 
-  public int getProfessional(){
-    return host_id;
+  public String getProfessional(){
+    return host;
   }
 
   public String getEvent_type(){
@@ -62,6 +77,10 @@ public class Schedule implements Parcelable {
 
   public String getLocation(){
     return location;
+  }
+
+  public boolean isBooked() {
+    return booked;
   }
 
   public static final Parcelable.Creator<Schedule> CREATOR = new Parcelable.Creator<Schedule>() {

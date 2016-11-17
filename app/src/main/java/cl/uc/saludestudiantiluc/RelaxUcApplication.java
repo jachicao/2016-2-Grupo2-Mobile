@@ -23,6 +23,7 @@ import cl.uc.saludestudiantiluc.ambiences.data.AmbiencesRepository;
 import cl.uc.saludestudiantiluc.auth.api.UserAuthApi;
 import cl.uc.saludestudiantiluc.auth.data.UserLocalDataRepository;
 import cl.uc.saludestudiantiluc.auth.data.UserRepository;
+import cl.uc.saludestudiantiluc.calendar.api.CalendarApi;
 import cl.uc.saludestudiantiluc.common.RetrofitServiceFactory;
 import cl.uc.saludestudiantiluc.exerciseplans.api.ExerciseProgramApi;
 import cl.uc.saludestudiantiluc.imageries.api.ImageryApi;
@@ -63,6 +64,7 @@ public class RelaxUcApplication extends Application {
   private EvaluationApi mEvaluationApiService;
   private ExerciseProgramApi mExerciseProgramService;
   private UserAuthApi mAuthApiService;
+  private CalendarApi mCalendarService;
 
   @Override
   public void onCreate() {
@@ -131,12 +133,14 @@ public class RelaxUcApplication extends Application {
     mImageryRepository = createSoundsRepository();
     mAmbiencesRepository = createAmbiencesRepository();
 
-    mStatisticApiService = RetrofitServiceFactory.createRetrofitService(StatisticApi.class, StatisticApi.BASE_URL, mGson, mOkHttpClient);
+    mStatisticApiService = RetrofitServiceFactory.createRetrofitService(StatisticApi.class,
+        StatisticApi.BASE_URL, mGson, mOkHttpClient);
     mEvaluationApiService = RetrofitServiceFactory.createRetrofitService(EvaluationApi.class,
         EvaluationApi.BASE_URL, mGson, mOkHttpClient);
     mExerciseProgramService = RetrofitServiceFactory.createRetrofitService(ExerciseProgramApi.class,
         ExerciseProgramApi.BASE_URL, mGson, mOkHttpClient);
-
+    mCalendarService = RetrofitServiceFactory.createRetrofitService(CalendarApi.class,
+        CalendarApi.BASE_URL, mGson, mOkHttpClient);
   }
 
   public void onUserLoggedIn() {
@@ -206,6 +210,10 @@ public class RelaxUcApplication extends Application {
 
   public UserAuthApi getAuthApiService() {
     return mAuthApiService;
+  }
+
+  public CalendarApi getCalendarService() {
+    return mCalendarService;
   }
 
   public Gson getGson() {

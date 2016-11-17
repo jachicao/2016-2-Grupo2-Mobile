@@ -1,4 +1,4 @@
-package cl.uc.saludestudiantiluc.calendar;
+package cl.uc.saludestudiantiluc.calendar.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

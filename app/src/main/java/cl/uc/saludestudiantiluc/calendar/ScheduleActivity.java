@@ -31,31 +31,26 @@ import java.util.List;
 import cl.uc.saludestudiantiluc.MainActivity;
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.auth.data.UserRepository;
+import cl.uc.saludestudiantiluc.calendar.api.CalendarApi;
+import cl.uc.saludestudiantiluc.calendar.models.BookingResponse;
+import cl.uc.saludestudiantiluc.calendar.models.CancelResponse;
+import cl.uc.saludestudiantiluc.calendar.models.Schedule;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ScheduleActivity extends BaseActivity {
 
   private ListView mListView;
   private LinearLayout mLinearLayout;
-
   private LayoutInflater mInflater;
-
   private ArrayList<Schedule> mSchedule;
-
   private CalendarApi mApiInstance;
-
   private String mSource;
-
   private boolean mLoaded;
   private boolean mIsDialogShown;
-
   private Schedule mDialogSchedule;
-  private int mCardLayout;
 
   private static final String SERVICE_SELECTION = "Service";
   private static final String CAMPUS_SELECTION = "Campus";
@@ -69,7 +64,6 @@ public class ScheduleActivity extends BaseActivity {
 
   private UserRepository mUserRepository;
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -79,25 +73,16 @@ public class ScheduleActivity extends BaseActivity {
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
       getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
+    loadMainBackground();
     getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         onBackPressed();
       }
     });
-    Glide
-        .with(this)
-        .load(R.drawable.main_background)
-        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-        .centerCrop()
-        .into((ImageView) findViewById(R.id.main_background_image));
 
-    Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl(CalendarApi.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build();
-    mApiInstance = retrofit.create(CalendarApi.class);
-
+    mUserRepository = getRelaxUcApplication().getUserRepository();
+    mApiInstance = getRelaxUcApplication().getCalendarService();
     mLoaded = false;
     mIsDialogShown = false;
     Bundle extras = getIntent().getExtras();
@@ -129,17 +114,9 @@ public class ScheduleActivity extends BaseActivity {
     mInflater = (LayoutInflater) this
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     if (!mLoaded) {
-      mUserRepository = getUserRepository();
-      String a = mUserRepository.getUserAccessToken();
-      String b = mUserRepository.getUserAccessTokenClient();
-      String d = mUserRepository.getUserPassword();
-      String c = "jiji";
       Call<List<Schedule>> callInstance;
       if (mSource.equals(AVAILABLE_HOURS)) {
-        callInstance = mApiInstance.getAvailableHours(service, campus,
-            mUserRepository.getUserEmail(), mUserRepository.getUserPassword(),
-            mUserRepository.getUserAccessTokenClient(), mUserRepository.getUserAccessToken(),
-            mUserRepository.getUid());
+        callInstance = mApiInstance.getAvailableHours(service, campus, mUserRepository.getUserEmail());
       } else {
         callInstance = mApiInstance.getUserHours(mUserRepository.getUserEmail());
       }
@@ -159,7 +136,7 @@ public class ScheduleActivity extends BaseActivity {
 
         @Override
         public void onFailure(Call<List<Schedule>> call, Throwable t) {
-          loadHours();
+          loadErrorMessage();
         }
       });
     } else {
@@ -205,9 +182,9 @@ public class ScheduleActivity extends BaseActivity {
           public int compare(Schedule o1, Schedule o2) {
             Date date1;
             Date date2;
-            if (o1.getProfessional() > o2.getProfessional()) {
+            if (o1.getProfessional().compareTo(o2.getProfessional()) > 0) {
               return 1;
-            } else if (o1.getProfessional() > o2.getProfessional()) {
+            } else if (o1.getProfessional().compareTo(o2.getProfessional()) < 0) {
               return 0;
             } else {
               try {
@@ -264,6 +241,15 @@ public class ScheduleActivity extends BaseActivity {
     }
   }
 
+  public void loadErrorMessage() {
+    View circleView = findViewById(R.id.progressBarLayout);
+    mLinearLayout.removeView(circleView);
+    View v = mInflater.inflate(
+        R.layout.empty_list_message, mLinearLayout);
+    TextView t = (TextView) v.findViewById(R.id.cardMessage);
+    t.setText(getResources().getString(R.string.unsuccessful_error));
+  }
+
   public void showConfirmationDialog(final int eventId) {
     mIsDialogShown = true;
     final Dialog dialog = new Dialog(ScheduleActivity.this);
@@ -275,7 +261,7 @@ public class ScheduleActivity extends BaseActivity {
     TextView professional = (TextView) dialog.findViewById(R.id.confirmation_professional);
     TextView service = (TextView) dialog.findViewById(R.id.confirmation_service);
     TextView campus = (TextView) dialog.findViewById(R.id.confirmation_campus);
-    String dateText = this.getString(R.string.date_start) + mDialogSchedule.getTimestamp();
+    String dateText = this.getString(R.string.date_start) + format_date(mDialogSchedule.getTimestamp());
     String professionalText = this.getString(R.string.professional_start) + mDialogSchedule.getProfessional();
     String serviceText = this.getString(R.string.service_start) + mDialogSchedule.getEvent_type();
     String campusText = this.getString(R.string.campus_start) + mDialogSchedule.getCampus();
@@ -295,7 +281,7 @@ public class ScheduleActivity extends BaseActivity {
       @Override
       public void onClick(View v) {
         Call<BookingResponse> callInstance;
-        callInstance = mApiInstance.booking(eventId, mUserRepository.getUserEmail());
+        callInstance = mApiInstance.booking(eventId,  mUserRepository.getUserEmail());
         callInstance.enqueue(new Callback<BookingResponse>() {
           @Override
           public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
@@ -304,7 +290,13 @@ public class ScheduleActivity extends BaseActivity {
               String json = gson.toJson(response.body());
               BookingResponse bookingResponse = gson.fromJson(json, new TypeToken<BookingResponse>() {
               }.getType());
-              System.out.println(bookingResponse.getAvailability());
+              if (bookingResponse.getAvailability()) {
+                showToastMessage(getString(R.string.success_booking));
+              } else {
+                showToastMessage(getString(R.string.unsuccess_booking));
+              }
+            } else {
+              showToastMessage(getString(R.string.unsuccessful_error));
             }
             mIsDialogShown = false;
             dialog.dismiss();
@@ -346,7 +338,7 @@ public class ScheduleActivity extends BaseActivity {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             Call<CancelResponse> callInstance;
-            callInstance = mApiInstance.cancel(eventId, mUserRepository.getUserEmail());
+            callInstance = mApiInstance.cancel(eventId,  mUserRepository.getUserEmail());
             callInstance.enqueue(new Callback<CancelResponse>() {
               @Override
               public void onResponse(Call<CancelResponse> call, Response<CancelResponse> response) {
@@ -355,7 +347,13 @@ public class ScheduleActivity extends BaseActivity {
                   String json = gson.toJson(response.body());
                   CancelResponse cancelResponse = gson.fromJson(json, new TypeToken<CancelResponse>() {
                   }.getType());
-                  System.out.println(cancelResponse.getCanceled());
+                  if (cancelResponse.getCanceled()) {
+                    showToastMessage(getString(R.string.success_canceling));
+                  } else {
+                    showToastMessage(getString(R.string.unsuccess_canceling));
+                  }
+                } else {
+                  showToastMessage(getString(R.string.unsuccessful_error));
                 }
                 mIsDialogShown = false;
                 finish();
@@ -373,7 +371,6 @@ public class ScheduleActivity extends BaseActivity {
                 startActivity(intent);
               }
             });
-            //finish();
           }
 
         })
@@ -435,8 +432,13 @@ public class ScheduleActivity extends BaseActivity {
       final TextView location = (TextView) convertView.findViewById(R.id.locationText);
       Button reserve = (Button) convertView.findViewById(R.id.appointmentButton);
       if (mSource.equals(AVAILABLE_HOURS)) {
-        reserve.setText(getResources().getString(R.string.reserve_button));
-        reserve.setTextColor(getResources().getColor(R.color.cyan_700));
+        if (mSchedule.get(position).isBooked()) {
+          reserve.setText(getResources().getString(R.string.user_reserved_button));
+          reserve.setTextColor(getResources().getColor(R.color.green_400));
+        } else {
+          reserve.setText(getResources().getString(R.string.reserve_button));
+          reserve.setTextColor(getResources().getColor(R.color.cyan_700));
+        }
       } else {
         reserve.setText(getResources().getString(R.string.cancel_button));
         final TextView service = (TextView) convertView.findViewById(R.id.serviceText);
@@ -445,32 +447,41 @@ public class ScheduleActivity extends BaseActivity {
         campus.setText(mSchedule.get(position).getCampus());
         reserve.setTextColor(getResources().getColor(R.color.red_700));
       }
-      int p1 = mSchedule.get(position).getTimestamp().indexOf(':');
-      int ind = mSchedule.get(position).getTimestamp().indexOf(':', p1+1);
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:mm");
-      Date d;
-      try {
-        d = dateFormat.parse(mSchedule.get(position).getTimestamp().replace("T", " ").substring(0, ind));
-        dateFormat.applyPattern("dd-MM-yyyy H:mm");
-      } catch (ParseException e) {
-        d = new Date();
-        e.printStackTrace();
-      }
-      date.setText(dateFormat.format(d));
+
+      date.setText(format_date(mSchedule.get(position).getTimestamp()));
       professional.setText(String.valueOf(mSchedule.get(position).getProfessional()));
       location.setText(mSchedule.get(position).getLocation());
-      reserve.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          mDialogSchedule = mSchedule.get(position);
-          if (mSource.equals(AVAILABLE_HOURS)) {
-            showConfirmationDialog(mDialogSchedule.getId());
-          } else {
-            showCancelDialog(mDialogSchedule.getId());
+      if (!reserve.getText().equals(getResources().getString(R.string.user_reserved_button))){
+        reserve.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            mDialogSchedule = mSchedule.get(position);
+            if (mSource.equals(AVAILABLE_HOURS)) {
+              showConfirmationDialog(mDialogSchedule.getId());
+            } else {
+              showCancelDialog(mDialogSchedule.getId());
+            }
           }
-        }
-      });
+        });
+      } else {
+        reserve.setClickable(false);
+      }
       return convertView;
     }
+  }
+
+  public String format_date(String timestamp) {
+    int p1 = timestamp.indexOf(':');
+    int ind = timestamp.indexOf(':', p1+1);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:mm");
+    Date d;
+    try {
+      d = dateFormat.parse(timestamp.replace("T", " ").substring(0, ind));
+      dateFormat.applyPattern("dd-MM-yyyy H:mm");
+    } catch (ParseException e) {
+      d = new Date();
+      e.printStackTrace();
+    }
+    return dateFormat.format(d);
   }
 }

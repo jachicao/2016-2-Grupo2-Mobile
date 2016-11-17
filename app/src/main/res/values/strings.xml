@@ -253,9 +253,14 @@
 
     <string name="selector">Selecciona un campo válido</string>
 
+    <!-- Calendar Messages -->
     <string name="empty_message">No existen horas disponibles que cumplan con los parámetros de búsqueda
     </string>
     <string name="empty_schedule">No tienes horas reservadas</string>
+    <string name="success_booking">Tu hora ha sido agendada exitosamente</string>
+    <string name="unsuccess_booking">No se ha podido agendar tu hora</string>
+    <string name="success_canceling">Tu hora ha sido cancelada exitosamente</string>
+    <string name="unsuccess_canceling">No se ha podido cancelar tu hora</string>
 
     <!-- Calendar Titles -->
     <string name="service_select">Reservar hora</string>
@@ -265,6 +270,7 @@
     <string name="available_hours_button">BUSCAR HORARIOS</string>
     <string name="reserve_button">RESERVAR</string>
     <string name="cancel_button">CANCELAR</string>
+    <string name="user_reserved_button">RESERVADO</string>
 
     <!-- Calendar Text -->
     <string name="date_start">Fecha:\u0020</string>
