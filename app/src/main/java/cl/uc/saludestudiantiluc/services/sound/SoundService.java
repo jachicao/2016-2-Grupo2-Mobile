@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
@@ -50,6 +51,7 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   private int mMediaPlayerPosition = 0;
   private boolean mNotificationVisible = false;
   private boolean mReceiverRegistered = false;
+  private boolean mOnSaveInstanceState = false;
   private ArrayList<MediaPlayer.OnPreparedListener> mOnPreparedListeners = new ArrayList<>();
 
   /////////////////Comunication Section
@@ -300,13 +302,20 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
       case MEDIA_PLAYER_STATE_PLAY:
         showNotification();
         break;
-      //case MEDIA_PLAYER_STATE_PAUSE:
-      //  showNotification();
-      //  break;
+      case MEDIA_PLAYER_STATE_PAUSE:
+        if (!mOnSaveInstanceState) {
+          destroyService();
+        }
+        break;
       default:
         destroyService();
         break;
     }
+    mOnSaveInstanceState = false;
+  }
+
+  public void onSaveInstanceState(Bundle outState) {
+    mOnSaveInstanceState = true;
   }
 
   private void destroyNotification() {

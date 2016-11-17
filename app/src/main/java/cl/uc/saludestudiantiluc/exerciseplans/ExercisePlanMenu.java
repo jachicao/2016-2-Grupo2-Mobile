@@ -156,7 +156,7 @@ public class ExercisePlanMenu extends MediaListFragment {
       intent.putExtra(EXERCISE_EXTRAS_SOUND, exerciseSound);
       startActivity(intent);
     } else {
-      notifyMessage(getString(R.string.file_not_downloaded));
+      showSnackbarMessage(getString(R.string.file_not_downloaded));
     }
 
   }

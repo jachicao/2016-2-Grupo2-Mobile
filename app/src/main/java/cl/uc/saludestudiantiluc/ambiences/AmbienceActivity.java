@@ -125,7 +125,7 @@ public class AmbienceActivity extends SoundServiceActivity {
   @Override
   public void onServiceConnected(ComponentName name, IBinder service) {
     super.onServiceConnected(name, service);
-    switch (mSoundService.getMediaPlayerState()) {
+    switch (getSoundService().getMediaPlayerState()) {
       case SoundService.MEDIA_PLAYER_STATE_PAUSE:
         disableImmersiveMode();
         break;

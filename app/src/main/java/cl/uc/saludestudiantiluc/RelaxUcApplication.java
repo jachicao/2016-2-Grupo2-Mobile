@@ -105,7 +105,6 @@ public class RelaxUcApplication extends Application {
         public Response intercept(Chain chain) throws IOException {
           Response response = chain.proceed(chain.request());
           int code = response.code();
-          Log.e(TAG, "CODE: " + code);
           if (code == 401) {
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(INTERCEPTOR_LOG_OUT));
           }

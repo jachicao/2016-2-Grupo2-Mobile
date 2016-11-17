@@ -98,7 +98,7 @@ public class ExerciseExpandableAdapter extends ExpandableRecyclerAdapter<Exercis
             @Override
             public void onFilesReady(ArrayList<File> files) {
               MediaListFragment fragment = mAdapter.getFragment();
-              //fragment.notifyMessage(exerciseSound.getAudioName() + " " + getMenu().getString(R.string.downloaded).toLowerCase());
+              //fragment.showSnackbarMessage(exerciseSound.getAudioName() + " " + getMenu().getString(R.string.downloaded).toLowerCase());
               v.setVisibility(View.GONE);
             }
 

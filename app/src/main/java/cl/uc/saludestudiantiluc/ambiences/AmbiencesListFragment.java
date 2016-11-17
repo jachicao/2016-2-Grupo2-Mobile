@@ -55,7 +55,7 @@ public class AmbiencesListFragment extends MediaListFragment {
           @Override
           public void onError(Throwable e) {
             Log.e(TAG, "onError: ", e);
-            notifyMessage(getString(R.string.failed_download_json));
+            showSnackbarMessage(getString(R.string.failed_download_json));
           }
 
           @Override
@@ -86,10 +86,10 @@ public class AmbiencesListFragment extends MediaListFragment {
         intent.putParcelableArrayListExtra(AMBIENCE_EXTRAS_LIST, downloadedList);
         startActivity(intent);
       } else {
-        notifyMessage(getString(R.string.file_not_downloaded));
+        showSnackbarMessage(getString(R.string.file_not_downloaded));
       }
     } else {
-      notifyMessage(getString(R.string.zero_files_downloaded));
+      showSnackbarMessage(getString(R.string.zero_files_downloaded));
     }
   }
 

@@ -73,8 +73,8 @@ public class ExercisePlanActivity extends SoundServiceActivity {
     mRunnable = new Runnable() {
       @Override
       public void run() {
-        pw.setProgress(mSoundService.getMediaPlayer().getCurrentPosition()*360/mSoundService.getMediaPlayer().getDuration());
-        int current = mSoundService.getMediaPlayer().getDuration() - mSoundService.getMediaPlayer().getCurrentPosition();
+        pw.setProgress(getSoundService().getMediaPlayer().getCurrentPosition()*360/getSoundService().getMediaPlayer().getDuration());
+        int current = getSoundService().getMediaPlayer().getDuration() - getSoundService().getMediaPlayer().getCurrentPosition();
         pw.setText(String.format("%d:%02d",
             TimeUnit.MILLISECONDS.toMinutes(current),
             TimeUnit.MILLISECONDS.toSeconds(current) -
@@ -95,11 +95,11 @@ public class ExercisePlanActivity extends SoundServiceActivity {
       @Override
       public void onClick(View v) {
         if (mIsPlaying) {
-          mSoundService.pauseSound();
+          getSoundService().pauseSound();
           mPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
           mIsPlaying = false;
         } else {
-          mSoundService.startSound();
+          getSoundService().startSound();
           mPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
           mIsPlaying = true;
         }
@@ -109,10 +109,10 @@ public class ExercisePlanActivity extends SoundServiceActivity {
     mStopButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (mSoundService != null) {
+        if (getSoundService() != null) {
           mIsPlaying = false;
-          mSoundService.getMediaPlayer().pause();
-          mSoundService.getMediaPlayer().seekTo(0);
+          getSoundService().getMediaPlayer().pause();
+          getSoundService().getMediaPlayer().seekTo(0);
           mPlayButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
         }
       }
@@ -142,8 +142,8 @@ public class ExercisePlanActivity extends SoundServiceActivity {
   @Override
   public void onServiceConnected(ComponentName name, IBinder service) {
     super.onServiceConnected(name, service);
-    if (mSoundService != null) {
-      mSoundService.newSound(DownloadService.getStringDir(this, mExerciseSound.getSoundRequest()), mExerciseSound.getName(), true, 0);
+    if (getSoundService() != null) {
+      getSoundService().newSound(DownloadService.getStringDir(this, mExerciseSound.getSoundRequest()), mExerciseSound.getName(), true, 0);
       if (mIsPlaying) {
         mPlayButton.setImageResource(R.drawable.ic_pause_black_24dp);
       } else {
