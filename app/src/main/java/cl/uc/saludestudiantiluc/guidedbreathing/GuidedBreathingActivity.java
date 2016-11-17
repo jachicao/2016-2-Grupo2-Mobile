@@ -62,6 +62,19 @@ public class GuidedBreathingActivity extends BaseActivity {
     mInhaleScaleX = ((float) mBalloonMaxWidth) / mBalloonWidth;
     mInhaleScaleY = ((float) mBalloonMaxHeight) / mBalloonHeight;
 
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle(R.string.square_breathing);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+    }
+
+    getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        onBackPressed();
+      }
+    });
+
     loadMainBackground();
   }
 

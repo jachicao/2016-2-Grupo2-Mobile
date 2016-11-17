@@ -8,10 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context="cl.uc.saludestudiantiluc.guidedbreathing.GuidedBreathingActivity">
 
-    <ImageView
-        android:id="@+id/main_background_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <include layout="@layout/main_background_image"/>
 
     <include
         android:id="@+id/toolbar"
@@ -32,6 +29,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/toolbar"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textSize="@dimen/display_1"/>
+        android:textSize="@dimen/display_1"
+        android:textColor="@android:color/white"/>
 
 </RelativeLayout>
