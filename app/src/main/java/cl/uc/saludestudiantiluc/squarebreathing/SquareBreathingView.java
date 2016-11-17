@@ -75,7 +75,7 @@ public class SquareBreathingView extends FrameLayout {
     mHighlightColour = context.getResources().getColor(R.color.colorPrimary);
     mCircleColour = context.getResources().getColor(android.R.color.white);
 
-    View view = LayoutInflater.from(context).inflate(R.layout.exercise_square_breathing_view, this, true);
+    LayoutInflater.from(context).inflate(R.layout.exercise_square_breathing_view, this, true);
 
     mInhaleViews = new View[VIEWS_PER_ACTION];
     mHoldAirViews = new View[VIEWS_PER_ACTION];
