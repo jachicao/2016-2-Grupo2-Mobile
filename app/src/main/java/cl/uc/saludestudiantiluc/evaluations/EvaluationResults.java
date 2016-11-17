@@ -58,20 +58,20 @@ public class EvaluationResults extends BaseActivity {
     int type = intent.getIntExtra(BaseEvaluationActivity.EVALUATION_TYPE, 0);
 
     TextView textview = (TextView) findViewById(R.id.total_score_results);
-    textview.setText("" + getRecomendation(score, type, role));
+    textview.setText(""  + getRecomendation(score, type, role));
 
 
     saveResult(score, role, type);
   }
 
-  public String read() {
+  public String read(int type) {
     String text = "";
     try
     {
       BufferedReader fin =
           new BufferedReader(
               new InputStreamReader(
-                  openFileInput("results.txt")));
+                  openFileInput("results"+ type +".txt")));
 
       String texto = fin.readLine();
       text += texto;
@@ -92,7 +92,7 @@ public class EvaluationResults extends BaseActivity {
 
       OutputStreamWriter fout=
           new OutputStreamWriter(
-              openFileOutput("results.txt", Context.MODE_PRIVATE));
+              openFileOutput("results"+ type +".txt", Context.MODE_PRIVATE));
 
       fout.write("" + score + "|" + role + "|" + type +"\n");
       fout.close();

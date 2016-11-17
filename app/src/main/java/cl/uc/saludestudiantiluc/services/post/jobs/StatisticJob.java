@@ -78,13 +78,6 @@ public class StatisticJob extends Job {
       throw new Exception("Unsuccessful");
     }
     Log.v(TAG, "Log sent - Type: " + mType +  " - Id: " + mId + " - Success: " + statisticResponse.body().success);
-    if (statisticResponse.body().success) {
-      Intent intent = new Intent(PostService.POST_SERVICE_INTENT_FILTER);
-      intent.putExtra(STATISTIC_JOB, true);
-      intent.putExtra(STATISTIC_JOB_ID, mId);
-      intent.putExtra(STATISTIC_JOB_TYPE, mType);
-      LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-    }
   }
 
   @Override

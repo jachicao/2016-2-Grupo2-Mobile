@@ -34,6 +34,7 @@ import cl.uc.saludestudiantiluc.sequences.data.SequencesDataRepository;
 import cl.uc.saludestudiantiluc.sequences.data.SequencesLocalDataStore;
 import cl.uc.saludestudiantiluc.sequences.data.SequencesRemoteDataStore;
 import cl.uc.saludestudiantiluc.sequences.data.SequencesRepository;
+import cl.uc.saludestudiantiluc.services.post.api.EvaluationApi;
 import cl.uc.saludestudiantiluc.services.post.api.StatisticApi;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -58,6 +59,7 @@ public class RelaxUcApplication extends Application {
   private OkHttpClient mOkHttpClient;
   private JobManager mJobManager;
   private StatisticApi mStatisticApiService;
+  private EvaluationApi mEvaluationApiService;
   private UserAuthApi mAuthApiService;
 
   @Override
@@ -129,6 +131,9 @@ public class RelaxUcApplication extends Application {
     mAmbiencesRepository = createAmbiencesRepository();
 
     mStatisticApiService = RetrofitServiceFactory.createRetrofitService(StatisticApi.class, StatisticApi.BASE_URL, mGson, mOkHttpClient);
+    mEvaluationApiService = RetrofitServiceFactory.createRetrofitService(EvaluationApi.class,
+        EvaluationApi.BASE_URL, mGson, mOkHttpClient);
+
   }
 
   public void onUserLoggedIn() {
@@ -186,6 +191,10 @@ public class RelaxUcApplication extends Application {
 
   public StatisticApi getStatisticApiService() {
     return mStatisticApiService;
+  }
+
+  public EvaluationApi getEvaluationApiService() {
+    return mEvaluationApiService;
   }
 
   public UserAuthApi getAuthApiService() {
