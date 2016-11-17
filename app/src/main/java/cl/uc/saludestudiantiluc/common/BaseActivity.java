@@ -106,7 +106,7 @@ public class BaseActivity extends AppCompatActivity {
 
   public PostService getPostService() {
     if (mPostService == null) {
-      mPostService = new PostService(this);
+      mPostService = new PostService();
     }
     return mPostService;
   }
@@ -115,9 +115,6 @@ public class BaseActivity extends AppCompatActivity {
   protected void onDestroy() {
     if (mDownloadService != null) {
       mDownloadService.onDestroy();
-    }
-    if (mPostService != null) {
-      mPostService.onDestroy();
     }
     if (mBroadcastReceiver != null) {
       LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mBroadcastReceiver);

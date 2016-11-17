@@ -1,9 +1,7 @@
 package cl.uc.saludestudiantiluc.services.post.jobs;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.birbit.android.jobqueue.Job;
@@ -11,7 +9,6 @@ import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 
 import cl.uc.saludestudiantiluc.RelaxUcApplication;
-import cl.uc.saludestudiantiluc.services.post.PostService;
 import cl.uc.saludestudiantiluc.services.post.api.StatisticApi;
 import cl.uc.saludestudiantiluc.services.post.models.Statistic;
 import retrofit2.Call;
@@ -25,9 +22,6 @@ public class StatisticJob extends Job {
 
   private static final String TAG = StatisticJob.class.getSimpleName();
 
-  public static final String STATISTIC_JOB               = "StatisticJob";
-  public static final String STATISTIC_JOB_ID            = "StatisticJobId";
-  public static final String STATISTIC_JOB_TYPE          = "StatisticJobType";
   public static final String STATISTIC_JOB_TYPE_IMAGERY  = "StatisticJobTypeImagery";
   public static final String STATISTIC_JOB_TYPE_AMBIENCE = "StatisticJobTypeAmbience";
   public static final String STATISTIC_JOB_TYPE_SEQUENCE = "StatisticJobTypeSequence";
@@ -78,13 +72,6 @@ public class StatisticJob extends Job {
       throw new Exception("Unsuccessful");
     }
     Log.v(TAG, "Log sent - Type: " + mType +  " - Id: " + mId + " - Success: " + statisticResponse.body().success);
-    if (statisticResponse.body().success) {
-      Intent intent = new Intent(PostService.POST_SERVICE_INTENT_FILTER);
-      intent.putExtra(STATISTIC_JOB, true);
-      intent.putExtra(STATISTIC_JOB_ID, mId);
-      intent.putExtra(STATISTIC_JOB_TYPE, mType);
-      LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-    }
   }
 
   @Override
