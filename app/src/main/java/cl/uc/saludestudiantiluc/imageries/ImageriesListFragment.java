@@ -60,7 +60,7 @@ public class ImageriesListFragment extends MediaListFragment {
 
         @Override
         public void onError(Throwable e) {
-          notifyMessage(getString(R.string.failed_download_json));
+          showSnackbarMessage(getString(R.string.failed_download_json));
         }
 
         @Override
@@ -99,10 +99,10 @@ public class ImageriesListFragment extends MediaListFragment {
         intent.putParcelableArrayListExtra(IMAGERIES_EXTRAS_LIST, downloadedList);
         startActivity(intent);
       } else {
-        notifyMessage(getString(R.string.file_not_downloaded));
+        showSnackbarMessage(getString(R.string.file_not_downloaded));
       }
     } else {
-      notifyMessage(getString(R.string.zero_files_downloaded));
+      showSnackbarMessage(getString(R.string.zero_files_downloaded));
     }
   }
 }

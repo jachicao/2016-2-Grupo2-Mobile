@@ -55,7 +55,7 @@ public class AmbiencesListFragment extends MediaListFragment {
           @Override
           public void onError(Throwable e) {
             Log.e(TAG, "onError: ", e);
-            notifyMessage(getString(R.string.failed_download_json));
+            showSnackbarMessage(getString(R.string.failed_download_json));
           }
 
           @Override
@@ -79,17 +79,17 @@ public class AmbiencesListFragment extends MediaListFragment {
         downloadedList.add(amb);
       }
     }
-    if (downloadedList.size() > 0) {
+      if (downloadedList.size() > 0) {
       if (index > -1 && downloadedList.contains(ambience)) {
         Intent intent = new Intent(getActivity(), AmbienceActivity.class);
         intent.putExtra(AMBIENCE_EXTRAS_INDEX, index);
         intent.putParcelableArrayListExtra(AMBIENCE_EXTRAS_LIST, downloadedList);
         startActivity(intent);
       } else {
-        notifyMessage(getString(R.string.file_not_downloaded));
+        showSnackbarMessage(getString(R.string.file_not_downloaded));
       }
     } else {
-      notifyMessage(getString(R.string.zero_files_downloaded));
+      showSnackbarMessage(getString(R.string.zero_files_downloaded));
     }
   }
 

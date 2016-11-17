@@ -14,7 +14,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:largeHeap="true"
+        >
         <meta-data
             android:name="cl.uc.saludestudiantiluc.utils.GlideConfiguration"
             android:value="GlideModule"/>
@@ -49,6 +51,8 @@
         </activity>
         <activity android:name=".calendar.ConfirmationActivity">
         </activity>
+        <activity android:name=".exerciseplans.ExercisePlanMenu">
+        </activity>
         <activity android:name=".evaluations.HomeEvaluation">
         </activity>
         <activity
@@ -60,14 +64,13 @@
         <activity android:name=".evaluations.EvaluationResults">
         </activity>
 
+
         <receiver
             android:name=".sos.SosReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </receiver>
@@ -79,6 +82,9 @@
         </service>
 
         <activity android:name=".settings.SettingsActivity">
+        </activity>
+        <activity android:name=".exerciseplans.ExercisePlanActivity">
+
         </activity>
     </application>
 

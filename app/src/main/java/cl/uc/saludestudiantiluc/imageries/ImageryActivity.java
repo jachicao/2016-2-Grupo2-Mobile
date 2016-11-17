@@ -96,28 +96,28 @@ public class ImageryActivity extends SoundServiceActivity {
   @Override
   public void onServiceConnected(ComponentName name, IBinder service) {
     super.onServiceConnected(name, service);
-    if (mSoundService != null && mTextureView != null) {
+    if (getSoundService() != null && mTextureView != null) {
       mSoundMediaController = new MediaController(this, false);
       mSoundMediaController.setAnchorView(mTextureView);
       mSoundMediaController.setMediaPlayer(new MediaController.MediaPlayerControl() {
         @Override
         public void start() {
-          if (mSoundService != null) {
-            mSoundService.startSound();
+          if (getSoundService() != null) {
+            getSoundService().startSound();
           }
         }
 
         @Override
         public void pause() {
-          if (mSoundService != null) {
-            mSoundService.pauseSound();
+          if (getSoundService() != null) {
+            getSoundService().pauseSound();
           }
         }
 
         @Override
         public int getDuration() {
-          if (mSoundService != null) {
-            MediaPlayer mediaPlayer = mSoundService.getMediaPlayer();
+          if (getSoundService() != null) {
+            MediaPlayer mediaPlayer = getSoundService().getMediaPlayer();
             if (mediaPlayer != null) {
               return mediaPlayer.getDuration();
             }
@@ -127,8 +127,8 @@ public class ImageryActivity extends SoundServiceActivity {
 
         @Override
         public int getCurrentPosition() {
-          if (mSoundService != null) {
-            MediaPlayer mediaPlayer = mSoundService.getMediaPlayer();
+          if (getSoundService() != null) {
+            MediaPlayer mediaPlayer = getSoundService().getMediaPlayer();
             if (mediaPlayer != null) {
               return mediaPlayer.getCurrentPosition();
             }
@@ -138,8 +138,8 @@ public class ImageryActivity extends SoundServiceActivity {
 
         @Override
         public void seekTo(int pos) {
-          if (mSoundService != null) {
-            MediaPlayer mediaPlayer = mSoundService.getMediaPlayer();
+          if (getSoundService() != null) {
+            MediaPlayer mediaPlayer = getSoundService().getMediaPlayer();
             if (mediaPlayer != null) {
               mediaPlayer.seekTo(pos);
             }
@@ -148,7 +148,7 @@ public class ImageryActivity extends SoundServiceActivity {
 
         @Override
         public boolean isPlaying() {
-          return mSoundService == null || mSoundService.getMediaPlayerState() == SoundService.MEDIA_PLAYER_STATE_PLAY;
+          return getSoundService() == null || getSoundService().getMediaPlayerState() == SoundService.MEDIA_PLAYER_STATE_PLAY;
         }
 
         @Override
@@ -176,23 +176,25 @@ public class ImageryActivity extends SoundServiceActivity {
           return 0;
         }
       });
-      mSoundMediaController.setPrevNextListeners(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          onPrev();
-        }
-      }, new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          onNext();
-        }
-      });
-      mHandler.post(new Runnable() {
-        public void run() {
-          mSoundMediaController.setEnabled(true);
-          mSoundMediaController.show();
-        }
-      });
+      if (getImageriesList().size() > 1) {
+        mSoundMediaController.setPrevNextListeners(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            onPrev();
+          }
+        }, new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            onNext();
+          }
+        });
+        mHandler.post(new Runnable() {
+          public void run() {
+            mSoundMediaController.setEnabled(true);
+            mSoundMediaController.show();
+          }
+        });
+      }
     }
     playSound();
   }
@@ -214,10 +216,10 @@ public class ImageryActivity extends SoundServiceActivity {
   }
 
   private void playSound() {
-    if (mSoundService != null) {
+    if (getSoundService() != null) {
       Imagery imagery = getCurrentImagery();
       getPostService().sendStatistic(this, imagery);
-      mSoundService.newSound(DownloadService.getStringDir(this, imagery.getSoundRequest()), imagery.getName(), true, 0);
+      getSoundService().newSound(DownloadService.getStringDir(this, imagery.getSoundRequest()), imagery.getName(), true, 0);
     }
   }
 }

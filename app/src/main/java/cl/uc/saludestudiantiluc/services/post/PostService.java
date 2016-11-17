@@ -39,6 +39,7 @@ public class PostService {
     if (relaxUcApplication != null) {
       JobManager jobManager = relaxUcApplication.getJobManager();
       jobManager.addJobInBackground(new StatisticJob(media.getId(), type));
+
     }
   }
 
@@ -47,6 +48,7 @@ public class PostService {
     if (relaxUcApplication != null) {
       JobManager jobManager = relaxUcApplication.getJobManager();
       jobManager.addJobInBackground(new EvaluationJob(score, type));
+
     }
   }
 }

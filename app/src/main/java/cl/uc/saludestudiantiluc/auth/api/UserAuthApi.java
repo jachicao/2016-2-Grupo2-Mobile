@@ -23,12 +23,15 @@ public interface UserAuthApi {
   Call<RegisterResponse> register(@Field("email") String email,
                                   @Field("password") String password,
                                   @Field("password_confirm") String password_confirm,
+                                  @Field("rut") String rut,
                                   @Field("age") Integer age,
                                   @Field("academic_type") String academic_type,
                                   @Field("sex") String sex,
                                   @Field("school") String school,
                                   @Field("year") Integer year
                                   );
+
+
 
   @FormUrlEncoded
   @POST("auth/sign_in")

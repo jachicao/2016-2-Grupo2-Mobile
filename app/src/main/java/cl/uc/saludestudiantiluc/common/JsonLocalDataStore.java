@@ -27,6 +27,14 @@ public class JsonLocalDataStore {
     mGson = gson;
   }
 
+  public Gson getGson() {
+    return mGson;
+  }
+
+  public Context getContext() {
+    return mContext;
+  }
+
   protected  <T> Observable<T> getObjectFromStore(final String fileName,
                                                   final TypeToken<T> typeToken) {
     return Observable.defer(new Func0<Observable<T>>() {

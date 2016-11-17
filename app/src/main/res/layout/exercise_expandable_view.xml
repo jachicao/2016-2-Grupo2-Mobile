@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<android.support.v7.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:elevation="2dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/exercise_cardview"
+        app:cardBackgroundColor="@color/grey_300"
+        app:cardCornerRadius="@dimen/card_view_corner_radius"
+        app:cardElevation="@dimen/card_view_elevation"
+        app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp">
+
+        <TextView
+            android:id="@+id/child_list_item_crime_date_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:text="Crime Date"
+            android:textAlignment="center"
+            android:layout_centerVertical="false"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:text="Relajación inicial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+    </LinearLayout>
+
+    <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_gravity="right|center_vertical">
+
+        <Button
+            android:text="@string/download"
+            android:paddingTop="@dimen/card_view_text_margin_top_bottom"
+            android:paddingBottom="@dimen/card_view_text_margin_top_bottom"
+            android:paddingLeft="@dimen/card_view_text_margin_left_right"
+            android:paddingRight="@dimen/card_view_text_margin_left_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:id="@+id/downloadExerciseButton"
+            android:layout_weight="1"
+            android:textSize="12sp"/>
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:id="@+id/playExerciseButton"
+            android:background="@drawable/ic_play_circle_outline_black_24dp"
+            android:layout_marginRight="24dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
+    </LinearLayout>

@@ -1,24 +1,36 @@
 <!-- activity_screen_slide.xml -->
 <FrameLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/sequences_view_pager_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include layout="@layout/main_background_image"/>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/sequences_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
-    <LinearLayout
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/sequences_view_pager_circle_indicator"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_width="match_parent"
-        android:layout_gravity="top"
-        android:layout_height="wrap_content"
-        android:background="@color/black_overlay"
-        >
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/sequences_view_pager_circle_indicator"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"/>
-        </LinearLayout>
+        android:layout_height="24dp"/>
+
+    <ImageView
+        android:id="@+id/sequences_view_pager_help"
+        app:srcCompat="@drawable/ic_help_outline_black_24dp"
+        android:layout_margin="12dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:tint="@color/white"
+        android:layout_gravity="bottom|right"
+        />
 </FrameLayout>

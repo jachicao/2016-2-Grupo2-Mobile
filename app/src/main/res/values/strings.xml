@@ -22,14 +22,16 @@
     <string name="main_menu_ambience">Naturaleza</string>
     <string name="main_menu_imaginary">Imaginerías</string>
     <string name="main_menu_evaluations">Evaluaciones</string>
+    <string name="main_menu_exercise_plans">Programas semanales</string>
 
     <string name="drawer_home">Inicio</string>
     <string name="drawer_profile">Perfil</string>
     <string name="drawer_settings">Ajustes</string>
-    <string name="drawer_request_appointment">Solicitar cita</string>
+    <string name="drawer_request_appointment">Reserva tu hora</string>
     <string name="drawer_logout">Cerrar sesión</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar menu</string>
+    <string name="drawer_check_appointment">Consultar reservas</string>
 
     <!-- Auth -->
     <string name="error_401">"Vuelve a iniciar sesión"</string>
@@ -39,12 +41,14 @@
     <string name="auth_login_remember_me">Recuerdame</string>
     <string name="auth_register">Registrar</string>
     <string name="auth_register_password_confirmation">Confirma la contraseña</string>
+    <string name="auth_register_rut">Rut</string>
     <string name="auth_register_age">Edad</string>
-    <string name="auth_register_career">Carrera</string>
+    <string name="auth_register_career">Unidad</string>
     <string name="auth_register_year">Año</string>
     <string name="auth_register_academic_type_error">Tipo es requerido</string>
     <string name="auth_register_sex_error">Género es requerido</string>
-    <string name="auth_register_career_error">Escuela es requerida</string>
+    <string name="auth_register_career_error">Unidad es requerida</string>
+    <string name="auth_register_rut_error">Rut es inválido</string>
     <string name="auth_error_invalid_email">El correo debe ser UC.</string>
     <string name="auth_error_invalid_password">La contraseña es muy corta</string>
     <string name="auth_error_incorrect_password">La contraseña es incorrecta</string>
@@ -221,7 +225,6 @@
     profesional, para que puedas trabajar en estrategias que te posibiliten un buen
     dormir. Si necesitas mayor información, escríbenos a ansiedad@uc.cl</string>
 
-
     <string name="profile">Perfil</string>
 
     <string name="notification_preference">Mostrar notificación SOS</string>
@@ -229,8 +232,9 @@
     <!-- User calendar -->
     <string-array name="service_array">
         <item>Consejería</item>
-        <item>Talleres grupales</item>
+        <item>Apoyo Grupal</item>
         <item>Taller de Mindfulness</item>
+        <item>Taller de Yoga</item>
     </string-array>
 
     <string-array name="professionals_array">
@@ -241,15 +245,17 @@
 
     <string-array name="campus_array">
         <item>San Joaquín</item>
+        <item>Lo Contador</item>
         <item>Casa Central</item>
         <item>Campus Oriente</item>
-        <item>Lo Contador</item>
+        <item>Villarrica</item>
     </string-array>
 
     <string name="selector">Selecciona un campo válido</string>
 
     <string name="empty_message">No existen horas disponibles que cumplan con los parámetros de búsqueda
     </string>
+    <string name="empty_schedule">No tienes horas reservadas</string>
 
     <!-- Calendar Titles -->
     <string name="service_select">Reservar hora</string>
@@ -266,6 +272,7 @@
     <string name="campus_start">Campus:\u0020</string>
     <string name="service_start">Servicio:\u0020</string>
     <string name="booking_confirmation">Confirmación de hora</string>
+    <string name="location_start">Lugar:\u0020</string>
 
 
     <string name="title_activity_base_evaluation">BaseEvaluationActivity</string>
@@ -286,7 +293,7 @@
     </string-array>
 
     <string-array name="auth_register_career_array">
-        <item>Selecciona tu escuela</item>
+        <item>Selecciona tu unidad</item>
         <item>Acad Inter de Filosofía</item>
         <item>Actividades Universitarias</item>
         <item>Actuación</item>
@@ -294,7 +301,10 @@
         <item>Arquitectura</item>
         <item>Arte</item>
         <item>Astrofísica</item>
+        <item>Biblioteca</item>
         <item>CARA</item>
+        <item>CEDETI</item>
+        <item>Centro de Innovación</item>
         <item>Ciencia Política</item>
         <item>Ciencias Biológicas</item>
         <item>Ciencias de la Salud</item>
@@ -302,8 +312,13 @@
         <item>Comunicaciones</item>
         <item>College</item>
         <item>Construcción Civil</item>
+        <item>Crisol</item>
         <item>Deportes</item>
         <item>Derecho</item>
+        <item>Dictuc</item>
+        <item>DASE</item>
+        <item>DAE</item>
+        <item>DRSD</item>
         <item>Diseño</item>
         <item>Educación</item>
         <item>Enfermería</item>
@@ -319,11 +334,14 @@
         <item>Ingeniería Comercial</item>
         <item>Letras</item>
         <item>Matemática</item>
+        <item>Matrícula</item>
         <item>Medicina</item>
         <item>Música</item>
         <item>Odontología</item>
+        <item>PentaUC</item>
         <item>Psicología</item>
         <item>Química</item>
+        <item>Salud Estudiantil</item>
         <item>Sociología</item>
         <item>Teología</item>
         <item>Trabajo Social</item>

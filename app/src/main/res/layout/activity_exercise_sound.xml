@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <ImageView
+        android:id="@+id/main_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:layout_height="@dimen/button_height"
+                app:srcCompat="@drawable/ic_pause_black_24dp"
+                android:id="@+id/playExerciseSoundButton"
+                android:layout_gravity="center_vertical|center"
+                android:background="@drawable/circle_transparent"
+                android:tint="@color/white"
+                android:layout_width="@dimen/button_height"
+                />
+        </FrameLayout>
+
+        <cl.uc.saludestudiantiluc.exerciseplans.ProgressWheel
+            android:id="@+id/pw_spinner"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            ProgressWheel:pwText=""
+            ProgressWheel:pwTextColor="@color/white"
+            ProgressWheel:pwTextSize="16sp"
+            ProgressWheel:pwRimColor="#330097D6"
+            ProgressWheel:pwBarLength="60dp"
+            ProgressWheel:pwBarColor="#0097D6"
+            ProgressWheel:pwBarWidth="2dp"
+            ProgressWheel:pwRimWidth="2dp"
+            android:layout_gravity="center_vertical|center"/>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:layout_width="@dimen/button_height"
+                android:layout_height="@dimen/button_height"
+                app:srcCompat="@drawable/ic_stop_black_24dp"
+                android:id="@+id/stopExerciseSoundButton"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_transparent"
+                android:tint="@color/white"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

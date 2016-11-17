@@ -26,13 +26,13 @@ public interface UserRepository {
 
   void storeUserName(String name);
 
-  void storeUserAcademicType(String name);
-
   void storeAccessToken(String accessToken);
 
   void storeAccessTokenClient(String accessTokenClient);
 
   void storeUid(String uid);
+
+  void storeAcademicType(String academicType);
 
   void logOut();
 

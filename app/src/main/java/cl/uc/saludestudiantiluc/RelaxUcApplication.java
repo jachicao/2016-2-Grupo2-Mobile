@@ -24,6 +24,7 @@ import cl.uc.saludestudiantiluc.auth.api.UserAuthApi;
 import cl.uc.saludestudiantiluc.auth.data.UserLocalDataRepository;
 import cl.uc.saludestudiantiluc.auth.data.UserRepository;
 import cl.uc.saludestudiantiluc.common.RetrofitServiceFactory;
+import cl.uc.saludestudiantiluc.exerciseplans.api.ExerciseProgramApi;
 import cl.uc.saludestudiantiluc.imageries.api.ImageryApi;
 import cl.uc.saludestudiantiluc.imageries.data.ImageryDataRepository;
 import cl.uc.saludestudiantiluc.imageries.data.ImageryLocalDataStore;
@@ -60,6 +61,7 @@ public class RelaxUcApplication extends Application {
   private JobManager mJobManager;
   private StatisticApi mStatisticApiService;
   private EvaluationApi mEvaluationApiService;
+  private ExerciseProgramApi mExerciseProgramService;
   private UserAuthApi mAuthApiService;
 
   @Override
@@ -112,7 +114,6 @@ public class RelaxUcApplication extends Application {
         public Response intercept(Chain chain) throws IOException {
           Response response = chain.proceed(chain.request());
           int code = response.code();
-          Log.e(TAG, "CODE: " + code);
           if (code == 401) {
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(INTERCEPTOR_LOG_OUT));
           }
@@ -133,6 +134,8 @@ public class RelaxUcApplication extends Application {
     mStatisticApiService = RetrofitServiceFactory.createRetrofitService(StatisticApi.class, StatisticApi.BASE_URL, mGson, mOkHttpClient);
     mEvaluationApiService = RetrofitServiceFactory.createRetrofitService(EvaluationApi.class,
         EvaluationApi.BASE_URL, mGson, mOkHttpClient);
+    mExerciseProgramService = RetrofitServiceFactory.createRetrofitService(ExerciseProgramApi.class,
+        ExerciseProgramApi.BASE_URL, mGson, mOkHttpClient);
 
   }
 
@@ -155,7 +158,6 @@ public class RelaxUcApplication extends Application {
   public AmbiencesRepository getAmbiencesRepository() {
     return mAmbiencesRepository;
   }
-
 
   private SequencesRepository createSequencesRepository() {
     SequencesLocalDataStore localDataStore = new SequencesLocalDataStore(this, mGson);
@@ -193,8 +195,13 @@ public class RelaxUcApplication extends Application {
     return mStatisticApiService;
   }
 
+
   public EvaluationApi getEvaluationApiService() {
     return mEvaluationApiService;
+  }
+
+  public ExerciseProgramApi getExerciseSoundService() {
+    return mExerciseProgramService;
   }
 
   public UserAuthApi getAuthApiService() {

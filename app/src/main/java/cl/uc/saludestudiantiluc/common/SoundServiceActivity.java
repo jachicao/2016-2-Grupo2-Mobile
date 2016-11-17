@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -17,14 +18,8 @@ public class SoundServiceActivity extends BaseActivity implements ServiceConnect
 
   private static final String TAG = SoundServiceActivity.class.getSimpleName();
 
-  protected SoundService mSoundService;
+  private SoundService mSoundService;
   private boolean mSoundServiceBound = false;
-
-  private boolean mPendingSound = false;
-  private String mPendingSoundDisplayName = "";
-  private String mPendingSoundPath = "";
-  private boolean mPendingSoundPlay = false;
-  private int mPendingSoundPosition = 0;
 
   @Override
   protected void onStart() {
@@ -68,7 +63,17 @@ public class SoundServiceActivity extends BaseActivity implements ServiceConnect
   }
 
   @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    Log.e(TAG, "onSaveInstanceState");
+    if (getSoundService() != null) {
+      getSoundService().onSaveInstanceState(outState);
+    }
+    super.onSaveInstanceState(outState);
+  }
+
+  @Override
   protected void onStop() {
+    Log.e(TAG, "onStop");
     if (mSoundService != null) {
       mSoundService.onStop();
     }
@@ -85,9 +90,6 @@ public class SoundServiceActivity extends BaseActivity implements ServiceConnect
     if (mSoundService != null) {
       mSoundService.onServiceConnected();
     }
-    if (mPendingSound) {
-      setMediaPlayerSound(mPendingSoundPath, mPendingSoundDisplayName, mPendingSoundPlay, mPendingSoundPosition);
-    }
   }
 
   @Override
@@ -100,14 +102,10 @@ public class SoundServiceActivity extends BaseActivity implements ServiceConnect
   public void setMediaPlayerSound(String soundPath, String displayName, boolean play, int position) {
     if (mSoundService != null) {
       mSoundService.newSound(soundPath, displayName, play, position);
-      mPendingSound = false;
-    } else {
-      Log.v(TAG, "Pending");
-      mPendingSound = true;
-      mPendingSoundPath = soundPath;
-      mPendingSoundDisplayName = displayName;
-      mPendingSoundPlay = play;
-      mPendingSoundPosition = position;
     }
+  }
+
+  public SoundService getSoundService() {
+    return mSoundService;
   }
 }

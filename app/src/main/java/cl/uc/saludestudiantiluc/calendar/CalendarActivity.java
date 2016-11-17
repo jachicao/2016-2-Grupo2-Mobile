@@ -1,5 +1,5 @@
-package cl.uc.saludestudiantiluc.calendar;
 
+package cl.uc.saludestudiantiluc.calendar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,10 +16,8 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 
@@ -31,6 +29,8 @@ public class CalendarActivity extends BaseActivity {
 
   private static final String SERVICE_SELECTION = "Service";
   private static final String CAMPUS_SELECTION = "Campus";
+  private static final String SOURCE = "Source";
+  private static final String AVAILABLE_HOURS = "Available hours";
 
   private boolean mServiceSelected;
   private boolean mCampusSelected;
@@ -53,7 +53,12 @@ public class CalendarActivity extends BaseActivity {
       }
     });
 
-    loadMainBackground();
+    Glide
+        .with(this)
+        .load(R.drawable.main_background)
+        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+        .centerCrop()
+        .into((ImageView) findViewById(R.id.main_background_image));
 
     mButton = (Button) findViewById(R.id.button);
     mServiceSpinner =  (Spinner) findViewById(R.id.spinner);
@@ -76,14 +81,13 @@ public class CalendarActivity extends BaseActivity {
       public void onClick(View v) {
         if (mButton.isEnabled() && mServiceSelected && mCampusSelected) {
           Intent intent = new Intent(CalendarActivity.this, ScheduleActivity.class);
-          intent.putExtra(SERVICE_SELECTION, mServiceSpinner.getSelectedItem().toString());
-          intent.putExtra(CAMPUS_SELECTION, mCampusSpinner.getSelectedItem().toString());
+          intent.putExtra(SERVICE_SELECTION, mServiceSpinner.getSelectedItemPosition());
+          intent.putExtra(CAMPUS_SELECTION, mCampusSpinner.getSelectedItemPosition());
+          intent.putExtra(SOURCE, AVAILABLE_HOURS);
           startActivity(intent);
         }
-
       }
     });
-
   }
 
   public static Intent getIntent(Activity activity) {

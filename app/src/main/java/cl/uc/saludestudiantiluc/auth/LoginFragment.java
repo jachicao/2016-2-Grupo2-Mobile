@@ -78,6 +78,8 @@ public class LoginFragment extends AuthFragment {
     if (mAttemptingToLogin) {
       return;
     }
+    mEmailEditText.setError(null);
+    mPasswordEditText.setError(null);
     if (getAuthActivity().isEmailAndPasswordCorrect(mEmailEditText, mPasswordEditText)) {
 
       String email = mEmailEditText.getText().toString();
@@ -102,8 +104,8 @@ public class LoginFragment extends AuthFragment {
             getAuthActivity().getUserRepository().storeAccessTokenClient(accessTokenClient);
             getAuthActivity().getUserRepository().storeUid(uid);
             getAuthActivity().getUserRepository().storeUserEmail(loginResponse.getEmail());
-            getAuthActivity().getUserRepository().storeUserAcademicType("Estudiante");
             getAuthActivity().getUserRepository().storeUserName("TODO");
+            getAuthActivity().getUserRepository().storeAcademicType(loginResponse.getAcademicType());
             Log.d(TAG, loginResponse.getEmail());
             getAuthActivity().onUserLoggedIn();
           } else {

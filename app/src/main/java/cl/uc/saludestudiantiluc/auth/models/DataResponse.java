@@ -14,11 +14,18 @@ class DataResponse {
   @SerializedName("email")
   private String mEmail;
 
+  @SerializedName("academic_type")
+  private String mAcademicType;
+
   int getId() {
     return mId;
   }
 
   String getEmail() {
     return mEmail;
+  }
+
+  String getAcademicType() {
+    return mAcademicType;
   }
 }

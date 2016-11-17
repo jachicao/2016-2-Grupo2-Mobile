@@ -50,34 +50,12 @@ public class ImageFragment extends Fragment {
       }
     });
     ImageView imageView = (ImageView) rootView.findViewById(R.id.sequences_image_fragment_view);
-    View helpView = rootView.findViewById(R.id.sequences_image_fragment_help);
-    helpView.setVisibility(View.GONE);
     if (imageView != null) {
       SequencesImage sequenceImage = getArguments().getParcelable(SEQUENCE_IMAGE_EXTRAS);
       if (sequenceImage != null) {
         ImagesActivity activity = (ImagesActivity) getActivity();
         if (activity != null) {
           activity.getDownloadService().requestIntoImageView(getContext(), imageView, sequenceImage.getImageRequest());
-        }
-        final String description = sequenceImage.getDescription();
-        if (description != null && !TextUtils.isEmpty(description)) {
-          helpView.setVisibility(View.VISIBLE);
-          helpView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-              new AlertDialog.Builder(getContext())
-                  .setMessage(description)
-                  .setTitle(getContext().getString(R.string.sequences_help_description))
-                  .setCancelable(false)
-                  .setPositiveButton(getString(R.string.sequences_help_close), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                  }).create().show();
-            }
-          });
         }
       }
     }

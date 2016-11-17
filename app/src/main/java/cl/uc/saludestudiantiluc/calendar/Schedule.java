@@ -8,11 +8,12 @@ import android.os.Parcelable;
  */
 
 public class Schedule implements Parcelable {
-  String professional;
-  String timestamp;
-  String activity;
-  String campus;
-  //String location;
+  int id;
+  int host_id;
+  String start_date;
+  String event_type;
+  String faculty;
+  String location;
 
   @Override
   public int describeContents() {
@@ -21,43 +22,47 @@ public class Schedule implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(this.professional);
-    dest.writeString(this.timestamp);
-    dest.writeString(this.activity);
-    dest.writeString(this.campus);
-    //dest.writeString(this.location);
+    dest.writeInt(this.id);
+    dest.writeInt(this.host_id);
+    dest.writeString(this.start_date);
+    dest.writeString(this.event_type);
+    dest.writeString(this.faculty);
+    dest.writeString(this.location);
   }
 
   public Schedule() {
   }
 
   protected Schedule(Parcel in) {
-    this.professional = in.readString();
-    this.timestamp = in.readString();
-    this.activity = in.readString();
-    this.campus = in.readString();
-    //this.location = in.readString();
+    this.id = in.readInt();
+    this.host_id = in.readInt();
+    this.start_date = in.readString();
+    this.event_type = in.readString();
+    this.faculty = in.readString();
+    this.location = in.readString();
   }
 
   public String getTimestamp(){
-    return timestamp;
+    return start_date;
   }
 
-  public String getProfessional(){
-    return professional;
+  public int getProfessional(){
+    return host_id;
   }
 
-  public String getService(){
-    return activity;
+  public String getEvent_type(){
+    return event_type;
   }
 
   public String getCampus(){
-    return campus;
+    return faculty;
   }
 
- /* public String getLocation(){
+  public int getId() { return id; }
+
+  public String getLocation(){
     return location;
-  }*/
+  }
 
   public static final Parcelable.Creator<Schedule> CREATOR = new Parcelable.Creator<Schedule>() {
     @Override

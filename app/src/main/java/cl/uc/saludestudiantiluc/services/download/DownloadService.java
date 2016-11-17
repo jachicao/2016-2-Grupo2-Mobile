@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.birbit.android.jobqueue.JobManager;
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import cl.uc.saludestudiantiluc.RelaxUcApplication;
@@ -49,7 +51,8 @@ public class DownloadService {
   }
 
   private BroadcastReceiver mBroadcastReceiver;
-  private HashMap<String, FileRequest> mFileRequests = new HashMap<>();
+  private HashSet<String> mFilePaths = new HashSet<>();
+  private ArrayList<FileRequest> mFileRequests = new ArrayList<>();
   private LocalBroadcastManager mLocalBroadcastManager;
 
   public DownloadService(Context context) {
@@ -64,17 +67,24 @@ public class DownloadService {
         switch (action) {
           case DownloadJob.DOWNLOAD_JOB:
             String path = intent.getStringExtra(DownloadJob.DOWNLOAD_JOB_PATH);
-            if (mFileRequests.containsKey(path)) {
+            if (mFilePaths.contains(path)) {
               boolean onFileReady = intent.getBooleanExtra(DownloadJob.DOWNLOAD_JOB_ON_FILE_READY, false);
               if (onFileReady) {
                 Log.v(TAG, "onFileReady - " + path);
-                mFileRequests.get(path).onFileReady(new File(path));
-                mFileRequests.remove(path);
+                for (FileRequest fileRequest : mFileRequests) {
+                  if (getFileDir(context, fileRequest).getAbsolutePath().equals(path)) {
+                    fileRequest.onFileReady(new File(path));
+                  }
+                }
+                mFilePaths.remove(path);
               } else {
                 long percentage = intent.getLongExtra(DownloadJob.DOWNLOAD_JOB_ON_UPDATE_PERCENTAGE, -1);
                 if (percentage > -1) {
-                  //Log.v(TAG, "onUpdate - " + path + " - " + currentBytes + " - " + totalBytes + " - " + percentage + "%");
-                  mFileRequests.get(path).onProgressUpdate(percentage);
+                  for (FileRequest fileRequest : mFileRequests) {
+                    if (getFileDir(context, fileRequest).getAbsolutePath().equals(path)) {
+                      fileRequest.onProgressUpdate(percentage);
+                    }
+                  }
                 }
               }
             }
@@ -127,7 +137,7 @@ public class DownloadService {
           filesRequest.onProgressUpdate(totalPercentages / size);
         }
       });
-      filesRequest.onProgressUpdate(0L);
+      //filesRequest.onProgressUpdate(0L);
       requestFile(context, fileRequest);
     }
   }
@@ -143,16 +153,18 @@ public class DownloadService {
     }
   }
 
-  private void downloadFile(Context context, final FileRequest fileRequest) {
+  private void downloadFile(Context context, FileRequest fileRequest) {
     String path = getFileDir(context, fileRequest).getAbsolutePath();
     RelaxUcApplication relaxUcApplication = (RelaxUcApplication) context.getApplicationContext();
     if (relaxUcApplication != null) {
       JobManager jobManager = relaxUcApplication.getJobManager();
       String url = fileRequest.getUrl();
       String filePath = getFileDir(context, fileRequest).getAbsolutePath();
-      if (!mFileRequests.containsKey(path) && url != null && filePath != null) {
-        mFileRequests.put(path, fileRequest);
-        jobManager.addJobInBackground(new DownloadJob(url, filePath));
+      if (url != null && filePath != null) {
+        if (mFilePaths.add(path)) {
+          jobManager.addJobInBackground(new DownloadJob(url, filePath));
+        }
+        mFileRequests.add(fileRequest);
       }
     }
   }

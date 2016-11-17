@@ -132,9 +132,6 @@ public class AuthActivity extends BaseActivity {
   }
 
   public boolean isEmailAndPasswordCorrect(TextInputEditText emailEditText, TextInputEditText passwordEditText) {
-    emailEditText.setError(null);
-    passwordEditText.setError(null);
-
     String email = emailEditText.getText().toString();
     if (TextUtils.isEmpty(email)) {
       emailEditText.setError(getString(R.string.auth_error_field_required));
@@ -160,9 +157,7 @@ public class AuthActivity extends BaseActivity {
   }
 
   public boolean isPasswordConfirmationCorrect(TextInputEditText passwordEditText, TextInputEditText confirmPasswordEditText) {
-    confirmPasswordEditText.setError(null);
     String passwordConfirmation = confirmPasswordEditText.getText().toString();
-
     if (TextUtils.isEmpty(passwordConfirmation)) {
       confirmPasswordEditText.setError(getString(R.string.auth_error_field_required));
       confirmPasswordEditText.requestFocus();
@@ -187,6 +182,30 @@ public class AuthActivity extends BaseActivity {
 
   private boolean isPasswordValid(String password) {
     return password.length() > 4;
+  }
+
+  public boolean isRutValid(String rut) {
+    try {
+      rut = rut.toUpperCase();
+      rut = rut.replace(".", "");
+      rut = rut.replace("-", "");
+      int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+
+      char dv = rut.charAt(rut.length() - 1);
+
+      int m = 0;
+      int s = 1;
+      for (; rutAux != 0; rutAux /= 10) {
+        s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+      }
+      if (dv == (char) (s != 0 ? s + 47 : 75)) {
+        return true;
+      }
+
+    } catch (java.lang.NumberFormatException e) {
+      return false;
+    }
+    return false;
   }
 
   @Override

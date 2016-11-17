@@ -59,7 +59,7 @@ public class SequencesListFragment extends MediaListFragment {
           @Override
           public void onError(Throwable e) {
             Log.e(TAG, "error: ", e);
-            notifyMessage(getString(R.string.failed_download_json));
+            showSnackbarMessage(getString(R.string.failed_download_json));
           }
 
           @Override

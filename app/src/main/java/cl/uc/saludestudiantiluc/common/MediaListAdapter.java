@@ -36,7 +36,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
   @Override
   public MediaListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.fragment_recycler_card_view, parent, false);
+        .inflate(R.layout.media_recycler_card_view, parent, false);
     return new MediaListHolder(view);
   }
 
@@ -59,6 +59,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
     private Media mMedia;
     private boolean mDownloadClicked = false;
     private MediaListAdapter mAdapter;
+    private String mDownloadingString = "";
 
     public MediaListHolder(View itemView) {
       super(itemView);
@@ -83,6 +84,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
           .requestIntoImageView(
               mAdapter.getFragment().getContext(), mPreview, media.getPreviewRequest()
           );
+      mDownloadingString = mAdapter.getFragment().getString(R.string.downloading);
 
       if (media.isDownloaded(mAdapter.getFragment().getContext())) {
         mDownloadButton.setVisibility(View.GONE);
@@ -100,8 +102,8 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
               public void onFilesReady(ArrayList<File> files) {
                 if (mAdapter != null) {
                   MediaListFragment fragment = mAdapter.getFragment();
-                  if (fragment != null) {
-                    fragment.notifyMessage(
+                  if (fragment != null && fragment.isAdded()) {
+                    fragment.showSnackbarMessage(
                         mMedia.getName() + " "
                             + fragment.getString(R.string.downloaded).toLowerCase()
                     );
@@ -112,14 +114,7 @@ public class MediaListAdapter extends RecyclerView.Adapter<MediaListAdapter.Medi
 
               @Override
               public void onProgressUpdate(long percentage) {
-                if (mAdapter != null) {
-                  MediaListFragment fragment = mAdapter.getFragment();
-                  if (fragment != null) {
-                    mDownloadButton.setText(
-                        fragment.getString(R.string.downloading) + " " + percentage + "%"
-                    );
-                  }
-                }
+                mDownloadButton.setText(mDownloadingString + " " + percentage + "%");
               }
             });
             mAdapter.getFragment().getDownloadService().requestFiles(mAdapter.getFragment().getContext(), filesRequest);

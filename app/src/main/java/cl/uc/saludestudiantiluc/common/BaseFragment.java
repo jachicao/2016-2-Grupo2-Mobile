@@ -19,11 +19,7 @@ public class BaseFragment extends Fragment {
     return getBaseActivity().getDownloadService();
   }
 
-  public void notifyMessage(String message) {
+  public void showSnackbarMessage(String message) {
     getBaseActivity().showSnackbarMessage(message);
-  }
-
-  public PostService getStatisticService() {
-    return getBaseActivity().getPostService();
   }
 }

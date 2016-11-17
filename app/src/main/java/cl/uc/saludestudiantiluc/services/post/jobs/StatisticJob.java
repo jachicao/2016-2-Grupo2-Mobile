@@ -1,9 +1,7 @@
 package cl.uc.saludestudiantiluc.services.post.jobs;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.birbit.android.jobqueue.Job;
@@ -24,9 +22,11 @@ public class StatisticJob extends Job {
 
   private static final String TAG = StatisticJob.class.getSimpleName();
 
+
   public static final int STATISTIC_JOB_TYPE_IMAGERY  = 1;
   public static final int STATISTIC_JOB_TYPE_AMBIENCE = 2;
   public static final int STATISTIC_JOB_TYPE_SEQUENCE = 3;
+
 
   private int mId;
   private int mType;
