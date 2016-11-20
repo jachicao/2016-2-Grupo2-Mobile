@@ -78,7 +78,6 @@ public class RelaxUcApplication extends Application {
     setupOkHttpClient();
 
 
-    PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
     mUserRepository = new UserLocalDataRepository(this);
     mSequencesRepository = createSequencesRepository();

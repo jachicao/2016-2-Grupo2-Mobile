@@ -22,6 +22,7 @@ public class SettingsFragment extends PreferenceFragment {
     // Constructor Por Defecto
   }
 
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

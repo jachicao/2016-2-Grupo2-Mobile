@@ -126,9 +126,10 @@ public class SosService extends Service {
     RemoteViews contentView = new RemoteViews(getPackageName(), isCollapsed ? R.layout
         .sos_notification_collapsed : R
         .layout.sos_notification_collapsed);
-    contentView.setImageViewResource(R.id.sos_notification_play_and_pause, R.drawable.ic_relaxing );
     contentView.setImageViewResource(R.id.sos_notification_icon, R.drawable
         .ic_favorite_black_24dp);
+
+    contentView.setImageViewResource(R.id.sos_notification_play_and_pause, R.drawable.ic_relaxing);
     return contentView;
   }
 }

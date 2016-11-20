@@ -3,6 +3,7 @@ package cl.uc.saludestudiantiluc.auth;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentTransaction;
@@ -89,6 +90,8 @@ public class AuthActivity extends BaseActivity {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.auth_activity);
+    PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+
 
     // If the user is logged in, go to main activity. If he is not, then show the auth fragment.
     if (getUserRepository().isUserLoggedIn()) {
