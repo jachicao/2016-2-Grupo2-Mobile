@@ -44,8 +44,15 @@
             app:layout_scrollFlags="scroll|enterAlways">
         </TextView>
 
-
-
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_below="@+id/title_question"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -56,16 +63,6 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="30dp"
             android:layout_marginRight="30dp"/>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_below="@+id/title_question"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
 
     </RelativeLayout>
 
