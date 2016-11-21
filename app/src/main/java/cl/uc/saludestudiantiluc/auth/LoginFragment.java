@@ -66,10 +66,6 @@ public class LoginFragment extends AuthFragment {
         attemptLogin();
       }
     });
-    if (AuthActivity.AUTO_FILL_DATA) {
-      mEmailEditText.setText("lezorich@uc.cl");
-      mPasswordEditText.setText("123456");
-    }
     return mThisView;
   }
 
