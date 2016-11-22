@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.auth.AuthActivity;
@@ -49,14 +50,22 @@ public class ImageFragment extends Fragment {
         }
       }
     });
-    ImageView imageView = (ImageView) rootView.findViewById(R.id.sequences_image_fragment_view);
-    if (imageView != null) {
-      SequencesImage sequenceImage = getArguments().getParcelable(SEQUENCE_IMAGE_EXTRAS);
-      if (sequenceImage != null) {
-        ImagesActivity activity = (ImagesActivity) getActivity();
-        if (activity != null) {
-          activity.getDownloadService().requestIntoImageView(getContext(), imageView, sequenceImage.getImageRequest());
-        }
+    SequencesImage sequenceImage = getArguments().getParcelable(SEQUENCE_IMAGE_EXTRAS);
+    if (sequenceImage != null) {
+      ImageView imageView = (ImageView) rootView.findViewById(R.id.sequences_image_fragment_view);
+      View frameText = rootView.findViewById(R.id.sequences_image_fragment_text_frame);
+      ImagesActivity activity = (ImagesActivity) getActivity();
+      if (activity != null) {
+        activity.getDownloadService().requestIntoImageView(getContext(), imageView, sequenceImage.getImageRequest());
+      }
+
+      String description = sequenceImage.getDescription();
+      if (description != null && !TextUtils.isEmpty(description)) {
+        frameText.setVisibility(View.VISIBLE);
+        TextView textView = (TextView) rootView.findViewById(R.id.sequences_image_fragment_text);
+        textView.setText(description);
+      } else {
+        frameText.setVisibility(View.GONE);
       }
     }
     return rootView;

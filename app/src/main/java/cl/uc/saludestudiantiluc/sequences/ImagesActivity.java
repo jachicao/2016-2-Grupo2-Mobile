@@ -23,32 +23,12 @@ public class ImagesActivity extends BaseActivity {
 
   private Sequence mSequence;
   private int mCurrentPosition;
-  private View mHelpview;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.sequences_viewpager);
     loadMainBackground();
-    mHelpview = findViewById(R.id.sequences_view_pager_help);
-    mHelpview.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        String description = getCurrentImage().getDescription();
-        if (description != null && !TextUtils.isEmpty(description)) {
-          new AlertDialog.Builder(ImagesActivity.this)
-              .setMessage(description)
-              //.setTitle(getContext().getString(R.string.sequences_help_description))
-              .setCancelable(false)
-              .setPositiveButton(getString(R.string.sequences_help_close), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-              }).create().show();
-        }
-      }
-    });
 
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle(R.string.sequences);
@@ -133,12 +113,6 @@ public class ImagesActivity extends BaseActivity {
 
   private void onNewPage(int position) {
     mCurrentPosition = position;
-    String description = getCurrentImage().getDescription();
-    if (description != null && !TextUtils.isEmpty(description)) {
-      mHelpview.setVisibility(View.VISIBLE);
-    } else {
-      mHelpview.setVisibility(View.GONE);
-    }
   }
 
   public Sequence getSequence() {

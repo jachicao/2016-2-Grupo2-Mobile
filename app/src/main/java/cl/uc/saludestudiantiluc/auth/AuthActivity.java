@@ -41,7 +41,7 @@ public class AuthActivity extends BaseActivity {
   public static final int AUTH_TYPE_REGISTER = 3;
   public static final int AUTH_TYPE_DONE = 4;
 
-  public static final boolean AUTO_FILL_DATA = true;
+  public static final boolean AUTO_FILL_DATA = false;
   private Retrofit mRetrofitInstance;
   private int mLastType = -1;
 
