@@ -19,7 +19,7 @@ public class HomeEvaluation extends BaseActivity {
     setContentView(R.layout.activity_home_evaluation);
 
     TextView stressEvaluation = (TextView) findViewById(R.id.stressEvaluation);
-    stressEvaluation.setText(getResources().getString(R.string.stress_evaluetion));
+    stressEvaluation.setText(getResources().getString(R.string.stress_evaluation));
     stressEvaluation.setOnClickListener(new View.OnClickListener(){
       @Override
       public void onClick(View v) {
@@ -30,7 +30,7 @@ public class HomeEvaluation extends BaseActivity {
     });
 
     TextView anxietyEvaluation = (TextView) findViewById(R.id.anxietyEvaluation);
-    anxietyEvaluation.setText(getResources().getString(R.string.anxiety_evaluetion));
+    anxietyEvaluation.setText(getResources().getString(R.string.anxiety_evaluation));
     anxietyEvaluation.setOnClickListener(new View.OnClickListener(){
       @Override
       public void onClick(View v) {
@@ -41,7 +41,7 @@ public class HomeEvaluation extends BaseActivity {
     });
 
     TextView sleepingEvaluation = (TextView) findViewById(R.id.sleepingEvaluation);
-    sleepingEvaluation.setText(getResources().getString(R.string.sleeping_evaluetion));
+    sleepingEvaluation.setText(getResources().getString(R.string.sleeping_evaluation));
     sleepingEvaluation.setOnClickListener(new View.OnClickListener(){
       @Override
       public void onClick(View v) {

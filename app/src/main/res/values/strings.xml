@@ -17,11 +17,11 @@
 
     <!-- Strings related to login -->
 
-    <string name="main_menu_sequences">Infografías</string>
-    <string name="main_menu_exercises">Ejercicios de relajación</string>
-    <string name="main_menu_ambience">Naturaleza</string>
-    <string name="main_menu_imaginary">Imaginerías</string>
-    <string name="main_menu_evaluations">Evaluaciones</string>
+    <string name="main_menu_sequences">Relaja tu cuerpo</string>
+    <string name="main_menu_exercises">Ejercicios de respiración</string>
+    <string name="main_menu_ambience">Escoge tu video</string>
+    <string name="main_menu_imaginary">Relaja tu mente</string>
+    <string name="main_menu_evaluations">Evaluate</string>
     <string name="main_menu_exercise_plans">Programas semanales</string>
 
     <string name="drawer_home">Inicio</string>
@@ -31,7 +31,7 @@
     <string name="drawer_logout">Cerrar sesión</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar menu</string>
-    <string name="drawer_check_appointment">Consultar reservas</string>
+    <string name="drawer_check_appointment">Consulta tus reservas</string>
 
     <!-- Auth -->
     <string name="error_401">"Vuelve a iniciar sesión"</string>
@@ -59,7 +59,7 @@
     <string name="auth_welcome_message">"Bienvenido a RelaxUC, %1$s.</string>
 
     <!-- Sequences -->
-    <string name="sequences">Infografías</string>
+    <string name="sequences">Relaja tu cuerpo</string>
     <string name="sequences_cancel_confirmation">"¿Estás seguro/a que quieres cancelar el ejercicio?"</string>
     <string name="sequences_cancel_confirmation_cancel">"Si"</string>
     <string name="sequences_cancel_confirmation_revert">"No"</string>
@@ -73,12 +73,7 @@
     <string name="pause_sound_button">Paused</string>
 
     <!-- Imagery -->
-    <string name="more_imagery">Más imaginerías</string>
-    <string name="imagery_button_constant">Imagery</string>
     <string name="ambiental_sound_button_constant">Ambiental</string>
-    <string name="title_activity_imagery_display">ImageryDisplayActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <!--Evaluations -->
     <string name="name_evaluation_1">Evalua Ansiedad</string>
@@ -102,19 +97,19 @@
     <string name="answer_T2_c">Más de la mitad de los días</string>
     <string name="answer_T2_d">Casi todos los días</string>
 
-    <string name="stress_evaluetion">Evaluación de estrés</string>
-    <string name="anxiety_evaluetion">Evaluación de ansiedad</string>
-    <string name="sleeping_evaluetion">Evaluación de calidad del sueño</string>
+    <string name="stress_evaluation">Evaluación de estrés</string>
+    <string name="anxiety_evaluation">Evaluación de ansiedad</string>
+    <string name="sleeping_evaluation">Evaluación de calidad del sueño</string>
 
     <string name="home_start_now">Comenzar a relajarme</string>
     <string name="square_breathing">Respiración cuadrada</string>
     <string name="evaluations">Evaluaciones disponibles</string>
-    <string-array name="evaluetions_types">
-        <item>@string/stress_evaluetion</item>
-        <item>@string/anxiety_evaluetion</item>
-        <item>@string/sleeping_evaluetion</item>
+    <string-array name="evaluations_types">
+        <item>@string/stress_evaluation</item>
+        <item>@string/anxiety_evaluation</item>
+        <item>@string/sleeping_evaluation</item>
     </string-array>
-    <string name="evaluetion_results">Resultados de evaluación</string>
+    <string name="evaluation_results">Resultados de evaluación</string>
     <string name="stress_1_student">Has podido afrontar y adaptarte a situaciones demandantes en el
     último mes. , Identifica lo que te ha ayudado hasta ahora para mantener niveles
     bajos de estrés y así poder seguir utilizando esos recursos cada vez que los

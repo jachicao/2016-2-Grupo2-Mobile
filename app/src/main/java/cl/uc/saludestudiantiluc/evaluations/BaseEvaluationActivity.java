@@ -22,13 +22,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.InputStream;
 
@@ -79,7 +75,7 @@ public class BaseEvaluationActivity extends BaseActivity {
     mEvaluationType = intent.getIntExtra(HomeEvaluation.TEST_TYPE, 0) ;
 
     //setToolBar
-    String[] types_array = getResources().getStringArray(R.array.evaluetions_types);
+    String[] types_array = getResources().getStringArray(R.array.evaluations_types);
 
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle(types_array[mEvaluationType-1]);

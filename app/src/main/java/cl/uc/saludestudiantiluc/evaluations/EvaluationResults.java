@@ -23,7 +23,7 @@ public class EvaluationResults extends BaseActivity {
 
     //setToolBar
     if (getSupportActionBar() != null) {
-      getSupportActionBar().setTitle(R.string.evaluetion_results);
+      getSupportActionBar().setTitle(R.string.evaluation_results);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
       getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }

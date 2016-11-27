@@ -110,7 +110,6 @@ public class ExercisePlanMenu extends MediaListFragment {
   }
 
   public void setView() {
-
     if (mExercises != null) {
       ArrayList<ParentObject> exercisePlanList = downloadExercisePlans();
       mExerciseExpandableAdapter = new ExerciseExpandableAdapter(getContext(),
