@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +37,19 @@ public class AmbienceActivity extends SoundServiceActivity {
     setContentView(R.layout.ambience_activity);
     Intent intent = getIntent();
     Bundle extras = intent.getExtras();
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle("");
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+    }
+
+    getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        onBackPressed();
+      }
+    });
+
     mLastPageSelected = extras.getInt(AmbiencesListFragment.AMBIENCE_EXTRAS_INDEX, 0);
     mAmbiencesList = intent.getParcelableArrayListExtra(AmbiencesListFragment.AMBIENCE_EXTRAS_LIST);
     if (mLastPageSelected > -1) {

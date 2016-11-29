@@ -5,15 +5,12 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.View;
 
 import cl.uc.saludestudiantiluc.R;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 import cl.uc.saludestudiantiluc.sequences.models.Sequence;
 import cl.uc.saludestudiantiluc.sequences.models.SequencesImage;
-import cl.uc.saludestudiantiluc.utils.TouchDetector;
-import cl.uc.saludestudiantiluc.utils.TouchListener;
 import me.relex.circleindicator.CircleIndicator;
 
 public class ImagesActivity extends BaseActivity {
