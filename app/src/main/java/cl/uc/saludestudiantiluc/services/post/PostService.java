@@ -10,6 +10,7 @@ import cl.uc.saludestudiantiluc.common.models.Media;
 import cl.uc.saludestudiantiluc.imageries.models.Imagery;
 import cl.uc.saludestudiantiluc.sequences.models.Sequence;
 import cl.uc.saludestudiantiluc.services.post.jobs.EvaluationJob;
+import cl.uc.saludestudiantiluc.services.post.jobs.ExerciseJob;
 import cl.uc.saludestudiantiluc.services.post.jobs.StatisticJob;
 
 /**
@@ -48,6 +49,15 @@ public class PostService {
     if (relaxUcApplication != null) {
       JobManager jobManager = relaxUcApplication.getJobManager();
       jobManager.addJobInBackground(new EvaluationJob(score, type));
+
+    }
+  }
+
+  public void sendExerciseListened(Context context, int planId, int exerciseId) {
+    RelaxUcApplication relaxUcApplication = (RelaxUcApplication) context.getApplicationContext();
+    if (relaxUcApplication != null) {
+      JobManager jobManager = relaxUcApplication.getJobManager();
+      jobManager.addJobInBackground(new ExerciseJob(planId, exerciseId));
 
     }
   }

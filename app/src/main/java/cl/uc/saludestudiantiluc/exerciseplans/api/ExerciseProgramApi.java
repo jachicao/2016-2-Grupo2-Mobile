@@ -26,5 +26,5 @@ public interface ExerciseProgramApi {
 
   @FormUrlEncoded
   @PUT("programs/{id}")//TODO: change URL
-  Call<Void> updateCurrentSound(@Path("id") int id, @Field("current") int currentId);
+  Call<Void> updateCurrentSound(@Path("id") int planId, @Field("current") int currentExerciseId);
 }

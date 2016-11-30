@@ -183,22 +183,7 @@ public class ExercisePlanActivity extends SoundServiceActivity {
 
   public void postListenedExercise() {
     mHandler.removeCallbacks(mRunnable);
-    ExerciseProgramApi apiService = getRelaxUcApplication().getExerciseSoundService();
-    Call<Void> callInstance = apiService.updateCurrentSound(mExercisePlanId, mOrder);
-    callInstance.enqueue(new Callback<Void>() {
-      @Override
-      public void onResponse(Call<Void> call, Response<Void> response) {
-        if(response.isSuccessful()) {
-          //showSnackbarMessage("Actualizado con éxito");
-        }
-      }
-
-      @Override
-      public void onFailure(Call<Void> call, Throwable t) {
-        //showSnackbarMessage("Hubo un problema con el servidor");
-      }
-    });
-
+    getPostService().sendExerciseListened(this, mExercisePlanId, mOrder);
     getSoundService().getMediaPlayer().pause();
     getSoundService().getMediaPlayer().seekTo(0);
     getSoundService().pauseSound();
