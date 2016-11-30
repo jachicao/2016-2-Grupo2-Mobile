@@ -99,9 +99,9 @@ public class SoundServiceActivity extends BaseActivity implements ServiceConnect
   }
 
 
-  public void setMediaPlayerSound(String soundPath, String displayName, boolean play, int position) {
+  public void setMediaPlayerSound(String soundPath, String displayName, boolean play, int position, boolean loop) {
     if (mSoundService != null) {
-      mSoundService.newSound(soundPath, displayName, play, position);
+      mSoundService.newSound(soundPath, displayName, play, position, loop);
     }
   }
 

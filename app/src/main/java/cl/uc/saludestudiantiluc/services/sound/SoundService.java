@@ -49,6 +49,7 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   private String mStringPath = "";
   private boolean mPlayNewSound = false;
   private int mMediaPlayerPosition = 0;
+  private boolean mLoop = false;
   private boolean mNotificationVisible = false;
   private boolean mReceiverRegistered = false;
   private boolean mOnSaveInstanceState = false;
@@ -155,7 +156,9 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
   public void newSound(String filePath,
                        String displayName,
                        boolean play,
-                       int playerPosition) {
+                       int playerPosition,
+                       boolean loop
+                       ) {
     Log.v(TAG, "newSound");
     if (mOnPrepareMediaPlayer) {
       Log.v(TAG, "mOnPrepareMediaPlayer");
@@ -180,6 +183,7 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
     mDisplayName = displayName;
     mPlayNewSound = play;
     mMediaPlayerPosition = playerPosition;
+    mLoop = loop;
     initMediaPlayer();
   }
 
@@ -193,7 +197,9 @@ public class SoundService extends Service implements MediaPlayer.OnPreparedListe
       MediaPlayer mediaPlayer = new MediaPlayer();
       mediaPlayer
           .setDataSource(new FileInputStream(new File(mStringPath)).getFD());
-      mediaPlayer.setLooping(true);
+      if (mLoop) {
+        mediaPlayer.setLooping(true);
+      }
       mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
       mediaPlayer.prepareAsync();
       mediaPlayer.setOnPreparedListener(this);

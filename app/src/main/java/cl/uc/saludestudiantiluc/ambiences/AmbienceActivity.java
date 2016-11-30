@@ -35,8 +35,7 @@ public class AmbienceActivity extends SoundServiceActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.ambience_activity);
-    Intent intent = getIntent();
-    Bundle extras = intent.getExtras();
+
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle("");
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -50,6 +49,8 @@ public class AmbienceActivity extends SoundServiceActivity {
       }
     });
 
+    Intent intent = getIntent();
+    Bundle extras = intent.getExtras();
     mLastPageSelected = extras.getInt(AmbiencesListFragment.AMBIENCE_EXTRAS_INDEX, 0);
     mAmbiencesList = intent.getParcelableArrayListExtra(AmbiencesListFragment.AMBIENCE_EXTRAS_LIST);
     if (mLastPageSelected > -1) {
@@ -124,7 +125,7 @@ public class AmbienceActivity extends SoundServiceActivity {
   }
 
   public void setNewSound(Ambience ambience) {
-    setMediaPlayerSound(DownloadService.getStringDir(this, ambience.getSoundRequest()), ambience.getName(), isImmersiveMode(), 0);
+    setMediaPlayerSound(DownloadService.getStringDir(this, ambience.getSoundRequest()), ambience.getName(), isImmersiveMode(), 0, true);
   }
 
   private void setCurrentPage(int index) {

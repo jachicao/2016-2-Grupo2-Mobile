@@ -219,7 +219,7 @@ public class ImageryActivity extends SoundServiceActivity {
     if (getSoundService() != null) {
       Imagery imagery = getCurrentImagery();
       getPostService().sendStatistic(this, imagery);
-      getSoundService().newSound(DownloadService.getStringDir(this, imagery.getSoundRequest()), imagery.getName(), true, 0);
+      setMediaPlayerSound(DownloadService.getStringDir(this, imagery.getSoundRequest()), imagery.getName(), true, 0, false);
     }
   }
 }
