@@ -21,6 +21,8 @@ public class ExercisePlan implements ParentObject, Parcelable {
   private String name;
   private String description;
 
+  private int currentExerciseId = -1;
+
   public ExercisePlan(String s, List<Object> list){
     name = s;
     mChildrenList = list;
@@ -49,6 +51,18 @@ public class ExercisePlan implements ParentObject, Parcelable {
 
   public ArrayList<ExerciseSound> getExercises() {
     return sound_sequences;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public int getCurrentExerciseId() {
+    return currentExerciseId;
+  }
+
+  public void setCurrentExerciseId(int id) {
+    currentExerciseId = id;
   }
 
   protected ExercisePlan(Parcel in) {

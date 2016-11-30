@@ -78,6 +78,10 @@ public class ExerciseSoundData implements Parcelable {
     return mName;
   }
 
+  public int getId() {
+    return mId;
+  }
+
   public FileRequest getSoundRequest() {
     return new FileRequest(mAudioUrl, EXERCISE_SOUNDS_CACHE_PATH + mAudioFileName);
   }

@@ -26,6 +26,16 @@ import cl.uc.saludestudiantiluc.auth.data.UserRepository;
 import cl.uc.saludestudiantiluc.calendar.api.CalendarApi;
 import cl.uc.saludestudiantiluc.common.RetrofitServiceFactory;
 import cl.uc.saludestudiantiluc.exerciseplans.api.ExerciseProgramApi;
+import cl.uc.saludestudiantiluc.exerciseplans.api.ExerciseSoundApi;
+import cl.uc.saludestudiantiluc.exerciseplans.data.CurrentExerciseDataRepository;
+import cl.uc.saludestudiantiluc.exerciseplans.data.CurrentExerciseLocalDataStore;
+import cl.uc.saludestudiantiluc.exerciseplans.data.CurrentExerciseRemoteDataStore;
+import cl.uc.saludestudiantiluc.exerciseplans.data.CurrentExerciseRepository;
+import cl.uc.saludestudiantiluc.exerciseplans.data.ExerciseSoundDataRepository;
+import cl.uc.saludestudiantiluc.exerciseplans.data.ExerciseSoundLocalDataStore;
+import cl.uc.saludestudiantiluc.exerciseplans.data.ExerciseSoundRemoteDataStore;
+import cl.uc.saludestudiantiluc.exerciseplans.data.ExerciseSoundRepository;
+import cl.uc.saludestudiantiluc.exerciseplans.models.ExerciseSound;
 import cl.uc.saludestudiantiluc.imageries.api.ImageryApi;
 import cl.uc.saludestudiantiluc.imageries.data.ImageryDataRepository;
 import cl.uc.saludestudiantiluc.imageries.data.ImageryLocalDataStore;
@@ -58,6 +68,8 @@ public class RelaxUcApplication extends Application {
   private SequencesRepository mSequencesRepository;
   private ImageryRepository mImageryRepository;
   private AmbiencesRepository mAmbiencesRepository;
+  private ExerciseSoundRepository mExercisesRepository;
+  private CurrentExerciseDataRepository mCurrentRepository;
   private OkHttpClient mOkHttpClient;
   private JobManager mJobManager;
   private StatisticApi mStatisticApiService;
@@ -83,10 +95,13 @@ public class RelaxUcApplication extends Application {
     mSequencesRepository = createSequencesRepository();
     mImageryRepository = createSoundsRepository();
     mAmbiencesRepository = createAmbiencesRepository();
+    mExercisesRepository = createExerciseRepository();
+    mCurrentRepository = createCurrentRepository();
     mJobManager = new JobManager(new Configuration.Builder(this).build());
 
     Log.d("APP", "on create");
   }
+
 
   /**
    * Call this method when the user has a new server token. This will invalidate the previous
@@ -162,6 +177,14 @@ public class RelaxUcApplication extends Application {
     return mAmbiencesRepository;
   }
 
+  public ExerciseSoundRepository getExerciseSoundRepository() {
+    return mExercisesRepository;
+  }
+
+  public CurrentExerciseRepository getCurrentExerciseRepository() {
+    return mCurrentRepository;
+  }
+
   private SequencesRepository createSequencesRepository() {
     SequencesLocalDataStore localDataStore = new SequencesLocalDataStore(this, mGson);
     SequencesApi sequencesApi = RetrofitServiceFactory.createRetrofitService(SequencesApi.class,
@@ -184,6 +207,22 @@ public class RelaxUcApplication extends Application {
         AmbienceApi.BASE_URL, mGson, mOkHttpClient);
     AmbiencesRemoteDataStore remoteDataStore = new AmbiencesRemoteDataStore(api);
     return new AmbiencesDataRepository(localDataStore, remoteDataStore);
+  }
+
+  private ExerciseSoundRepository createExerciseRepository() {
+    ExerciseSoundLocalDataStore localDataStore = new ExerciseSoundLocalDataStore(this, mGson);
+    ExerciseSoundApi api = RetrofitServiceFactory.createRetrofitService(ExerciseSoundApi.class,
+        ExerciseSoundApi.BASE_URL, mGson, mOkHttpClient);
+    ExerciseSoundRemoteDataStore remoteDataStore = new ExerciseSoundRemoteDataStore(api);
+    return new ExerciseSoundDataRepository(localDataStore, remoteDataStore);
+  }
+
+  private CurrentExerciseDataRepository createCurrentRepository() {
+    CurrentExerciseLocalDataStore localDataStore = new CurrentExerciseLocalDataStore(this, mGson);
+    ExerciseProgramApi api = RetrofitServiceFactory.createRetrofitService(ExerciseProgramApi.class,
+        ExerciseProgramApi.BASE_URL, mGson, mOkHttpClient);
+    CurrentExerciseRemoteDataStore remoteDataStore = new CurrentExerciseRemoteDataStore(api);
+    return new CurrentExerciseDataRepository(localDataStore, remoteDataStore);
   }
 
   public OkHttpClient getOkHttpClient() {

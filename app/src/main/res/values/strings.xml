@@ -276,7 +276,7 @@
 
     <string name="location_start">Lugar:\u0020</string>
 
-    <string name="title_activity_guided_breathing">Respiración Guiada</string>
+    <string name="title_activity_guided_breathing">Respiración Restaurativa</string>
 
     <string name="title_activity_base_evaluation">BaseEvaluationActivity</string>
     <string name="action_settings">Settings</string>
@@ -355,7 +355,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="guided_breathing_title">Respiración guiada</string>
+    <string name="guided_breathing_title">Respiración restaurativa</string>
     <string name="square_breathing_title">Respiración cuadrada</string>
 
 </resources>

@@ -2,6 +2,8 @@ package cl.uc.saludestudiantiluc.exerciseplans;
 
 import java.util.Date;
 
+import cl.uc.saludestudiantiluc.exerciseplans.models.ExercisePlan;
+import cl.uc.saludestudiantiluc.exerciseplans.models.ExerciseSound;
 import cl.uc.saludestudiantiluc.exerciseplans.models.ExerciseSoundData;
 
 /**
@@ -9,20 +11,24 @@ import cl.uc.saludestudiantiluc.exerciseplans.models.ExerciseSoundData;
  */
 
 public class ExerciseChild {
-  private boolean mUnlocked;
-  private ExerciseSoundData mSoundData;
+  private ExerciseSound mSoundData;
+  private ExercisePlan mExercisePlan;
 
-  public ExerciseChild(boolean solved, ExerciseSoundData soundData) {
-    mUnlocked = solved;
+  public ExerciseChild(ExerciseSound soundData, ExercisePlan plan) {
     mSoundData = soundData;
+    mExercisePlan = plan;
   }
 
-
-  public boolean isUnlocked() {
-    return mUnlocked;
-  }
 
   public ExerciseSoundData getSoundData() {
-    return mSoundData;
+    return mSoundData.getExerciseSoundData();
+  }
+
+  public int getOrder() {
+    return mSoundData.getOrder();
+  }
+
+  public ExercisePlan getPlan() {
+    return mExercisePlan;
   }
 }

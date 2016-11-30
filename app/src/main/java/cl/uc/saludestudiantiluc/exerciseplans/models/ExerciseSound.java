@@ -17,6 +17,7 @@ public class ExerciseSound implements Parcelable {
 
   private int program_id;
   private int order;
+  private int unlocked;
 
   @SerializedName("sound")
   private ExerciseSoundData mExerciseSoundData;
@@ -25,6 +26,7 @@ public class ExerciseSound implements Parcelable {
   protected ExerciseSound(Parcel in) {
     program_id = in.readInt();
     order = in.readInt();
+    unlocked = in.readInt();
     mExerciseSoundData = in.readParcelable(getClass().getClassLoader());
 
   }
@@ -50,6 +52,7 @@ public class ExerciseSound implements Parcelable {
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(program_id);
     dest.writeInt(order);
+    dest.writeInt(unlocked);
     dest.writeParcelable(mExerciseSoundData, flags);
   }
 
@@ -58,6 +61,15 @@ public class ExerciseSound implements Parcelable {
   }
 
   public int getOrder() { return order; }
+
+  public int getUnlocked() {
+    return unlocked;
+  }
+
+  public void setUnlocked(int x) {
+    unlocked = x;
+  }
+
 
   public ExerciseSoundData getExerciseSoundData() {
     return mExerciseSoundData;
