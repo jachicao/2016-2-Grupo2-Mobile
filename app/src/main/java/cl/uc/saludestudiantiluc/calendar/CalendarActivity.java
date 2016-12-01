@@ -19,6 +19,7 @@ import android.widget.SpinnerAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import cl.uc.saludestudiantiluc.R;
+import cl.uc.saludestudiantiluc.auth.data.UserRepository;
 import cl.uc.saludestudiantiluc.common.BaseActivity;
 
 public class CalendarActivity extends BaseActivity {
@@ -34,6 +35,7 @@ public class CalendarActivity extends BaseActivity {
 
   private boolean mServiceSelected;
   private boolean mCampusSelected;
+  private UserRepository mUserRepository;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +56,19 @@ public class CalendarActivity extends BaseActivity {
     });
 
     loadMainBackground();
+    ArrayAdapter<CharSequence> serviceAdapter;
+    mUserRepository = getRelaxUcApplication().getUserRepository();
+    if (mUserRepository.getAcademicType().equals(getString(R.string.employee))) {
+      serviceAdapter = ArrayAdapter.createFromResource(this,
+          R.array.employee_service_array, android.R.layout.simple_spinner_item);
+    } else {
+      serviceAdapter = ArrayAdapter.createFromResource(this,
+          R.array.service_array, android.R.layout.simple_spinner_item);
+    }
 
     mButton = (Button) findViewById(R.id.button);
     mServiceSpinner =  (Spinner) findViewById(R.id.spinner);
-    ArrayAdapter<CharSequence> serviceAdapter = ArrayAdapter.createFromResource(this,
-        R.array.service_array, android.R.layout.simple_spinner_item);
+
     serviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mServiceSpinner.setAdapter( new NothingSelectedSpinnerAdapter(serviceAdapter, R.layout.contact_spinner_row_nothing_selected, this));
     mServiceSpinner.setOnItemSelectedListener(new OnItemSelectedListener(SERVICE_SELECTION));

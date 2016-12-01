@@ -40,7 +40,13 @@ public class Schedule implements Parcelable {
     }
   }
 
-  public Schedule() {
+  public Schedule(int id, String host, String start, String event, String faculty, String loc) {
+    this.id = id;
+    this.host = host;
+    this.start_date = start;
+    this.event_type = event;
+    this.faculty = faculty;
+    this.location = loc;
   }
 
   protected Schedule(Parcel in) {

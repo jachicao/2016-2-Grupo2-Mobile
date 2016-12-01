@@ -16,6 +16,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:text="Confirma tu hora"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/confirmationTitle"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textAlignment="center"/>
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/confirmation_service"
@@ -47,10 +58,19 @@
                     android:layout_marginTop="8dp"
                     android:textSize="14sp"
                     />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/confirmation_location"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    />
             </LinearLayout>
 
 
-        <LinearLayout
+    <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

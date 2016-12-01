@@ -228,17 +228,21 @@
     <!-- User calendar -->
     <string-array name="service_array">
         <item>Consejería</item>
-        <item>Apoyo Grupal</item>
+        <item>Talleres Grupales</item>
         <item>Taller de Mindfulness</item>
+    </string-array>
+
+    <string-array name="employee_service_array">
         <item>Taller de Yoga</item>
     </string-array>
 
     <string-array name="professionals_array">
-        <item>María 1</item>
-        <item>María 2</item>
-        <item>María 3</item>
+        <item>Todos los profesionales</item>
+        <item>María Paz Jana</item>
+        <item>María Trinidad Barriga</item>
+        <item>María Soledad Zuzulich</item>
     </string-array>
-
+    <string name="all_profs">Todos los profesionales</string>
     <string-array name="campus_array">
         <item>San Joaquín</item>
         <item>Lo Contador</item>
@@ -289,7 +293,7 @@
         <item>Estudiante</item>
         <item>Funcionario</item>
     </string-array>
-
+    <string name="employee">Funcionario</string>
     <string-array name="auth_register_sex_array">
         <item>Selecciona género</item>
         <item>Masculino</item>

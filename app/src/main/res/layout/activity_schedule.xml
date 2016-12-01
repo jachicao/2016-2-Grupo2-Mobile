@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="cl.uc.saludestudiantiluc.calendar.ScheduleActivity">
 
     <include layout="@layout/main_background_image"/>
@@ -17,6 +18,32 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"/>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/professionalCardView"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/card_view_text_margin_left_right"
+            android:layout_marginRight="@dimen/card_view_text_margin_left_right"
+            android:layout_marginTop="@dimen/card_view_text_margin_top_bottom"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:cardElevation="@dimen/card_view_elevation"
+            app:cardUseCompatPadding="true"
+            >
+
+        <Spinner
+            android:layout_height="@dimen/spinner_min_height"
+            android:layout_width="match_parent"
+            android:minWidth="@dimen/spinner_min_width"
+            android:layout_marginLeft="@dimen/card_view_text_margin_left_right"
+            android:layout_marginRight="@dimen/card_view_text_margin_left_right"
+            android:id="@+id/all_profs_spinner"/>
+
+
+
+        </android.support.v7.widget.CardView>
 
         <LinearLayout
             android:orientation="vertical"
