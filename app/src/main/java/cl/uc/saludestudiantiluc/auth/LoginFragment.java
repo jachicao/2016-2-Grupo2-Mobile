@@ -2,7 +2,6 @@ package cl.uc.saludestudiantiluc.auth;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -13,7 +12,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -100,7 +98,7 @@ public class LoginFragment extends AuthFragment {
             getAuthActivity().getUserRepository().storeAccessTokenClient(accessTokenClient);
             getAuthActivity().getUserRepository().storeUid(uid);
             getAuthActivity().getUserRepository().storeUserEmail(loginResponse.getEmail());
-            getAuthActivity().getUserRepository().storeUserName("TODO");
+            getAuthActivity().getUserRepository().storeName(loginResponse.getName());
             getAuthActivity().getUserRepository().storeAcademicType(loginResponse.getAcademicType());
             Log.d(TAG, loginResponse.getEmail());
             getAuthActivity().onUserLoggedIn();
@@ -111,7 +109,6 @@ public class LoginFragment extends AuthFragment {
             try {
               ErrorResponse error = errorConverter.convert(response.errorBody());
               if (error != null && error.errors != null && error.errors.size() > 0) {
-                // TODO: Show spanish errors
                 getBaseActivity().showToastMessage(error.errors.get(0));
                 mThisView.setVisibility(View.VISIBLE);
                 unknownError = false;

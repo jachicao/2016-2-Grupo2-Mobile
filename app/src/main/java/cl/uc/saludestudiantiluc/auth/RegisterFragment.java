@@ -46,6 +46,7 @@ public class RegisterFragment extends AuthFragment {
   private TextInputEditText mPasswordConfirmEditText;
   private TextInputEditText mRutEditText;
   private TextInputEditText mAgeEditText;
+  private TextInputEditText mNameEditText;
   private Spinner mAcademicType;
   private Spinner mSexSpinner;
   private Spinner mCareerSpinner;
@@ -61,6 +62,7 @@ public class RegisterFragment extends AuthFragment {
         R.id.auth_register_password_confirmation);
     mRutEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_rut);
     mAgeEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_age);
+    mNameEditText = (TextInputEditText) mThisView.findViewById(R.id.auth_register_name);
 
     mAcademicType = (Spinner) mThisView.findViewById(R.id.auth_register_academic_type);
     ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(getContext(),
@@ -117,9 +119,19 @@ public class RegisterFragment extends AuthFragment {
     mRutEditText.setError(null);
     mAgeEditText.setError(null);
     mYearEditText.setError(null);
+    mNameEditText.setError(null);
     if (getAuthActivity().isEmailAndPasswordCorrect(mEmailEditText, mPasswordEditText) && getAuthActivity().isPasswordConfirmationCorrect(mPasswordEditText, mPasswordConfirmEditText)) {
+
       String email = mEmailEditText.getText().toString();
+
       String password = mPasswordEditText.getText().toString();
+
+      String name = mNameEditText.getText().toString();
+      if (TextUtils.isEmpty(name)) {
+        mNameEditText.setError(getString(R.string.auth_error_field_required));
+        mNameEditText.requestFocus();
+        return;
+      }
 
       String rut = mRutEditText.getText().toString();
       if (TextUtils.isEmpty(rut)) {
@@ -176,7 +188,7 @@ public class RegisterFragment extends AuthFragment {
       mThisView.setVisibility(View.INVISIBLE);
       getAuthActivity().getProgressBar().setVisibility(View.VISIBLE);
 
-      Call<RegisterResponse> callInstance = getAuthActivity().getApiInstance().register(email, password, password, rut, age, type, sex, career, year);
+      Call<RegisterResponse> callInstance = getAuthActivity().getApiInstance().register(email, password, password, name, rut, age, type, sex, career, year);
       mAttemptingToRegister = true;
       callInstance.enqueue(new Callback<RegisterResponse>() {
         @Override

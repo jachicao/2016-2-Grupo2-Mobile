@@ -18,5 +18,9 @@ public class LoginResponse {
     return data.getAcademicType();
   }
 
+  public String getName() {
+    return data.getName();
+  }
+
   public DataResponse data;
 }

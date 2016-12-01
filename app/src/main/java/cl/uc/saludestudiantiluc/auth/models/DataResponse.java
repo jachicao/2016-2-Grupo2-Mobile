@@ -17,6 +17,10 @@ class DataResponse {
   @SerializedName("academic_type")
   private String mAcademicType;
 
+  @SerializedName("name")
+  private String mName = "";
+
+
   int getId() {
     return mId;
   }
@@ -27,5 +31,9 @@ class DataResponse {
 
   String getAcademicType() {
     return mAcademicType;
+  }
+
+  String getName() {
+    return mName;
   }
 }

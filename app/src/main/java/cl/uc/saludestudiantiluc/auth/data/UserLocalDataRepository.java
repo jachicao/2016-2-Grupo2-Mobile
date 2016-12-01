@@ -31,7 +31,7 @@ public class UserLocalDataRepository implements UserRepository {
   }
 
   @Override
-  public String getUserName() {
+  public String getName() {
     return mPrefs.getString(KEY_USER_NAME, "");
   }
 
@@ -75,7 +75,7 @@ public class UserLocalDataRepository implements UserRepository {
 
 
   @Override
-  public void storeUserName(String name) {
+  public void storeName(String name) {
     mPrefs.edit()
         .putString(KEY_USER_NAME, name)
         .apply();

@@ -8,7 +8,7 @@ public interface UserRepository {
 
   String getUserEmail();
 
-  String getUserName();
+  String getName();
 
   String getUserAccessToken();
 
@@ -24,7 +24,7 @@ public interface UserRepository {
 
   void storeUserEmail(String email);
 
-  void storeUserName(String name);
+  void storeName(String name);
 
   void storeAccessToken(String accessToken);
 

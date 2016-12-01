@@ -115,10 +115,8 @@ public class MainActivity extends BaseActivity {
     // Set user information
     TextView userEmailTextView = (TextView) header.findViewById(R.id.header_email);
     userEmailTextView.setText(getUserRepository().getUserEmail());
-    /*
     TextView userNameTextView = (TextView) header.findViewById(R.id.header_name);
-    userNameTextView.setText(getUserRepository().getUserName());
-    */
+    userNameTextView.setText(getUserRepository().getName());
 
     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) header.getLayoutParams();
     params.height = navDrawerHeaderHeight;

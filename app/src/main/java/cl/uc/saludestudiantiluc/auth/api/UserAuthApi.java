@@ -23,6 +23,7 @@ public interface UserAuthApi {
   Call<RegisterResponse> register(@Field("email") String email,
                                   @Field("password") String password,
                                   @Field("password_confirm") String password_confirm,
+                                  @Field("name") String name,
                                   @Field("rut") String rut,
                                   @Field("age") Integer age,
                                   @Field("academic_type") String academic_type,
