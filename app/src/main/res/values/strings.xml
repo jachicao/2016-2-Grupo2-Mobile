@@ -41,7 +41,7 @@
     <string name="auth_login_remember_me">Recuerdame</string>
     <string name="auth_register">Registrar</string>
     <string name="auth_register_password_confirmation">Confirma la contraseña</string>
-    <string name="auth_register_rut">Rut</string>
+    <string name="auth_register_rut">Rut (Sin código verificador)</string>
     <string name="auth_register_age">Edad</string>
     <string name="auth_register_career">Unidad</string>
     <string name="auth_register_year">Año</string>
