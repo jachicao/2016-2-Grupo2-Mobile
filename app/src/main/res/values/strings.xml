@@ -44,7 +44,7 @@
     <string name="auth_register_rut">Rut (Sin código verificador)</string>
     <string name="auth_register_age">Edad</string>
     <string name="auth_register_career">Unidad</string>
-    <string name="auth_register_year">Año</string>
+    <string name="auth_register_year">Año ingreso</string>
     <string name="auth_register_name">Nombre</string>
     <string name="auth_register_academic_type_error">Tipo es requerido</string>
     <string name="auth_register_sex_error">Género es requerido</string>

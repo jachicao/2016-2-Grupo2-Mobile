@@ -16,8 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
@@ -188,7 +186,7 @@ public class RegisterFragment extends AuthFragment {
       mThisView.setVisibility(View.INVISIBLE);
       getAuthActivity().getProgressBar().setVisibility(View.VISIBLE);
 
-      Call<RegisterResponse> callInstance = getAuthActivity().getApiInstance().register(email, password, password, name, rut, age, type, sex, career, year);
+      Call<RegisterResponse> callInstance = getAuthActivity().getApiInstance().register(email, password, password, name, rut, age, type, sex, career, year, "");
       mAttemptingToRegister = true;
       callInstance.enqueue(new Callback<RegisterResponse>() {
         @Override
@@ -205,13 +203,12 @@ public class RegisterFragment extends AuthFragment {
                   }
                 }).create().show();
           } else {
-            Converter<ResponseBody, ErrorRegisterResponse> errorConverter =
-                getAuthActivity().getRetrofitInstance().responseBodyConverter(ErrorRegisterResponse.class, new Annotation[0]);
             boolean unknownError = true;
             try {
+              Converter<ResponseBody, ErrorRegisterResponse> errorConverter =
+                  getAuthActivity().getRetrofitInstance().responseBodyConverter(ErrorRegisterResponse.class, new Annotation[0]);
               ErrorRegisterResponse error = errorConverter.convert(response.errorBody());
               if (error != null && error.errors != null && error.errors.full_messages != null && error.errors.full_messages.size() > 0) {
-                // TODO: Show spanish errors
                 getBaseActivity().showToastMessage(error.errors.full_messages.get(0));
                 mThisView.setVisibility(View.VISIBLE);
                 unknownError = false;

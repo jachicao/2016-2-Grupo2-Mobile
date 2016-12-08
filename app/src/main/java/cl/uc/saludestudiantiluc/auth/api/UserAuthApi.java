@@ -29,7 +29,8 @@ public interface UserAuthApi {
                                   @Field("academic_type") String academic_type,
                                   @Field("sex") String sex,
                                   @Field("school") String school,
-                                  @Field("year") Integer year
+                                  @Field("year") Integer year,
+                                  @Field("confirm_success_url") String confirmUrl
                                   );
 
 
